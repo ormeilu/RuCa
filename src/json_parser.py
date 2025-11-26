@@ -1,8 +1,12 @@
 import json
 from pathlib import Path
+import os
 
 # Юзер вставляет свой путь к папке с JSON файлами
-QUERIES_FOLDER = "/home/alena-kuriatnikova/ML модуль/benchmark/queries"
+# QUERIES_FOLDER = os.path.join(os.path.dirname(__file__), "queries")
+
+QUERIES_FOLDER = "queries"
+#"/home/alena-kuriatnikova/ML модуль/benchmark/queries"
 
 #читаем все json файлы из папки
 def read_json_files(folder_path):
@@ -89,10 +93,7 @@ def process_all_queries(folder_path=QUERIES_FOLDER, system_prompt=""):
     inputs_for_llm, inputs_for_logging = prepare_for_llm(normalized_queries, system_prompt)
     
     return inputs_for_llm, inputs_for_logging
-
-if __name__ == "__main__":
-    
-    system_prompt = """
+system_prompt = """
 Ты — ассистент, прогоняющий запросы из tool-calling бенчмарка. Твоя задача: прочитать user query и выполнить один из трех пунктов:
 1) вызвать инструмент (tool) с корректными параметрами;
 2) если данных недостаточно — не вызывать инструмент и задать вопрос уточнения;
@@ -122,6 +123,9 @@ RETURN FORMAT:
     }
 }
 """
+if __name__ == "__main__":
+    
+    
     
     inputs_for_llm, inputs_for_logging = process_all_queries(
         system_prompt=system_prompt
