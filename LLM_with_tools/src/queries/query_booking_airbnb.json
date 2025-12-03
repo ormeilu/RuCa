@@ -1,0 +1,18 @@
+{
+    "queries_basic": [
+        {
+            "id": "000200",
+            "complexity": "easy",
+            "category": "basic",
+            "type": "ordinary",
+            "query": "Переведи Hello на русский язык",
+            "expected_tool": "translate",
+            "expected_parameters": {"Text": "Hello",
+                                    "Source": "en",
+                                    "Target": "ru"
+                                    },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+        }
+    ]
+}
