@@ -13,7 +13,7 @@
         "date": "tomorrow"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000101",
@@ -26,7 +26,7 @@
         "new_date": "October 15"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000102",
@@ -39,7 +39,7 @@
         "flight_number": "SU245"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000103",
@@ -52,7 +52,7 @@
         "flight_number": "LH876"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000104",
@@ -66,7 +66,7 @@
         "class": "business"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000105",
@@ -81,7 +81,7 @@
         "payment_method": "card"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000106",
@@ -94,7 +94,7 @@
         "payment_method": "miles"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000107",
@@ -107,7 +107,7 @@
         "baggage_id": "123456"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000108",
@@ -120,7 +120,7 @@
         "flight_number": "AF345"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000109",
@@ -134,9 +134,8 @@
         "reason": "cancelled"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
-
     {
       "id": "000110",
       "complexity": "easy",
@@ -149,7 +148,7 @@
         "query_type": "delay"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000111",
@@ -162,7 +161,7 @@
         "baggage_id": "9876"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000112",
@@ -175,7 +174,7 @@
         "service_type": "baggage"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000113",
@@ -189,7 +188,7 @@
         "service_type": "wifi"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000114",
@@ -202,7 +201,7 @@
         "route": "Moscow — Rome"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000115",
@@ -217,7 +216,7 @@
         "to": "Berlin"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000116",
@@ -230,7 +229,7 @@
         "item_type": "suitcase"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000117",
@@ -244,7 +243,7 @@
         "passport_number": "234567"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000118",
@@ -257,7 +256,7 @@
         "reason": "flight_delay"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000119",
@@ -271,7 +270,7 @@
         "reason": "delay"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000120",
@@ -285,7 +284,7 @@
         "class": "economy"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000121",
@@ -298,7 +297,7 @@
         "insurance_id": "55421"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000122",
@@ -312,7 +311,7 @@
         "meal_type": "gluten_free"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000123",
@@ -323,7 +322,7 @@
       "expected_tool": "UpgradeService",
       "expected_parameters": {},
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000124",
@@ -336,7 +335,7 @@
         "new_date": "next_week"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000125",
@@ -349,7 +348,7 @@
         "service_type": "meal"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000126",
@@ -362,7 +361,7 @@
         "cargo_id": "7890"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000127",
@@ -375,7 +374,7 @@
         "hotel_type": "partner"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000128",
@@ -389,7 +388,7 @@
         "reason": "lost"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000129",
@@ -400,9 +399,8 @@
       "expected_tool": "LoyaltyService",
       "expected_parameters": {},
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
-
     {
       "id": "000130",
       "complexity": "easy",
@@ -415,7 +413,7 @@
         "date": "tomorrow"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000131",
@@ -429,7 +427,7 @@
         "date": "next_friday"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000132",
@@ -443,7 +441,7 @@
         "from": "Paris"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000133",
@@ -456,7 +454,7 @@
         "query_type": "location"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000134",
@@ -470,7 +468,7 @@
         "weight": 5
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000135",
@@ -483,7 +481,7 @@
         "ticket_id": "8843"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000136",
@@ -496,7 +494,7 @@
         "new_date": "monday"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000137",
@@ -509,7 +507,7 @@
         "cargo_id": "4321"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000138",
@@ -522,7 +520,7 @@
         "case_id": "777"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000139",
@@ -535,9 +533,8 @@
         "baggage_id": "3456"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
-
     {
       "id": "000140",
       "complexity": "easy",
@@ -549,7 +546,7 @@
         "flight_number": "LH876"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000141",
@@ -562,7 +559,7 @@
         "flight_number": "QR987"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000142",
@@ -575,7 +572,7 @@
         "flight_date": "yesterday"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000143",
@@ -589,7 +586,7 @@
         "reason": "cancelled"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000144",
@@ -603,7 +600,7 @@
         "date": "tomorrow"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000145",
@@ -617,7 +614,7 @@
         "query_type": "delay"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000146",
@@ -630,7 +627,7 @@
         "flight_number": "SU887"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000147",
@@ -641,7 +638,7 @@
       "expected_tool": "InsuranceService",
       "expected_parameters": {},
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000148",
@@ -654,7 +651,7 @@
         "query_type": "miles_to_upgrade"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000149",
@@ -667,7 +664,7 @@
         "service_type": "priority_boarding"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
     },
     {
       "id": "000150",
@@ -680,7 +677,7 @@
         "baggage_id": "223"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000151",
@@ -692,8 +689,8 @@
       "expected_parameters": {
         "to": "London"
       },
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000152",
@@ -706,7 +703,7 @@
         "flight_number": "654"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000153",
@@ -718,8 +715,8 @@
       "expected_parameters": {
         "class": "business"
       },
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000154",
@@ -732,7 +729,7 @@
         "flight_number": "887"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000155",
@@ -742,8 +739,8 @@
       "query": "Проверь мой бонусны счёт",
       "expected_tool": "LoyaltyService",
       "expected_parameters": {},
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000156",
@@ -755,8 +752,8 @@
       "expected_parameters": {
         "new_date": "tomorrow"
       },
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000157",
@@ -769,8 +766,8 @@
         "service_type": "baggage",
         "weight": 5
       },
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000158",
@@ -783,7 +780,7 @@
         "case_id": "444"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000159",
@@ -793,10 +790,9 @@
       "query": "Купи стракховку на полет",
       "expected_tool": "InsuranceService",
       "expected_parameters": {},
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
-
     {
       "id": "000160",
       "complexity": "easy",
@@ -808,7 +804,7 @@
         "cargo_id": "1234"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000161",
@@ -821,7 +817,7 @@
         "service_type": "wifi"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000162",
@@ -834,7 +830,7 @@
         "item_id": "333"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000163",
@@ -844,8 +840,8 @@
       "query": "Потдтверди личность",
       "expected_tool": "IdentityVerificationService",
       "expected_parameters": {},
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000164",
@@ -857,8 +853,8 @@
       "expected_parameters": {
         "city": "Paris"
       },
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000165",
@@ -868,8 +864,8 @@
       "query": "Првер статус рейса",
       "expected_tool": "FlightStatusService",
       "expected_parameters": {},
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000166",
@@ -881,8 +877,8 @@
       "expected_parameters": {
         "new_date": "saturday"
       },
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000167",
@@ -894,8 +890,8 @@
       "expected_parameters": {
         "amount": 25000
       },
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000168",
@@ -908,7 +904,7 @@
         "item_id": "555"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000169",
@@ -918,8 +914,8 @@
       "query": "Багаж мейби в аэропорт остался?",
       "expected_tool": "BaggageService",
       "expected_parameters": {},
-      "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000170",
@@ -932,7 +928,7 @@
         "date": "the day after tomorrow"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000171",
@@ -945,7 +941,7 @@
         "upgrade": "business class"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000172",
@@ -959,7 +955,7 @@
         "city": "Paris"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000173",
@@ -972,7 +968,7 @@
         "date": "next monday"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000174",
@@ -985,7 +981,7 @@
         "check_baggage": true
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000175",
@@ -998,7 +994,7 @@
         "check_in": true
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000176",
@@ -1011,7 +1007,7 @@
         "booking": true
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000177",
@@ -1024,7 +1020,7 @@
         "cancel_all": true
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000178",
@@ -1037,7 +1033,7 @@
         "conditional_refund": true
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000179",
@@ -1050,7 +1046,7 @@
         "conditional_compensation": true
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
     },
     {
       "id": "000180",
@@ -1064,7 +1060,7 @@
         "city": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000181",
@@ -1078,7 +1074,7 @@
         "flight_number": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000182",
@@ -1091,7 +1087,7 @@
         "miles_issue": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000183",
@@ -1104,7 +1100,7 @@
         "baggage_status": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000184",
@@ -1117,7 +1113,7 @@
         "compensation_reason": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000185",
@@ -1130,7 +1126,7 @@
         "payment_issue": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000186",
@@ -1144,7 +1140,7 @@
         "date": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000187",
@@ -1157,7 +1153,7 @@
         "seat_preference": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000188",
@@ -1170,7 +1166,7 @@
         "change_request": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000189",
@@ -1183,7 +1179,7 @@
         "verification_method": null
       },
       "requires_clarification": true,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
     },
     {
       "id": "000190",
@@ -1196,7 +1192,7 @@
         "baggage_id": "987"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     },
     {
       "id": "000191",
@@ -1209,7 +1205,7 @@
         "flight_number": "SU445"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     },
     {
       "id": "000192",
@@ -1220,7 +1216,7 @@
       "expected_tool": "PaymentService",
       "expected_parameters": {},
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     },
     {
       "id": "000193",
@@ -1233,7 +1229,7 @@
         "to": "Rome"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     },
     {
       "id": "000194",
@@ -1246,7 +1242,7 @@
         "complaint_type": "meal_quality"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     },
     {
       "id": "000195",
@@ -1257,7 +1253,7 @@
       "expected_tool": "BaggageService",
       "expected_parameters": {},
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     },
     {
       "id": "000196",
@@ -1271,7 +1267,7 @@
         "action": "modify"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     },
     {
       "id": "000197",
@@ -1282,7 +1278,7 @@
       "expected_tool": "UpgradeService",
       "expected_parameters": {},
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     },
     {
       "id": "000198",
@@ -1296,7 +1292,7 @@
         "wifi": true
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     },
     {
       "id": "000199",
@@ -1309,7 +1305,7 @@
         "action": "check_status"
       },
       "requires_clarification": false,
-      "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
     }
   ]
 }
