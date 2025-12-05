@@ -1,0 +1,24 @@
+{
+        "queries_booking": [
+        {
+            "id": "000360",
+            "complexity": "hard",
+            "category": "tool_hotel",
+            "type": "misprint",
+            "query": "какая дата будет через 10 ",
+            "expected_tool": "airbnb_search",
+            "expected_parameters": {
+                "location": "Токио",
+                "adults": 2, 
+                "children": 1,
+                "pets": 1,
+                "minPrice": 100,
+                "maxPrice": 300,
+                "ignoreRobotsText": true
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+        }
+        
+    ]
+}

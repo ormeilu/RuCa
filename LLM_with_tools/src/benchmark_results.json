@@ -1,0 +1,41 @@
+{
+  "000360": {
+    "id": "000360",
+    "user_query": "какая дата будет через 10",
+    "agent_response": {
+      "tool_call": null,
+      "tool_result": null,
+      "user_message": "{\n    \"id\": \"000000\",\n    \"tool_call\": {\n        \"tool_name\": \"get_date\",\n        \"parameters\": {\n            \"offset_days\": 10\n        },\n        \"called\": true\n    },\n    \"clarification_question\": null,\n    \"user_message\": \"Через 10 дней будет следующая дата.\",\n    \"internal\": {\n        \"reasoning\": \"Запрос на получение даты с отступом в 10 дней — поддерживается тулзом get_date\",\n        \"errors\": null\n    }\n}",
+      "clarification_question": null,
+      "assistant_response": "{\n    \"id\": \"000000\",\n    \"tool_call\": {\n        \"tool_name\": \"get_date\",\n        \"parameters\": {\n            \"offset_days\": 10\n        },\n        \"called\": true\n    },\n    \"clarification_question\": null,\n    \"user_message\": \"Через 10 дней будет следующая дата.\",\n    \"internal\": {\n        \"reasoning\": \"Запрос на получение даты с отступом в 10 дней — поддерживается тулзом get_date\",\n        \"errors\": null\n    }\n}",
+      "internal": {
+        "query_id": "000360",
+        "raw_response": {
+          "content": "{\n    \"id\": \"000000\",\n    \"tool_call\": {\n        \"tool_name\": \"get_date\",\n        \"parameters\": {\n            \"offset_days\": 10\n        },\n        \"called\": true\n    },\n    \"clarification_question\": null,\n    \"user_message\": \"Через 10 дней будет следующая дата.\",\n    \"internal\": {\n        \"reasoning\": \"Запрос на получение даты с отступом в 10 дней — поддерживается тулзом get_date\",\n        \"errors\": null\n    }\n}",
+          "tool_calls": []
+        }
+      }
+    },
+    "ground_truth": {
+      "expected_tool": "airbnb_search",
+      "expected_parameters": {
+        "location": "Токио",
+        "adults": 2,
+        "children": 1,
+        "pets": 1,
+        "minPrice": 100,
+        "maxPrice": 300,
+        "ignoreRobotsText": true
+      },
+      "requires_clarification": false,
+      "skills": [
+        "Decision",
+        "Tool selection",
+        "Params",
+        "Error Handling",
+        "Result",
+        "Ambiguity"
+      ]
+    }
+  }
+}
