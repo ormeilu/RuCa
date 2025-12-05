@@ -1,18 +1,24 @@
 {
-    "queries_basic": [
+        "queries_booking": [
         {
-            "id": "000200",
-            "complexity": "easy",
-            "category": "basic",
-            "type": "ordinary",
-            "query": "Переведи Hello на русский язык",
-            "expected_tool": "translate",
-            "expected_parameters": {"Text": "Hello",
-                                    "Source": "en",
-                                    "Target": "ru"
-                                    },
+            "id": "000360",
+            "complexity": "hard",
+            "category": "tool_hotel",
+            "type": "misprint",
+            "query": "какая дата будет через 10 ",
+            "expected_tool": "airbnb_search",
+            "expected_parameters": {
+                "location": "Токио",
+                "adults": 2, 
+                "children": 1,
+                "pets": 1,
+                "minPrice": 100,
+                "maxPrice": 300,
+                "ignoreRobotsText": true
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
         }
+        
     ]
 }

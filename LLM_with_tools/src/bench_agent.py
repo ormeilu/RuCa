@@ -64,6 +64,7 @@ class BenchmarkAgent:
         use_translate: bool = True,
         use_calculator: bool = True,
         use_trash: bool = True,
+        use_avia: bool = True,
         # use_airbnb:bool = True,
         verbose: bool = False
     ):
@@ -96,7 +97,8 @@ class BenchmarkAgent:
         
         if use_calculator:
             self._load_calculator_tools()
-        
+        if use_avia:
+            self._load_avia_tools()
         if use_trash:
             self._load_trash_tools()
         

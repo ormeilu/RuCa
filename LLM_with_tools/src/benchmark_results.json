@@ -1,46 +1,31 @@
 {
-  "000200": {
-    "id": "000200",
-    "user_query": "Переведи Hello на русский язык",
+  "000360": {
+    "id": "000360",
+    "user_query": "какая дата будет через 10",
     "agent_response": {
-      "tool_call": {
-        "name": "translate",
-        "parameters": {
-          "text": "Hello",
-          "source": "en",
-          "target": "ru"
-        }
-      },
-      "tool_result": {
-        "success": true,
-        "input": "Hello",
-        "source": "en",
-        "target": "ru",
-        "translated": "привет"
-      },
-      "user_message": null,
+      "tool_call": null,
+      "tool_result": null,
+      "user_message": "{\n    \"id\": \"000000\",\n    \"tool_call\": {\n        \"tool_name\": \"get_date\",\n        \"parameters\": {\n            \"offset_days\": 10\n        },\n        \"called\": true\n    },\n    \"clarification_question\": null,\n    \"user_message\": \"Через 10 дней будет следующая дата.\",\n    \"internal\": {\n        \"reasoning\": \"Запрос на получение даты с отступом в 10 дней — поддерживается тулзом get_date\",\n        \"errors\": null\n    }\n}",
       "clarification_question": null,
-      "assistant_response": null,
+      "assistant_response": "{\n    \"id\": \"000000\",\n    \"tool_call\": {\n        \"tool_name\": \"get_date\",\n        \"parameters\": {\n            \"offset_days\": 10\n        },\n        \"called\": true\n    },\n    \"clarification_question\": null,\n    \"user_message\": \"Через 10 дней будет следующая дата.\",\n    \"internal\": {\n        \"reasoning\": \"Запрос на получение даты с отступом в 10 дней — поддерживается тулзом get_date\",\n        \"errors\": null\n    }\n}",
       "internal": {
-        "query_id": "000200",
+        "query_id": "000360",
         "raw_response": {
-          "content": null,
-          "tool_calls": [
-            {
-              "id": "chatcmpl-tool-7372c441e76e47eab4c8f1700565046b",
-              "name": "translate",
-              "arguments": "{\"text\": \"Hello\", \"source\": \"en\", \"target\": \"ru\"}"
-            }
-          ]
+          "content": "{\n    \"id\": \"000000\",\n    \"tool_call\": {\n        \"tool_name\": \"get_date\",\n        \"parameters\": {\n            \"offset_days\": 10\n        },\n        \"called\": true\n    },\n    \"clarification_question\": null,\n    \"user_message\": \"Через 10 дней будет следующая дата.\",\n    \"internal\": {\n        \"reasoning\": \"Запрос на получение даты с отступом в 10 дней — поддерживается тулзом get_date\",\n        \"errors\": null\n    }\n}",
+          "tool_calls": []
         }
       }
     },
     "ground_truth": {
-      "expected_tool": "translate",
+      "expected_tool": "airbnb_search",
       "expected_parameters": {
-        "Text": "Hello",
-        "Source": "en",
-        "Target": "ru"
+        "location": "Токио",
+        "adults": 2,
+        "children": 1,
+        "pets": 1,
+        "minPrice": 100,
+        "maxPrice": 300,
+        "ignoreRobotsText": true
       },
       "requires_clarification": false,
       "skills": [
@@ -48,7 +33,8 @@
         "Tool selection",
         "Params",
         "Error Handling",
-        "Result"
+        "Result",
+        "Ambiguity"
       ]
     }
   }

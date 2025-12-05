@@ -34,6 +34,8 @@ class BenchmarkAgent:
         use_translate: bool = True,
         use_calculator: bool = True,
         use_trash: bool = True,
+        use_aviation: bool = True,
+        use_datetime: bool = True,
         use_airbnb: bool = True,
         use_flights: bool = True,
         verbose: bool = True,
@@ -47,6 +49,8 @@ class BenchmarkAgent:
             use_translate: Подключать ли переводчик.
             use_calculator: Подключать ли калькулятор.
             use_trash: Подключать ли вспомогательные trash-инструменты.
+            use_aviation: Подключать ли авиа-инструменты(Non-MCP).
+            use_datetime: Подключать ли инструменты даты/времени.
             use_airbnb: Запускать ли MCP-сервер Airbnb.
             use_flights: Запускать ли MCP-сервер flights.
             verbose: Выводить ли дополнительную диагностику при старте.
@@ -92,7 +96,16 @@ class BenchmarkAgent:
             trash_tools = NullTools.get_tools_metadata()
             self.openai_tools.extend(self._convert_tools(trash_tools))
             self.executors.update(self._get_trash_executors())
-
+        if use_aviation:
+            from avia_tools import AviationTools
+            aviation_tools = AviationTools.get_tools_metadata()
+            self.openai_tools.extend(self._convert_tools(aviation_tools))
+            self.executors.update(self._get_aviation_executors())
+        if use_datetime:
+            from datetime_tools import DateTimeTools
+            datetime_tools = DateTimeTools.get_tools_metadata()
+            self.openai_tools.extend(self._convert_tools(datetime_tools))
+            self.executors.update(self._get_datetime_executors())
         # MCP-серверы поднимаем только при явном запросе.
         if use_airbnb or use_flights:
             self._setup_mcp_clients(use_airbnb=use_airbnb, use_flights=use_flights)
@@ -169,7 +182,43 @@ class BenchmarkAgent:
             for name in method_names
             if hasattr(EcommerceTools, name)
         }
+    def _get_aviation_executors(self) -> Dict[str, Any]:
+        """Возвращает исполняемые методы для авиа-инструментов."""
+        from avia_tools import AviationTools
 
+        method_names = [
+            "BookingService",
+            "FlightStatusService",
+            "CheckInService",
+            "UpgradeService",
+            "PaymentService",
+            "LoyaltyService",
+            "BaggageService",
+            "SeatMapService",
+            "RefundService",
+            "RebookingService",
+            "AncillariesService",
+            "InsuranceService",
+            "CargoService",
+            "LostAndFoundService",
+            "OpsService",
+            "HotelService",
+            "CompensationService",
+            "IdentityVerificationService",
+        ]
+        return {
+            name: getattr(AviationTools, name)
+            for name in method_names
+            if hasattr(AviationTools, name)
+        }
+    def _get_datetime_executors(self) -> Dict[str, Any]:
+        """Возвращает исполняемые методы для инструментов даты/времени."""
+        from datetime_tools import DateTimeTools
+
+        return {
+            "get_date": DateTimeTools.get_date,
+            "get_time": DateTimeTools.get_time,
+        }
     def _get_weather_executors(self) -> Dict[str, Any]:
         """Возвращает исполняемые методы для погодных/валютных тулзов."""
         from weather_and_convert import MiscTools
@@ -363,6 +412,81 @@ class BenchmarkAgent:
                 "result": {"error": str(exc)},
             }
 
+
+    async def run_single_query_async(
+        self,
+        *,
+        user_query: str,
+        system_prompt: str,
+        query_id: str,
+    ) -> Dict[str, Any]:
+        """Асинхронно делает один вызов модели и при необходимости запускает тул.
+
+        Args:
+            user_query: Текстовый запрос из датасета.
+            system_prompt: Общий системный промпт бенчмарка.
+            query_id: Идентификатор запроса для логов/метрик.
+
+        Returns:
+            Dict[str, Any]: Структурированный ответ с деталями выполнения тула.
+        """
+        
+        loop = asyncio.get_event_loop()
+        response = await loop.run_in_executor(
+            None,
+            lambda: self.openai_client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_query},
+                ],
+                tools=self.openai_tools,
+                tool_choice="auto",
+            )
+        )
+
+        serialized = {
+            "content": getattr(response.choices[0].message, "content", None),
+            "tool_calls": [
+                {
+                    "id": call.id,
+                    "name": call.function.name,
+                    "arguments": call.function.arguments,
+                }
+                for call in getattr(response.choices[0].message, "tool_calls", [])
+            ],
+        }
+      
+
+
+        tool_calls = getattr(response.choices[0].message, "tool_calls", [])
+        if tool_calls:
+            call = tool_calls[0]
+            arguments = json.loads(call.function.arguments)
+            tool_result = await self._execute_tool_call(call.function.name, arguments)
+            return {
+                "tool_call": tool_result["tool_call"],
+                "tool_result": tool_result["result"],
+                "user_message": None,
+                "clarification_question": None,
+                "assistant_response": serialized.get("content"),
+                "internal": {
+                    "query_id": query_id,
+                    "raw_response": serialized,
+                },
+            }
+
+        return {
+            "tool_call": None,
+            "tool_result": None,
+            "user_message": serialized.get("content"),
+            "clarification_question": None,
+            "assistant_response": serialized.get("content"),
+            "internal": {
+                "query_id": query_id,
+                "raw_response": serialized,
+            },
+        }
     def run_single_query(
         self,
         *,
@@ -435,6 +559,155 @@ class BenchmarkAgent:
         }
 
 
+
+async def run_benchmark_async(
+    *,
+    system_prompt: str,
+    inputs_for_llm: List[Dict[str, Any]],
+    inputs_for_logging: List[Dict[str, Any]],
+    model: str = "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    use_retail: bool = True,
+    use_weather: bool = True,
+    use_translate: bool = True,
+    use_calculator: bool = True,
+    use_trash: bool = False,
+    use_aviation: bool = True,
+    use_airbnb: bool = False,
+    use_flights: bool = False,
+    verbose: bool = True,
+    max_concurrent: int = 8,  # ← НОВЫЙ ПАРАМЕТР
+) -> Dict[str, Any]:
+    """
+    Асинхронно запускает все запросы через агента с ограничением конкурентности.
+    
+    Args:
+        system_prompt: Системный промпт для агента
+        inputs_for_llm: Список запросов для модели
+        inputs_for_logging: Список ground truth данных
+        model: Название модели
+        verbose: Выводить прогресс
+        max_concurrent: Максимальное количество одновременных запросов
+    
+    Returns:
+        Словарь с результатами бенчмарка
+    """
+    if verbose:
+        print(f"\n{'=' * 70}")
+        print("RUSSIAN TOOL ВЫЗОВ БЕНЧМАРКА (ASYNC)")
+        print(f"{'=' * 70}")
+        print(f"Модель: {model}")
+        print(f"Всего запросов: {len(inputs_for_llm)}")
+        print(f"Параллельных запросов: {max_concurrent}")
+        print(f"{'=' * 70}\n")
+
+    agent = BenchmarkAgent(
+        model=model,
+        use_retail=use_retail,
+        use_weather=use_weather,
+        use_translate=use_translate,
+        use_calculator=use_calculator,
+        use_trash=use_trash,
+        use_aviation=use_aviation,
+        use_airbnb=use_airbnb,
+        use_flights=use_flights,
+        verbose=False,
+    )
+
+    if verbose:
+        print(f"Агент инициализирован с {len(agent.get_tools_info())} инструментами\n")
+
+    results: Dict[str, Any] = {}
+    started = time.time()
+
+    # Создаём семафор для ограничения конкурентности
+    semaphore = asyncio.Semaphore(max_concurrent)
+    
+    async def process_single_query(idx: int, request_data: Dict[str, Any], ground_truth: Dict[str, Any]):
+        """Обрабатывает один запрос с учётом семафора"""
+        async with semaphore:
+            query_id = request_data["id"]
+
+            if verbose:
+                print(f"[{idx}/{len(inputs_for_llm)}] Обработка: {query_id}")
+                print(f"Запрос: {request_data['user_query'][:80]}...")
+
+            try:
+                agent_output = await agent.run_single_query_async(
+                    user_query=request_data["user_query"],
+                    system_prompt=system_prompt,
+                    query_id=query_id,
+                )
+
+                if verbose:
+                    if agent_output["tool_call"]:
+                        print(f"Инструмент: {agent_output['tool_call']['name']}")
+                    elif agent_output["clarification_question"]:
+                        print("Требуется уточнение")
+                    elif agent_output["user_message"]:
+                        print("Текстовый ответ")
+                    else:
+                        print("Нет вывода")
+
+            except Exception as exc:
+                if verbose:
+                    print(f"Ошибка: {exc}")
+                agent_output = {
+                    "tool_call": None,
+                    "clarification_question": None,
+                    "user_message": None,
+                    "internal": {
+                        "reasoning": None,
+                        "raw_response": None,
+                        "errors": f"RUNNER_ERROR: {exc}",
+                    },
+                }
+
+            return query_id, {
+                "id": query_id,
+                "user_query": request_data["user_query"],
+                "agent_response": agent_output,
+                "ground_truth": {
+                    "expected_tool": ground_truth["expected_tool"],
+                    "expected_parameters": ground_truth["expected_parameters"],
+                    "requires_clarification": ground_truth["requires_clarification"],
+                    "skills": ground_truth["skills"],
+                },
+            }
+
+    # Создаём задачи для всех запросов
+    tasks = [
+        process_single_query(idx, request_data, ground_truth)
+        for idx, (request_data, ground_truth) in enumerate(
+            zip(inputs_for_llm, inputs_for_logging), 1
+        )
+    ]
+
+    # Запускаем все задачи параллельно
+    completed_results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    # Собираем результаты
+    for result in completed_results:
+        if isinstance(result, Exception):
+            if verbose:
+                print(f"Ошибка при обработке: {result}")
+            continue
+        query_id, query_result = result
+        results[query_id] = query_result
+
+        if verbose:
+            print()
+
+    elapsed = time.time() - started
+    if verbose and inputs_for_llm:
+        print(f"{'=' * 70}")
+        print(f"Бенчмарк завершен за {elapsed:.2f} секунд")
+        print(f"Среднее время на запрос: {elapsed / len(inputs_for_llm):.2f}s")
+        print(f"Ускорение: ~{len(inputs_for_llm) * 2 / elapsed:.1f}x (теоретически)")
+        print(f"{'=' * 70}\n")
+
+    return results
+
+
 def run_benchmark(
     *,
     system_prompt: str,
@@ -446,9 +719,12 @@ def run_benchmark(
     use_translate: bool = True,
     use_calculator: bool = True,
     use_trash: bool = False,
+    use_aviation: bool = True,
+    use_datetime: bool = True, 
     use_airbnb: bool = False,
     use_flights: bool = False,
     verbose: bool = True,
+    max_concurrent: int = 8,
 ) -> Dict[str, Any]:
     
     """
@@ -479,6 +755,8 @@ def run_benchmark(
         use_translate=use_translate,
         use_calculator=use_calculator,
         use_trash=use_trash,
+        use_aviation=use_aviation,
+        use_datetime=use_datetime,
         use_airbnb=use_airbnb,
         use_flights=use_flights,
         verbose=False,
@@ -686,6 +964,12 @@ def main() -> None:
         action="store_true",
         help="Enable flights MCP tools",
     )
+    parser.add_argument(
+    "--concurrent",
+    type=int,
+    default=8,
+    help="Maximum number of concurrent requests (default: 8)",
+    )
 
     args = parser.parse_args()
 
@@ -712,6 +996,7 @@ def main() -> None:
         use_airbnb=use_airbnb,
         use_flights=use_flights,
         verbose=not args.quiet,
+        max_concurrent=args.concurrent
     )
 
     save_results(results, filename=args.output)
@@ -722,3 +1007,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    
