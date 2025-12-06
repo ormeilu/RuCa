@@ -1,11 +1,11 @@
-from typing import List, Dict, Any, Optional
+from typing import Any
 import pandas as pd
 import json
 from json_parser import inputs_for_logging
 from output_parser import outputs_for_logging
 
 #проверяем совместимы ли id запроса и ответа от модели
-def validate_ids(inputs_for_logging: List[Dict[str, Any]], outputs_for_logging: List[Dict[str, Any]]) -> bool:
+def validate_ids(inputs_for_logging: list[dict[str, Any]], outputs_for_logging: list[dict[str, Any]]) -> bool:
     """
     Проверяет, что ID в inputs и outputs совпадают и идут в том же порядке.
     Raises ValueError если есть несовпадения.
@@ -33,7 +33,7 @@ def validate_ids(inputs_for_logging: List[Dict[str, Any]], outputs_for_logging: 
 
 
 # ---------- вспомогательная функция: нужна ли метрика ----------
-def _is_metric_enabled(inp: Dict[str, Any], metric_name: str) -> bool:
+def _is_metric_enabled(inp: dict[str, Any], metric_name: str) -> bool:
     """
     Возвращает True, если в поле skills есть metric_name.
     Если skills отсутствует – считаем, что метрика НЕ нужна.
@@ -44,7 +44,7 @@ def _is_metric_enabled(inp: Dict[str, Any], metric_name: str) -> bool:
 
 # ---------- метрики ----------
 
-def decision(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
+def decision(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """Да/нет: ожидался вызов и он был / не ожидался и не был."""
     if not _is_metric_enabled(inp, "Decision"):
         return None
@@ -55,7 +55,7 @@ def decision(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
     return float(expected == has_tool)
 
 
-def tool_selection_f1(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
+def tool_selection_f1(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """F1 по множеству имён вызванных тулзов (без учёта порядка)."""
     if not _is_metric_enabled(inp, "Tool selection"):
         return None
@@ -77,7 +77,7 @@ def tool_selection_f1(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[floa
     return 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
 
 
-def params_recall(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
+def params_recall(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """Доля правильных параметров (None-поля пропускаются)."""
     if not _is_metric_enabled(inp, "Params"):
         return None
@@ -105,7 +105,7 @@ def params_recall(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
     return correct_count / total_count if total_count else 1.0
 
 
-def result(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
+def result(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """Сводная: правильность tool + правильность параметров."""
     if not _is_metric_enabled(inp, "Result"):
         return None
@@ -120,7 +120,7 @@ def result(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
     return (tool_correct + params_correct) / 2
 
 
-def execution(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
+def execution(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """Строгий порядок вызовов (chain)."""
     if not _is_metric_enabled(inp, "Execution"):
         return None
@@ -131,7 +131,7 @@ def execution(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
     return float(actual_tools == ref_tools)
 
 
-def noise(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
+def noise(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """
     1 = вызваны ровно те тулзы и ровно те параметры, что в expected
     0 = появился лишний тулз или лишний параметр
@@ -159,7 +159,7 @@ def noise(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
     return 1.0
 
 
-def adaptability(inp: Dict[str, Any], last_out: Dict[str, Any]) -> Optional[float]:
+def adaptability(inp: dict[str, Any], last_out: dict[str, Any]) -> float | None:
     """
     1 = последний вызов полностью совпал с expected (имена и параметры)
     0 = любое несовпадение
@@ -187,7 +187,7 @@ def adaptability(inp: Dict[str, Any], last_out: Dict[str, Any]) -> Optional[floa
     return 1.0
 
 
-def error_handling(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
+def error_handling(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """
     Если агент НЕ вызвал ни одного тулза – 1.0 балл,
     иначе – 0.0 (метрика про «не вызвал»).
@@ -198,7 +198,7 @@ def error_handling(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
     return float(not out.get("name", "").strip())
 
 
-def ambiguity(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
+def ambiguity(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """
     Сценарий 1: requires_clarification = True
         1 = не вызвал тулз И не передал параметры (чисто уточнил)
@@ -237,8 +237,8 @@ def ambiguity(inp: Dict[str, Any], out: Dict[str, Any]) -> Optional[float]:
 
 
 # ---------- единая обёртка ----------
-def evaluate_batch(inputs_for_logging: List[Dict[str, Any]],
-                outputs_for_logging: List[Dict[str, Any]]) -> pd.DataFrame:
+def evaluate_batch(inputs_for_logging: list[dict[str, Any]],
+                outputs_for_logging: list[dict[str, Any]]) -> pd.DataFrame:
     """Принимает два списка одинаковой длины и возвращает DataFrame со скорами."""
     records = []
     for inp, out in zip(inputs_for_logging, outputs_for_logging):
@@ -278,7 +278,7 @@ def calculate_final_score(df: pd.DataFrame) -> float:
         "result": 0.04
     }
 
-    specific_metrics = ["ambiguity", "noise", "adaptability", "error_handling", "execution"]
+    specific_metrics = ["Ambiguity", "Noise", "Adaptability", "Error Handling", "Execution"]
     specific_weight = 0.20
 
     scores = []
