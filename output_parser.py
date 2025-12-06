@@ -23,12 +23,8 @@ def extract_output(query_id, item):
         name = first_tool_call.get("name", "")
         arguments = first_tool_call.get("arguments", "")
     
-    tool_result = agent_response.get("tool_result", {})
-    success = tool_result.get("success", False)
-    
     output = {
         "id": query_id,
-        "success": success,
         "name": name,
         "arguments": arguments
     }
