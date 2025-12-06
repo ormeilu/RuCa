@@ -90,9 +90,7 @@ def process_all_queries(folder_path=QUERIES_FOLDER, system_prompt=""):
     
     return inputs_for_llm, inputs_for_logging
 
-if __name__ == "__main__":
-    
-    system_prompt = """
+SYSTEM_PROMPT = """
 Ты — ассистент, прогоняющий запросы из tool-calling бенчмарка. Твоя задача: прочитать user query и выполнить один из трех пунктов:
 1) вызвать инструмент (tool) с корректными параметрами;
 2) если данных недостаточно — не вызывать инструмент и задать вопрос уточнения;
@@ -123,6 +121,7 @@ RETURN FORMAT:
 }
 """
     
-    inputs_for_llm, inputs_for_logging = process_all_queries(
-        system_prompt=system_prompt
-    ) 
+inputs_for_llm, inputs_for_logging = process_all_queries(
+    folder_path=QUERIES_FOLDER,
+    system_prompt=SYSTEM_PROMPT
+)

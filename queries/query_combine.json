@@ -13,7 +13,7 @@
             "amount": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000402",
@@ -27,7 +27,7 @@
             "dates": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000403",
@@ -40,7 +40,7 @@
             "delivery_date": "tomorrow"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000404",
@@ -54,7 +54,7 @@
             "product_query": "winter coat"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000405",
@@ -68,7 +68,7 @@
             "date": "tomorrow"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000406",
@@ -81,7 +81,7 @@
             "hotel_location": "near_airport"
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000407",
@@ -94,7 +94,7 @@
             "order_id": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000408",
@@ -109,7 +109,7 @@
             "payment_id": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000409",
@@ -123,7 +123,7 @@
             "target_language": "ru"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000410",
@@ -136,7 +136,7 @@
             "new_address": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000411",
@@ -149,7 +149,7 @@
             "destination": "Paris"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000412",
@@ -162,7 +162,7 @@
             "discount_code": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000413",
@@ -175,7 +175,7 @@
             "reason": "lost"
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000414",
@@ -188,7 +188,7 @@
             "order_id": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000415",
@@ -201,7 +201,7 @@
             "service_type": "wifi"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000416",
@@ -214,7 +214,7 @@
             "product_id": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000417",
@@ -229,7 +229,7 @@
             "amount": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000418",
@@ -243,7 +243,7 @@
             "date": "2025-03-25"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000419",
@@ -258,7 +258,7 @@
             "listing_id": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000420",
@@ -272,7 +272,7 @@
             "delivery_date": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000421",
@@ -285,7 +285,7 @@
             "discount_code": "GAMER25"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000422",
@@ -298,7 +298,7 @@
             "hotel_location": "near_terminal"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000423",
@@ -312,7 +312,7 @@
             "service_type": "wifi"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000424",
@@ -326,7 +326,7 @@
             "product_query": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000425",
@@ -339,7 +339,7 @@
             "new_address": "Moscow, Leningradsky 10"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000426",
@@ -352,7 +352,7 @@
             "reason": "lost"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000427",
@@ -365,7 +365,7 @@
             "product_id": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000428",
@@ -380,7 +380,7 @@
             "check_out": "2025-05-05"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         },
         {
             "id": "000429",
@@ -393,7 +393,7 @@
             "order_id": "77112"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Execution"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         }
     ]
 }

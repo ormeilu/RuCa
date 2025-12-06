@@ -9,7 +9,7 @@
             "expected_tool": "cancel_order",
             "expected_parameters": { "order_id": "ORD1023" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000201",
@@ -20,7 +20,7 @@
             "expected_tool": "cancel_order",
             "expected_parameters": { "order_id": "ORD2041" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000202",
@@ -31,7 +31,7 @@
             "expected_tool": "cancel_order",
             "expected_parameters": { "order_id": "ORD9100" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000203",
@@ -42,7 +42,7 @@
             "expected_tool": "cancel_order",
             "expected_parameters": { "order_id": "ORD9112" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000204",
@@ -53,7 +53,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "order_id": "ORD3099" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000205",
@@ -64,7 +64,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "order_id": "ORD4002" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000206",
@@ -75,7 +75,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "order_id": "ORD9009" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000207",
@@ -86,7 +86,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "order_id": "ORD9020" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000208",
@@ -97,7 +97,7 @@
             "expected_tool": "search_product",
             "expected_parameters": { "product": "Samsung Galaxy S24" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000209",
@@ -108,7 +108,7 @@
             "expected_tool": "search_product",
             "expected_parameters": { "product": "Sony MDR-XB2" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000210",
@@ -119,7 +119,7 @@
             "expected_tool": "search_product",
             "expected_parameters": { "product": "winter jackets, men's size L" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000211",
@@ -130,7 +130,7 @@
             "expected_tool": "search_product",
             "expected_parameters": { "product": "red dress up to 7000 rubles" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000212",
@@ -141,7 +141,7 @@
             "expected_tool": "place_order",
             "expected_parameters": { "user_id": "U102", "product": "iPhone 15" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000213",
@@ -152,7 +152,7 @@
             "expected_tool": "place_order",
             "expected_parameters": { "product": "MacBook Air M2" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000214",
@@ -163,7 +163,7 @@
             "expected_tool": "place_order",
             "expected_parameters": { "product": "TV LG 55UQ80006LB" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000215",
@@ -174,7 +174,7 @@
             "expected_tool": "place_order",
             "expected_parameters": { "user_id": "U410", "product": "Google Pixel 8" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000216",
@@ -185,7 +185,7 @@
             "expected_tool": "place_order",
             "expected_parameters": { "order_id": "ORD1166" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000217",
@@ -196,7 +196,7 @@
             "expected_tool": "place_order",
             "expected_parameters": { "order_id": "ORD1168" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000218",
@@ -207,7 +207,7 @@
             "expected_tool": "track_order",
             "expected_parameters": { "order_id": "ORD5500" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000219",
@@ -218,7 +218,7 @@
             "expected_tool": "track_order",
             "expected_parameters": { "order_id": "ORD5512" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000220",
@@ -229,7 +229,7 @@
             "expected_tool": "track_order",
             "expected_parameters": { "order_id": "ORD1030" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000221",
@@ -240,7 +240,7 @@
             "expected_tool": "track_order",
             "expected_parameters": { "order_id": "ORD1040" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000222",
@@ -251,7 +251,7 @@
             "expected_tool": "update_address",
             "expected_parameters": { "address": "12 Lenina street, Moscow" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000223",
@@ -262,7 +262,7 @@
             "expected_tool": "update_address",
             "expected_parameters": { "user_id": "U201", "address": "45 Nevsky street, Sankt-Peterburg" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000224",
@@ -273,7 +273,7 @@
             "expected_tool": "update_address",
             "expected_parameters": { "address": "Kazan" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000225",
@@ -284,7 +284,7 @@
             "expected_tool": "update_address",
             "expected_parameters": { "address": "8 Sverdlova street, Ekaterinburg" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000226",
@@ -295,7 +295,7 @@
             "expected_tool": "add_to_cart",
             "expected_parameters": { "product": "AirPods Pro 2" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000227",
@@ -306,7 +306,7 @@
             "expected_tool": "add_to_cart",
             "expected_parameters": { "product": "Samsung Odyssey G7" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000228",
@@ -317,7 +317,7 @@
             "expected_tool": "add_to_cart",
             "expected_parameters": { "product": "Dyson V15" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000229",
@@ -328,7 +328,7 @@
             "expected_tool": "add_to_cart",
             "expected_parameters": { "product": "DeLonghi Magnifica" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000230",
@@ -339,7 +339,7 @@
             "expected_tool": "remove_from_cart",
             "expected_parameters": { "product": "iPhone 14" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000231",
@@ -350,7 +350,7 @@
             "expected_tool": "remove_from_cart",
             "expected_parameters": { "product": "HP Pavilion" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000232",
@@ -361,7 +361,7 @@
             "expected_tool": "apply_discount",
             "expected_parameters": { "order_id": "ORD6011", "coupon_code": "SALE20" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000233",
@@ -372,7 +372,7 @@
             "expected_tool": "apply_discount",
             "expected_parameters": { "coupon_code": "SUMMER15" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000234",
@@ -383,7 +383,7 @@
             "expected_tool": "apply_discount",
             "expected_parameters": { "order_id": "ORD1120", "coupon_code": "NEWUSER10" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000235",
@@ -394,7 +394,7 @@
             "expected_tool": "apply_discount",
             "expected_parameters": { "order_id": "ORD1131", "coupon_code": "FREESHIP" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000236",
@@ -405,7 +405,7 @@
             "expected_tool": "get_order_history",
             "expected_parameters": { "period": "October" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000237",
@@ -416,7 +416,7 @@
             "expected_tool": "get_order_history",
             "expected_parameters": { "user_id": "U555" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000238",
@@ -427,7 +427,7 @@
             "expected_tool": "get_order_history",
             "expected_parameters": { "period": "past purchases" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000239",
@@ -438,7 +438,7 @@
             "expected_tool": "get_order_history",
             "expected_parameters": { "period": "last 3 months" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000240",
@@ -449,7 +449,7 @@
             "expected_tool": "schedule_delivery",
             "expected_parameters": { "order_id": "ORD7015", "delivery_time": "tomorrow 10:00 to 12:00" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000241",
@@ -460,7 +460,7 @@
             "expected_tool": "schedule_delivery",
             "expected_parameters": { "order_id": "ORD7016", "delivery_time": "next morning" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000242",
@@ -471,7 +471,7 @@
             "expected_tool": "update_profile",
             "expected_parameters": { "last_name": "Ivanova" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000243",
@@ -482,7 +482,7 @@
             "expected_tool": "update_profile",
             "expected_parameters": { "phone": "+79990001234" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000244",
@@ -493,7 +493,7 @@
             "expected_tool": "update_profile",
             "expected_parameters": { "email": "testuser@mail.ru" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000245",
@@ -504,7 +504,7 @@
             "expected_tool": "update_profile",
             "expected_parameters": { "birth_date": "15.02.1995" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000246",
@@ -515,7 +515,7 @@
             "expected_tool": "update_payment_method",
             "expected_parameters": { "payment_method": "Visa" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000247",
@@ -526,7 +526,7 @@
             "expected_tool": "update_payment_method",
             "expected_parameters": { "payment_method": "Visa" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000248",
@@ -537,7 +537,7 @@
             "expected_tool": "update_payment_method",
             "expected_parameters": { "remove": "old_card", "add": "Mastercard ****1234" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000249",
@@ -548,7 +548,7 @@
             "expected_tool": "update_payment_method",
             "expected_parameters": { "remove": "old_card" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000250",
@@ -559,7 +559,7 @@
             "expected_tool": "cancel_order",
             "expected_parameters": { "order_id": "ORD1234" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000251",
@@ -570,7 +570,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "order_id": "ORD2333" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000252",
@@ -581,7 +581,7 @@
             "expected_tool": "search_product",
             "expected_parameters": { "product": "Samsung Galaxy new" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000253",
@@ -592,7 +592,7 @@
             "expected_tool": "add_to_cart",
             "expected_parameters": { "product": "MacBook Air" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000254",
@@ -603,7 +603,7 @@
             "expected_tool": "update_address",
             "expected_parameters": { "address": "12 Nevsky street, Sankt-Peterburg" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000255",
@@ -614,7 +614,7 @@
             "expected_tool": "track_order",
             "expected_parameters": { "order_id": "ORD555" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000256",
@@ -625,7 +625,7 @@
             "expected_tool": "update_address",
             "expected_parameters": { "address": "15 Lenina street, Moscow" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000257",
@@ -636,7 +636,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "product": "sneakers", "order_id": null },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000258",
@@ -647,7 +647,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "order_id": "ORD611" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000259",
@@ -658,7 +658,7 @@
             "expected_tool": "add_to_cart",
             "expected_parameters": { "product": "Philips kettle" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000260",
@@ -669,7 +669,7 @@
             "expected_tool": "search_product",
             "expected_parameters": { "product": "dress" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000261",
@@ -680,7 +680,7 @@
             "expected_tool": "update_address",
             "expected_parameters": { "address": "3 Lermontova street" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000262",
@@ -691,7 +691,7 @@
             "expected_tool": "apply_discount",
             "expected_parameters": { "order_id": "ORD700", "coupon_code": null },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000263",
@@ -702,7 +702,7 @@
             "expected_tool": "cancel_order",
             "expected_parameters": { "order_id": "ORD1234" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000264",
@@ -713,7 +713,7 @@
             "expected_tool": "cancel_order",
             "expected_parameters": { "order_id": null },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000265",
@@ -724,7 +724,7 @@
             "expected_tool": "search_product",
             "expected_parameters": { "product": "Samsung Galaxy S24" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000266",
@@ -735,7 +735,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "order_id": null },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000267",
@@ -746,7 +746,7 @@
             "expected_tool": "search_product",
             "expected_parameters": { "product": "HP laptop" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000268",
@@ -757,7 +757,7 @@
             "expected_tool": "track_order",
             "expected_parameters": { "order_id": null, "product": "vacuum cleaner" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000269",
@@ -768,7 +768,7 @@
             "expected_tool": "place_order",
             "expected_parameters": { "product": "Samsung Galaxy S24" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000270",
@@ -779,7 +779,7 @@
             "expected_tool": "schedule_delivery",
             "expected_parameters": { "delivery_time": "the day after tomorrow evening" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000271",
@@ -790,7 +790,7 @@
             "expected_tool": "exchange_order",
             "expected_parameters": { "order_id": "ORD900" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000272",
@@ -801,7 +801,7 @@
             "expected_tool": "update_address",
             "expected_parameters": { "address": "Kazan" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000273",
@@ -812,7 +812,7 @@
             "expected_tool": "add_to_cart",
             "expected_parameters": { "product": "Asus ZenBook" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000274",
@@ -823,7 +823,7 @@
             "expected_tool": "cancel_order",
             "expected_parameters": { "action": "none" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000275",
@@ -834,7 +834,7 @@
             "expected_tool": "apply_discount",
             "expected_parameters": { "coupon_code": "BLACKFRIDAY" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000276",
@@ -845,7 +845,7 @@
             "expected_tool": "exchange_order",
             "expected_parameters": { "product": "sneakers size 42" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000277",
@@ -856,7 +856,7 @@
             "expected_tool": "update_payment_method",
             "expected_parameters": { "payment_method": "card" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000278",
@@ -867,7 +867,7 @@
             "expected_tool": "place_order",
             "expected_parameters": { "product": "Xbox Series X" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Adaptability"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
         },
         {
             "id": "000279",
@@ -878,7 +878,7 @@
             "expected_tool": "track_order",
             "expected_parameters": { "order_id": "ORD500" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000280",
@@ -889,7 +889,7 @@
             "expected_tool": "schedule_delivery",
             "expected_parameters": { "delivery_time": "tomorrow" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000281",
@@ -900,7 +900,7 @@
             "expected_tool": "apply_discount",
             "expected_parameters": { "order_id": "ORD611", "coupon_code": "SUMMER20" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000282",
@@ -911,7 +911,7 @@
             "expected_tool": "cancel_order",
             "expected_parameters": { "order_id": "ORD710" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000283",
@@ -922,7 +922,7 @@
             "expected_tool": "add_to_cart",
             "expected_parameters": { "product": "DeLonghi coffee maker" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000284",
@@ -933,7 +933,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "order_id": "ORD801" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000285",
@@ -944,7 +944,7 @@
             "expected_tool": "track_order",
             "expected_parameters": { "order_id": "ORD900" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000286",
@@ -955,7 +955,7 @@
             "expected_tool": "update_address",
             "expected_parameters": { "new_address": "4 Leningradskaya street" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000287",
@@ -966,7 +966,7 @@
             "expected_tool": "schedule_delivery",
             "expected_parameters": { "delivery_time": "morning" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000288",
@@ -977,7 +977,7 @@
             "expected_tool": "return_order",
             "expected_parameters": { "order_id": "ORD1002" },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Noise"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
         },
         {
             "id": "000289",
@@ -989,7 +989,7 @@
             "expected_parameters": { "order_id": "ORD666", "coupon_code": null },
             "missing_parameters": ["coupon_code"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000290",
@@ -1001,7 +1001,7 @@
             "expected_parameters": { "address": null, "delivery_time": null },
             "missing_parameters": ["address", "delivery_time"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000291",
@@ -1013,7 +1013,7 @@
             "expected_parameters": { "order_id": null },
             "missing_parameters": ["order_id"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000292",
@@ -1025,7 +1025,7 @@
             "expected_parameters": { "order_id": null, "product": null },
             "missing_parameters": ["order_id", "product"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000293",
@@ -1037,7 +1037,7 @@
             "expected_parameters": { "product": null },
             "missing_parameters": ["product"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000294",
@@ -1049,7 +1049,7 @@
             "expected_parameters": { "new_address": null },
             "missing_parameters": ["new_address"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000295",
@@ -1061,7 +1061,7 @@
             "expected_parameters": { "coupon_code": null },
             "missing_parameters": ["coupon_code"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000296",
@@ -1073,7 +1073,7 @@
             "expected_parameters": { "payment_method": null },
             "missing_parameters": ["payment_method"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000297",
@@ -1085,7 +1085,7 @@
             "expected_parameters": { "product": null },
             "missing_parameters": ["product"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000298",
@@ -1097,7 +1097,7 @@
             "expected_parameters": { "order_id": null },
             "missing_parameters": ["order_id"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000299",
@@ -1109,7 +1109,7 @@
             "expected_parameters": { "order_id": null, "product": null },
             "missing_parameters": ["order_id", "product"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000300",
@@ -1121,7 +1121,7 @@
             "expected_parameters": { "order_id": null },
             "missing_parameters": ["order_id"],
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         }
     ]
 }

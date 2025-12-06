@@ -11,7 +11,7 @@
             "location": "Tokyo"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000001",
@@ -24,7 +24,7 @@
             "location": "Saint Petersburg"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000002",
@@ -39,7 +39,7 @@
             "amount": 100
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000003",
@@ -52,7 +52,7 @@
             "date": "today"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000004",
@@ -65,7 +65,7 @@
             "expression": "45 + 23 * 2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000005",
@@ -78,7 +78,7 @@
             "location": "New York"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000006",
@@ -92,7 +92,7 @@
             "date": "tomorrow"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000007",
@@ -105,7 +105,7 @@
             "expression": "125 / 5 + 30"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000008",
@@ -118,7 +118,7 @@
             "expression": "2 ** 10"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000009",
@@ -132,7 +132,7 @@
             "format": "dd.mm.yyyy"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000010",
@@ -145,7 +145,7 @@
             "location": "Paris"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000011",
@@ -160,7 +160,7 @@
             "amount": 5000
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000012",
@@ -173,7 +173,7 @@
             "location": "Sydney"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000013",
@@ -186,7 +186,7 @@
             "date": "+3 days"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000014",
@@ -199,7 +199,7 @@
             "expression": "3 * (15 + 7)"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000015",
@@ -213,7 +213,7 @@
             "date": "weekend"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000016",
@@ -228,7 +228,7 @@
             "amount": 200
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000017",
@@ -241,7 +241,7 @@
             "location": "London"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000018",
@@ -254,7 +254,7 @@
             "date": "yesterday"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000019",
@@ -267,7 +267,7 @@
             "expression": "99 - 45 + 11"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000020",
@@ -280,7 +280,7 @@
             "location": "Rome"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000021",
@@ -295,7 +295,7 @@
             "amount": 100
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000022",
@@ -308,7 +308,7 @@
             "location": "Dubai"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000023",
@@ -321,7 +321,7 @@
             "date": "+7 days"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000024",
@@ -334,7 +334,7 @@
             "expression": "6 * 12 - 20"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000025",
@@ -347,7 +347,7 @@
             "location": "Prague"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000026",
@@ -362,7 +362,7 @@
             "amount": 50
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000027",
@@ -375,7 +375,7 @@
             "location": "Beijing"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000028",
@@ -388,7 +388,7 @@
             "date": "+1 month"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000029",
@@ -401,7 +401,7 @@
             "expression": "(100 - 25) / 5"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000030",
@@ -414,7 +414,7 @@
             "location": "Los Angeles"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000031",
@@ -429,7 +429,7 @@
             "amount": 1000
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000032",
@@ -442,7 +442,7 @@
             "location": "Minsk"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000033",
@@ -455,7 +455,7 @@
             "date": "+10 days"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000034",
@@ -468,7 +468,7 @@
             "expression": "7 * 8 + 15"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000035",
@@ -481,7 +481,7 @@
             "location": "Tbilisi"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000036",
@@ -496,7 +496,7 @@
             "amount": 1
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000037",
@@ -509,7 +509,7 @@
             "location": "Seoul"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000038",
@@ -522,7 +522,7 @@
             "date": "-2 days"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000039",
@@ -535,7 +535,7 @@
             "expression": "1234 / 2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000040",
@@ -548,7 +548,7 @@
             "location": "Vienna"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000041",
@@ -563,7 +563,7 @@
             "amount": 7000
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000042",
@@ -576,7 +576,7 @@
             "location": "Bangkok"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000043",
@@ -589,7 +589,7 @@
             "location": "London"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000044",
@@ -602,7 +602,7 @@
             "expression": "10 + 20 * 3"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000045",
@@ -615,7 +615,7 @@
             "location": "Helsinki"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000046",
@@ -630,7 +630,7 @@
             "amount": 5
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000047",
@@ -643,7 +643,7 @@
             "location": "Madrid"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000048",
@@ -656,7 +656,7 @@
             "date": "+5 hours"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000049",
@@ -669,7 +669,7 @@
             "expression": "(12 + 8) * 2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result"]
         },
         {
             "id": "000050",
@@ -680,7 +680,7 @@
             "expected_tool": "get_time",
             "expected_parameters": { "location": "Tokyo" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000051",
@@ -691,7 +691,7 @@
             "expected_tool": "get_weather",
             "expected_parameters": { "location": "Saint Petersburg" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000052",
@@ -706,7 +706,7 @@
                 "amount": 100
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000053",
@@ -717,7 +717,7 @@
             "expected_tool": "get_date",
             "expected_parameters": { "date": "today" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000054",
@@ -728,7 +728,7 @@
             "expected_tool": "calculator",
             "expected_parameters": { "expression": "45 + 23 * 2" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000055",
@@ -739,7 +739,7 @@
             "expected_tool": "get_time",
             "expected_parameters": { "location": "New York" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000056",
@@ -753,7 +753,7 @@
                 "date": "tomorrow"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000057",
@@ -764,7 +764,7 @@
             "expected_tool": "calculator",
             "expected_parameters": { "expression": "125 / 5 + 30" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000058",
@@ -775,7 +775,7 @@
             "expected_tool": "calculator",
             "expected_parameters": { "expression": "2 ** 10" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000059",
@@ -786,7 +786,7 @@
             "expected_tool": "get_date",
             "expected_parameters": { "date": "today" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000060",
@@ -797,7 +797,7 @@
             "expected_tool": "get_weather",
             "expected_parameters": { "location": "Paris" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000061",
@@ -812,7 +812,7 @@
                 "amount": 5000
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000062",
@@ -823,7 +823,7 @@
             "expected_tool": "get_time",
             "expected_parameters": { "location": "Sydney" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000063",
@@ -834,7 +834,7 @@
             "expected_tool": "get_date",
             "expected_parameters": { "date": "+3 days" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000064",
@@ -845,7 +845,7 @@
             "expected_tool": "calculator",
             "expected_parameters": { "expression": "3 * (15 + 7)" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000065",
@@ -859,7 +859,7 @@
                 "date": "weekend"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000066",
@@ -874,7 +874,7 @@
                 "amount": 200
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000067",
@@ -885,7 +885,7 @@
             "expected_tool": "get_time",
             "expected_parameters": { "location": "London" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000068",
@@ -896,7 +896,7 @@
             "expected_tool": "get_date",
             "expected_parameters": { "date": "yesterday" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000069",
@@ -907,7 +907,7 @@
             "expected_tool": "calculator",
             "expected_parameters": { "expression": "99 - 45 + 11" },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity", "Error Handling"]
+            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000070",
@@ -920,7 +920,7 @@
                 "location": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000071",
@@ -935,7 +935,7 @@
                 "amount": 100
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000072",
@@ -948,7 +948,7 @@
                 "locations": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000073",
@@ -962,7 +962,7 @@
                 "date": "tomorrow"
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000074",
@@ -977,7 +977,7 @@
                 "amount": 1
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000075",
@@ -990,7 +990,7 @@
                 "date": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000076",
@@ -1005,7 +1005,7 @@
                 "amount": 500
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000077",
@@ -1018,7 +1018,7 @@
                 "location": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000078",
@@ -1031,7 +1031,7 @@
                 "location": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000079",
@@ -1044,7 +1044,7 @@
                 "expression": null
             },
             "requires_clarification": true,
-            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
         },
         {
             "id": "000080",
@@ -1057,7 +1057,7 @@
                 "location": "Berlin"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000081",
@@ -1070,7 +1070,7 @@
                 "location": "Moscow"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000082",
@@ -1085,7 +1085,7 @@
                 "amount": 200
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000083",
@@ -1098,7 +1098,7 @@
                 "date": "today"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000084",
@@ -1111,7 +1111,7 @@
                 "expression": "7 * 8 + 5"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000085",
@@ -1124,7 +1124,7 @@
                 "location": "Tbilisi"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000086",
@@ -1137,7 +1137,7 @@
                 "expression": "20 + 22"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000087",
@@ -1152,7 +1152,7 @@
                 "amount": 100
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000088",
@@ -1165,7 +1165,7 @@
                 "location": "Paris"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000089",
@@ -1178,7 +1178,7 @@
                 "location": "Tokyo"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Noise", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
         },
         {
             "id": "000090",
@@ -1191,7 +1191,7 @@
                 "location": "Los Angeles"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         },
         {
             "id": "000091",
@@ -1204,7 +1204,7 @@
                 "location": "Prague"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         },
         {
             "id": "000092",
@@ -1219,7 +1219,7 @@
                 "amount": 100
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         },
         {
             "id": "000093",
@@ -1232,7 +1232,7 @@
                 "date": "+7 days"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         },
         {
             "id": "000094",
@@ -1245,7 +1245,7 @@
                 "expression": "45 * 23"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         },
         {
             "id": "000095",
@@ -1258,7 +1258,7 @@
                 "location": "Minsk"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         },
         {
             "id": "000096",
@@ -1271,7 +1271,7 @@
                 "location": "Rome"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         },
         {
             "id": "000097",
@@ -1286,7 +1286,7 @@
                 "amount": 1000
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         },
         {
             "id": "000098",
@@ -1299,7 +1299,7 @@
                 "location": "Seoul"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         },
         {
             "id": "000099",
@@ -1312,7 +1312,7 @@
                 "date": "yesterday"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Error Handling", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
         }
     ]
 }
