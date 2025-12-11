@@ -1,6 +1,12 @@
 from typing import Any
 import pandas as pd
 import json
+import math
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich.progress import Progress, BarColumn, TextColumn
+from rich import box
 from json_parser import inputs_for_logging
 from output_parser import outputs_for_logging
 
@@ -313,6 +319,126 @@ def calculate_final_score(df: pd.DataFrame) -> float:
     else:
         return 0.0
 
+console = Console()
+
+def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: List[Dict[str, Any]]) -> None:
+    """Выводит таблицу с результатами бенчмарка."""
+    
+    metric_cols = [
+        "decision", "tool_selection", "params", "result",
+        "ambiguity", "noise", "adaptability", "error_handling", "execution"
+    ]
+    total_queries = len(df)
+    
+    # Считаем успешные запросы
+    def is_successful(row):
+        valid = row[metric_cols].dropna()
+        if len(valid) == 0:
+            return False
+        return all(valid == 1.0)
+    
+    successful = df.apply(is_successful, axis=1).sum()
+    failed = total_queries - successful
+    success_rate = (successful / total_queries * 100) if total_queries > 0 else 0
+    failed_rate = 100 - success_rate
+    
+    # Финальный скор
+    final = calculate_final_score(df)
+    
+    # Средние по метрикам
+    means = df[metric_cols].mean(skipna=True)
+
+    # Формируем отображение
+    metrics_display = {}
+    for m in metric_cols:
+        if m in means.index:
+            metrics_display[m] = (means[m])
+        else:
+            metrics_display[m] = (float("nan"), 0)
+
+    # ============ ВЫВОД ============
+    console.print()
+    
+    # Заголовок
+    console.print(Panel.fit(
+        "[bold cyan]BENCHMARK RESULTS[/bold cyan]",
+        border_style="cyan"
+    ))
+    
+    # Основная статистика
+    stats_table = Table(show_header=False, box=box.SIMPLE, padding=(0, 2))
+    stats_table.add_column(style="bold white", justify="left")
+    stats_table.add_column(style="cyan", justify="right")
+    
+    stats_table.add_row("Всего запросов", f"{total_queries}")
+    stats_table.add_row(
+        "Успешно выполненные", 
+        f"[green]{successful}[/green] ([green]{success_rate:.1f}%[/green])"
+    )
+    stats_table.add_row(
+        "С ошибками", 
+        f"[red]{failed}[/red] ([red]{failed_rate:.1f}%[/red])"
+    )
+    
+    console.print(stats_table)
+    console.print()
+    
+    # Финальный скор с цветом
+    if final >= 80:
+        score_color = "green"
+    elif final >= 60:
+        score_color = "yellow"
+    else:
+        score_color = "red"
+    
+    console.print(Panel(
+        f"[bold {score_color}]{final:.1f}%[/bold {score_color}]",
+        title="[bold white]ФИНАЛЬНАЯ ОЦЕНКА МОДЕЛИ[/bold white]",
+        border_style=score_color,
+        padding=(0, 4)
+    ))
+    console.print()
+    
+    # Статистика по метрикам
+    metrics_table = Table(
+        title="[bold white]МЕТРИКИ[/bold white]",
+        box=box.ROUNDED,
+        show_header=True,
+        header_style="bold cyan"
+    )
+    
+    metrics_table.add_column("Метрика", style="white", justify="left", width=25)
+    metrics_table.add_column("Значение", justify="center", width=10)
+    metrics_table.add_column("Визуализация", justify="left", width=25)
+
+    for metric_name, metric_value in metrics_display.items():
+
+        if math.isnan(metric_value):
+            value_str = "[white]N/A[/white]"
+            bar = "░" * 20
+            metrics_table.add_row(metric_name, value_str, bar)
+            continue
+
+        if metric_value >= 0.8:
+            value_style = "green"
+        elif metric_value >= 0.6:
+            value_style = "yellow"
+        else:
+            value_style = "red"
+
+        bar_length = int(metric_value * 20)
+        bar = "█" * bar_length + "░" * (20 - bar_length)
+
+        metrics_table.add_row(
+            metric_name,
+            f"[{value_style}]{metric_value:.2f}[/{value_style}]",
+            f"[{value_style}]{bar}[/{value_style}]"
+        )
+    
+    console.print(metrics_table)
+    console.print()
+
+
 if __name__ == "__main__":
     # Проверяем совместимость ID
     validate_ids(inputs_for_logging, outputs_for_logging)
@@ -320,10 +446,5 @@ if __name__ == "__main__":
     # Вычисляем метрики для каждого примера
     df = evaluate_batch(inputs_for_logging, outputs_for_logging)
 
-    # # Среднее по каждой метрике
-    # print("Среднее по каждой метрике:")
-    # print(df.drop(columns=['id']).mean().round(2))
-
-    # Финальный скор модели
-    final_score = calculate_final_score(df)
-    print(f"\nФИНАЛЬНЫЙ СКОР МОДЕЛИ: {final_score:.2f}%")
+    # Вывод результатов
+    print_benchmark_results(df, inputs_for_logging)
