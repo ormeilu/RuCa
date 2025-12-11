@@ -8,23 +8,24 @@
             "query": "Сколько сейчас времени в Токио",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "Tokyo"
+                "format": "24h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000001",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая погода в Санкт-Петербурге",
+            "query": "Какая погода 2025-12-31 в Санкт-Петербурге",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Saint Petersburg"
+                "location": "Saint Petersburg",
+                "date": "2025-12-31"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000002",
@@ -34,12 +35,12 @@
             "query": "Переведи 100 долларов в евро",
             "expected_tool": "currency_converter",
             "expected_parameters": {
-            "from_currency": "USD",
-            "to_currency": "EUR",
+                "from_currency": "USD",
+                "to_currency": "EUR",
             "amount": 100
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000003",
@@ -48,11 +49,11 @@
             "type": "ordinary",
             "query": "Какая сегодня дата",
             "expected_tool": "get_date",
-            "expected_parameters": {
-            "date": "today"
+                "expected_parameters": {
+                "format": "iso"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000004",
@@ -62,10 +63,11 @@
             "query": "Вычисли 45 + 23 * 2",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "45 + 23 * 2"
+                "expression": "45 + 23 * 2",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000005",
@@ -75,24 +77,24 @@
             "query": "Сколько сейчас времени в Нью-Йорке",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "New York"
+                "format": "12h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000006",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая погода завтра в Москве",
+            "query": "Какая погода завтра 2025-12-12 в Москве",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Moscow",
-            "date": "tomorrow"
+                "location": "Moscow",
+                "date": "2025-12-12"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000007",
@@ -102,10 +104,11 @@
             "query": "Посчитай 125 / 5 + 30",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "125 / 5 + 30"
+                "expression": "125 / 5 + 30",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000008",
@@ -115,10 +118,11 @@
             "query": "Сколько будет 2 в степени 10",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "2 ** 10"
+                "expression": "2 ** 10",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000009",
@@ -128,24 +132,24 @@
             "query": "Какая сегодня дата в формате дд.мм.гггг",
             "expected_tool": "get_date",
             "expected_parameters": {
-            "date": "today",
-            "format": "dd.mm.yyyy"
+                "format": "iso"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000010",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Сколько градусов сейчас в Париже",
+            "query": "Сколько градусов сейчас 2025-12-11 в Париже",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Paris"
+                "location": "Paris",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000011",
@@ -155,12 +159,12 @@
             "query": "Переведи 5000 рублей в доллары",
             "expected_tool": "currency_converter",
             "expected_parameters": {
-            "from_currency": "RUB",
-            "to_currency": "USD",
-            "amount": 5000
+                "from_currency": "RUB",
+                "to_currency": "USD",
+                "amount": 5000
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000012",
@@ -170,10 +174,10 @@
             "query": "Сколько сейчас времени в Сиднее",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "Sydney"
+                "format": "24h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000013",
@@ -183,10 +187,11 @@
             "query": "Какая дата будет через три дня",
             "expected_tool": "get_date",
             "expected_parameters": {
-            "date": "+3 days"
+                "format": "iso",
+                "offset_days": "3"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000014",
@@ -196,24 +201,25 @@
             "query": "Вычисли 3 * (15 + 7)",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "3 * (15 + 7)"
+                "expression": "3 * (15 + 7)",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000015",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая погода в Берлине на выходных",
+            "query": "Какая погода 2025-12-14 в Берлине",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Berlin",
-            "date": "weekend"
+                "location": "Berlin",
+                "date": "2025-12-14"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000016",
@@ -223,12 +229,12 @@
             "query": "Переведи 200 евро в иены",
             "expected_tool": "currency_converter",
             "expected_parameters": {
-            "from_currency": "EUR",
-            "to_currency": "JPY",
-            "amount": 200
+                "from_currency": "EUR",
+                "to_currency": "JPY",
+                "amount": 200
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000017",
@@ -238,10 +244,10 @@
             "query": "Сколько времени в Лондоне",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "London"
+                "format": "24h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000018",
@@ -251,10 +257,11 @@
             "query": "Какая дата вчера была",
             "expected_tool": "get_date",
             "expected_parameters": {
-            "date": "yesterday"
+                "format": "iso",
+                "offset_days": "-1"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000019",
@@ -264,38 +271,40 @@
             "query": "Вычисли 99 - 45 + 11",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "99 - 45 + 11"
+                "expression": "99 - 45 + 11",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000020",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая погода в Риме сейчас",
+            "query": "Какая погода в Риме 2025-12-11",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Rome"
+                "location": "Rome",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000021",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Сколько рублей в 100 тенге",
+            "query": "Сколько рублей в 100 китайских иенах",
             "expected_tool": "currency_converter",
             "expected_parameters": {
-            "from_currency": "KZT",
-            "to_currency": "RUB",
-            "amount": 100
+                "from_currency": "CNY",
+                "to_currency": "RUB",
+                "amount": 100
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000022",
@@ -305,10 +314,10 @@
             "query": "Сколько времени в Дубае",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "Dubai"
+                "format": "24h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000023",
@@ -318,10 +327,11 @@
             "query": "Какая дата через неделю",
             "expected_tool": "get_date",
             "expected_parameters": {
-            "date": "+7 days"
+                "format": "iso",
+                "offset_days": "7"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000024",
@@ -331,23 +341,25 @@
             "query": "Вычисли 6 * 12 - 20",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "6 * 12 - 20"
+                "expression": "6 * 12 - 20",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000025",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая погода в Праге",
+            "query": "Какая погода 2025-12-11 в Праге",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Prague"
+                "location": "Prague",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000026",
@@ -357,12 +369,12 @@
             "query": "Переведи 50 фунтов в доллары",
             "expected_tool": "currency_converter",
             "expected_parameters": {
-            "from_currency": "GBP",
-            "to_currency": "USD",
-            "amount": 50
+                "from_currency": "GBP",
+                "to_currency": "USD",
+                "amount": 50
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000027",
@@ -372,23 +384,24 @@
             "query": "Сколько времени в Пекине",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "Beijing"
+                "format": "24h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000028",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая дата будет через месяц",
+            "query": "Какая дата будет через месяц (30 дней)",
             "expected_tool": "get_date",
             "expected_parameters": {
-            "date": "+1 month"
+                "format": "iso",
+                "offset_days": "30"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000029",
@@ -398,38 +411,40 @@
             "query": "Вычисли (100 - 25) / 5",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "(100 - 25) / 5"
+                "expression": "(100 - 25) / 5",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000030",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая погода в Лос-Анджелесе",
+            "query": "Какая погода 2025-12-11в Лос-Анджелесе",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Los Angeles"
+                "location": "Los Angeles",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000031",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Переведи 1000 иен в рубли",
+            "query": "Переведи 1000 японских иен в рубли",
             "expected_tool": "currency_converter",
             "expected_parameters": {
-            "from_currency": "JPY",
-            "to_currency": "RUB",
-            "amount": 1000
+                "from_currency": "JPY",
+                "to_currency": "RUB",
+                "amount": 1000
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000032",
@@ -439,10 +454,10 @@
             "query": "Сколько времени в Минске",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "Minsk"
+                "format": "24h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000033",
@@ -452,10 +467,11 @@
             "query": "Какая дата через 10 дней",
             "expected_tool": "get_date",
             "expected_parameters": {
-            "date": "+10 days"
+                "format": "iso",
+                "offset_days": "10"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000034",
@@ -465,23 +481,25 @@
             "query": "Вычисли 7 * 8 + 15",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "7 * 8 + 15"
+                "expression": "7 * 8 + 15",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000035",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая погода в Тбилиси",
+            "query": "Какая погода в Тбилиси 2025-12-11",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Tbilisi"
+                "location": "Tbilisi",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000036",
@@ -491,12 +509,12 @@
             "query": "Переведи 1 доллар в рубли",
             "expected_tool": "currency_converter",
             "expected_parameters": {
-            "from_currency": "USD",
-            "to_currency": "RUB",
-            "amount": 1
+                "from_currency": "USD",
+                "to_currency": "RUB",
+                "amount": 1
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000037",
@@ -506,10 +524,10 @@
             "query": "Сколько времени в Сеуле",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "Seoul"
+                "format": "24h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000038",
@@ -519,10 +537,11 @@
             "query": "Какая дата была позавчера",
             "expected_tool": "get_date",
             "expected_parameters": {
-            "date": "-2 days"
+                "format": "iso",
+                "offset_days": "-2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000039",
@@ -532,23 +551,25 @@
             "query": "Вычисли 1234 / 2",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "1234 / 2"
+                "expression": "1234 / 2",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000040",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая погода в Вене",
+            "query": "Какая погода в Вене 2025-12-11",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Vienna"
+                "location": "Vienna",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000041",
@@ -558,12 +579,12 @@
             "query": "Переведи 7000 рублей в евро",
             "expected_tool": "currency_converter",
             "expected_parameters": {
-            "from_currency": "RUB",
-            "to_currency": "EUR",
-            "amount": 7000
+                "from_currency": "RUB",
+                "to_currency": "EUR",
+                "amount": 7000
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000042",
@@ -573,10 +594,10 @@
             "query": "Сколько времени в Бангкоке",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "Bangkok"
+                "format": "24h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000043",
@@ -586,10 +607,10 @@
             "query": "Какая дата в Лондоне сейчас",
             "expected_tool": "get_date",
             "expected_parameters": {
-            "location": "London"
+                "format": "iso"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000044",
@@ -599,23 +620,25 @@
             "query": "Вычисли 10 + 20 * 3",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "10 + 20 * 3"
+                "expression": "10 + 20 * 3",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000045",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая погода в Хельсинки",
+            "query": "Какая погода в Хельсинки 2025-12-11",
             "expected_tool": "get_weather",
             "expected_parameters": {
-            "location": "Helsinki"
+                "location": "Helsinki",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000046",
@@ -625,12 +648,12 @@
             "query": "Переведи 5 евро в фунты",
             "expected_tool": "currency_converter",
             "expected_parameters": {
-            "from_currency": "EUR",
-            "to_currency": "GBP",
-            "amount": 5
+                "from_currency": "EUR",
+                "to_currency": "GBP",
+                "amount": 5
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000047",
@@ -640,23 +663,24 @@
             "query": "Сколько времени в Мадриде",
             "expected_tool": "get_time",
             "expected_parameters": {
-            "location": "Madrid"
+                "format": "24h"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000048",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Какая дата через 5 часов",
+            "query": "Какая дата через 5 дней",
             "expected_tool": "get_date",
             "expected_parameters": {
-            "date": "+5 hours"
+                "format": "iso",
+                "offset_days": "5"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000049",
@@ -666,10 +690,11 @@
             "query": "Вычисли (12 + 8) * 2",
             "expected_tool": "calculator",
             "expected_parameters": {
-            "expression": "(12 + 8) * 2"
+                "expression": "(12 + 8) * 2",
+                "precision": "2"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result"]
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         },
         {
             "id": "000050",
@@ -678,20 +703,25 @@
             "type": "misprint",
             "query": "Сколко щас времни в Токио",
             "expected_tool": "get_time",
-            "expected_parameters": { "location": "Tokyo" },
+            "expected_parameters": {
+                "format": "24h"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000051",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "misprint",
-            "query": "Ккакая погода в Санкт Птербурге",
+            "query": "Ккакая погода в Санкт Птербурге 2025-12-11",
             "expected_tool": "get_weather",
-            "expected_parameters": { "location": "Saint Petersburg" },
+            "expected_parameters": {
+                "location": "Saint Petersburg",
+                "date": "2025-12-11"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000052",
@@ -706,7 +736,7 @@
                 "amount": 100
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000053",
@@ -715,9 +745,11 @@
             "type": "misprint",
             "query": "Какая сегоня дата",
             "expected_tool": "get_date",
-            "expected_parameters": { "date": "today" },
+            "expected_parameters": {
+                "format": "iso"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000054",
@@ -726,9 +758,12 @@
             "type": "misprint",
             "query": "Вичисли 45 +23 *2",
             "expected_tool": "calculator",
-            "expected_parameters": { "expression": "45 + 23 * 2" },
+            "expected_parameters": {
+                "expression": "45 + 23 * 2",
+                "precision": "2"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000055",
@@ -737,23 +772,25 @@
             "type": "misprint",
             "query": "Сколько щас врмени в Нью Йорке",
             "expected_tool": "get_time",
-            "expected_parameters": { "location": "New York" },
+            "expected_parameters": {
+                "format": "24h"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000056",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "misprint",
-            "query": "Какая пагода завтра в Маскве",
+            "query": "Какая пагода завтра в Маскве 2025-12-11",
             "expected_tool": "get_weather",
             "expected_parameters": {
                 "location": "Moscow",
-                "date": "tomorrow"
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000057",
@@ -762,9 +799,12 @@
             "type": "misprint",
             "query": "Посчитай 125 /5+30",
             "expected_tool": "calculator",
-            "expected_parameters": { "expression": "125 / 5 + 30" },
+            "expected_parameters": {
+                "expression": "125 / 5 + 30",
+                "precision": "2"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000058",
@@ -773,9 +813,12 @@
             "type": "misprint",
             "query": "Сколько будт 2 в стпени 10",
             "expected_tool": "calculator",
-            "expected_parameters": { "expression": "2 ** 10" },
+            "expected_parameters": {
+                "expression": "2 ** 10",
+                "precision": "2"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000059",
@@ -784,20 +827,25 @@
             "type": "misprint",
             "query": "Какая седня дата",
             "expected_tool": "get_date",
-            "expected_parameters": { "date": "today" },
+            "expected_parameters": {
+                "format": "iso"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000060",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "misprint",
-            "query": "Сколько градусв в Пареже",
+            "query": "Сколько градусв в Пареже 2025-12-11",
             "expected_tool": "get_weather",
-            "expected_parameters": { "location": "Paris" },
+            "expected_parameters": {
+                "location": "Paris",
+                "date": "2025-12-11"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000061",
@@ -812,7 +860,7 @@
                 "amount": 5000
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000062",
@@ -821,9 +869,11 @@
             "type": "misprint",
             "query": "Скольк щас времени в Сиднее",
             "expected_tool": "get_time",
-            "expected_parameters": { "location": "Sydney" },
+            "expected_parameters": {
+                "format": "24h"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000063",
@@ -832,9 +882,12 @@
             "type": "misprint",
             "query": "Какая дта будет черз три дня",
             "expected_tool": "get_date",
-            "expected_parameters": { "date": "+3 days" },
+            "expected_parameters": {
+                "format": "iso",
+                "offset_days": "3" 
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000064",
@@ -843,30 +896,33 @@
             "type": "misprint",
             "query": "Вичисли 3 * (15+7)",
             "expected_tool": "calculator",
-            "expected_parameters": { "expression": "3 * (15 + 7)" },
+            "expected_parameters": {
+                "expression": "3 * (15 + 7)",
+                "precision": "2"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000065",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "misprint",
-            "query": "Какая погда в Берлине на выходных",
+            "query": "Какая погда в Берлине на выходных 2025-12-14",
             "expected_tool": "get_weather",
             "expected_parameters": {
                 "location": "Berlin",
-                "date": "weekend"
+                "date": "2025-12-14"
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000066",
             "complexity": "easy",
             "category": "tool_basic",
             "type": "misprint",
-            "query": "Переведи 200 евро в ины",
+            "query": "Переведи 200 евро в японские ины",
             "expected_tool": "currency_converter",
             "expected_parameters": {
                 "from_currency": "EUR",
@@ -874,7 +930,7 @@
                 "amount": 200
             },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000067",
@@ -883,9 +939,11 @@
             "type": "misprint",
             "query": "Сколко времни в Лондоне",
             "expected_tool": "get_time",
-            "expected_parameters": { "location": "London" },
+            "expected_parameters": {
+                "format": "24h" 
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000068",
@@ -894,9 +952,12 @@
             "type": "misprint",
             "query": "Какая дата вчера бла",
             "expected_tool": "get_date",
-            "expected_parameters": { "date": "yesterday" },
+            "expected_parameters": {
+                "format": "iso",
+                "date": "-1"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000069",
@@ -905,19 +966,23 @@
             "type": "misprint",
             "query": "Вычесли 99 -45+11",
             "expected_tool": "calculator",
-            "expected_parameters": { "expression": "99 - 45 + 11" },
+            "expected_parameters": {
+                "expression": "99 - 45 + 11",
+                "precision": "2"
+            },
             "requires_clarification": false,
-            "skills": ["Decision", "ToolSelection", "Params", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
             "id": "000070",
             "complexity": "medium",
             "category": "tool_basic",
             "type": "ambiguous",
-            "query": "Какая сейчас погода в столице?",
+            "query": "Какая погода 2025-12-11 в столице?",
             "expected_tool": "get_weather",
             "expected_parameters": {
-                "location": null
+                "location": null,
+                "date": "2025-12-11"
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -942,10 +1007,10 @@
             "complexity": "medium",
             "category": "tool_basic",
             "type": "ambiguous",
-            "query": "Сколько сейчас времени у нас?",
+            "query": "Сколько сейчас у нас?",
             "expected_tool": "get_time",
             "expected_parameters": {
-                "locations": null
+                "format": "24h"
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -955,11 +1020,11 @@
             "complexity": "medium",
             "category": "tool_basic",
             "type": "ambiguous",
-            "query": "Какая будет погода завтра?",
+            "query": "Какая будет погода 2025-12-12?",
             "expected_tool": "get_weather",
             "expected_parameters": {
                 "location": null,
-                "date": "tomorrow"
+                "date": "2025-12-12"
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -987,7 +1052,8 @@
             "query": "Скажи дату следующего понедельника.",
             "expected_tool": "get_date",
             "expected_parameters": {
-                "date": null
+                "format": "iso",
+                "offset_days": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1015,7 +1081,8 @@
             "query": "Какая погода там, где сейчас полдень?",
             "expected_tool": "get_weather",
             "expected_parameters": {
-                "location": null
+                "location": null,
+                "date": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1025,10 +1092,11 @@
             "complexity": "medium",
             "category": "tool_basic",
             "type": "ambiguous",
-            "query": "Сколько времени на западе США?",
+            "query": "Сколько времени на западе США в следующем месяце?",
             "expected_tool": "get_time",
             "expected_parameters": {
-                "location": null
+                "format": "24h",
+                "offset_hours": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1041,7 +1109,8 @@
             "query": "Вычисли 100 делить на половину",
             "expected_tool": "calculator",
             "expected_parameters": {
-                "expression": null
+                "expression": null,
+                "precision": "2"
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1054,7 +1123,7 @@
             "query": "Эй, слушай, ну просто скажи сколько времени в Берлине, если можешь.",
             "expected_tool": "get_time",
             "expected_parameters": {
-                "location": "Berlin"
+                "format": "24h"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
@@ -1064,10 +1133,11 @@
             "complexity": "easy",
             "category": "tool_basic",
             "type": "noise",
-            "query": "Просто интересно, какая погода в Москве, если вдруг там дождик или что-то такое.",
+            "query": "Просто интересно, какая погода в Москве 2025-12-11, если вдруг там дождик или что-то такое.",
             "expected_tool": "get_weather",
             "expected_parameters": {
-                "location": "Moscow"
+                "location": "Moscow",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
@@ -1095,7 +1165,7 @@
             "query": "А какая сейчас дата, ну если не учитывать там что понедельник — фигня ведь.",
             "expected_tool": "get_date",
             "expected_parameters": {
-                "date": "today"
+                "format": "iso"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
@@ -1108,7 +1178,8 @@
             "query": "Можешь вычислить 7 * 8 + 5, только без длинных объяснений, пожалуйста.",
             "expected_tool": "calculator",
             "expected_parameters": {
-                "expression": "7 * 8 + 5"
+                "expression": "7 * 8 + 5",
+                "precision": "2"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
@@ -1118,10 +1189,11 @@
             "complexity": "medium",
             "category": "tool_basic",
             "type": "noise",
-            "query": "Примерно сколько градусов в Тбилиси, ну если там солнце и всё такое.",
+            "query": "Примерно сколько градусов 2025-12-11 в Тбилиси, ну если там солнце и всё такое.",
             "expected_tool": "get_weather",
             "expected_parameters": {
-                "location": "Tbilisi"
+                "location": "Tbilisi",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
@@ -1134,7 +1206,8 @@
             "query": "Если не сложно, посчитай 20 + 22, я просто могу забыть.",
             "expected_tool": "calculator",
             "expected_parameters": {
-                "expression": "20 + 22"
+                "expression": "20 + 22",
+                "precision": "2"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
@@ -1159,10 +1232,11 @@
             "complexity": "easy",
             "category": "tool_basic",
             "type": "noise",
-            "query": "Между прочим, какая погода сейчас в Париже?",
+            "query": "Между прочим, какая погода 2025-12-11 в Париже?",
             "expected_tool": "get_weather",
             "expected_parameters": {
-                "location": "Paris"
+                "location": "Paris",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
@@ -1175,7 +1249,7 @@
             "query": "А сколько времени в Токио, ну если не считать что у меня сейчас вечер?",
             "expected_tool": "get_time",
             "expected_parameters": {
-                "location": "Tokyo"
+                "format": "24h"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
@@ -1188,7 +1262,7 @@
             "query": "Сколько времени в Нью-Йорке… подожди, лучше скажи в Лос-Анджелесе.",
             "expected_tool": "get_time",
             "expected_parameters": {
-                "location": "Los Angeles"
+                "format": "24h"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
@@ -1198,10 +1272,11 @@
             "complexity": "medium",
             "category": "tool_basic",
             "type": "adaptive",
-            "query": "Какая погода в Берлине… нет, давай всё-таки в Праге.",
+            "query": "Какая погода 2025-12-11 в Берлине… нет, давай всё-таки в Праге.",
             "expected_tool": "get_weather",
             "expected_parameters": {
-                "location": "Prague"
+                "location": "Prague",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
@@ -1211,7 +1286,7 @@
             "complexity": "medium",
             "category": "tool_basic",
             "type": "adaptive",
-            "query": "Переведи 100 долларов в евро… нет, лучше в иены.",
+            "query": "Переведи 100 долларов в евро… нет, лучше в японские иены.",
             "expected_tool": "currency_converter",
             "expected_parameters": {
                 "from_currency": "USD",
@@ -1229,7 +1304,8 @@
             "query": "Какая сегодня дата… нет, скажи дату через неделю.",
             "expected_tool": "get_date",
             "expected_parameters": {
-                "date": "+7 days"
+                "format": "iso",
+                "offset_days": "7"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
@@ -1242,7 +1318,8 @@
             "query": "Вычисли 45 + 23… стоп, давай 45 * 23.",
             "expected_tool": "calculator",
             "expected_parameters": {
-                "expression": "45 * 23"
+                "expression": "45 * 23",
+                "precision": "2"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
@@ -1255,7 +1332,7 @@
             "query": "Сколько времени в Москве… подожди, в Минске.",
             "expected_tool": "get_time",
             "expected_parameters": {
-                "location": "Minsk"
+                "format": "24h"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
@@ -1265,10 +1342,11 @@
             "complexity": "medium",
             "category": "tool_basic",
             "type": "adaptive",
-            "query": "Какая погода в Париже… стоп, я имел в виду Рим.",
+            "query": "Какая погода в 2025-12-11 Париже… стоп, я имел в виду Рим.",
             "expected_tool": "get_weather",
             "expected_parameters": {
-                "location": "Rome"
+                "location": "Rome",
+                "date": "2025-12-11"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
@@ -1296,7 +1374,7 @@
             "query": "Сколько времени в Токио… хотя нет, скажи в Сеуле.",
             "expected_tool": "get_time",
             "expected_parameters": {
-                "location": "Seoul"
+                "format": "24h"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
@@ -1309,10 +1387,461 @@
             "query": "Какая сегодня дата… нет, лучше скажи вчерашнюю.",
             "expected_tool": "get_date",
             "expected_parameters": {
-                "date": "yesterday"
+                "format": "iso",
+                "offset_days": "-1"
             },
             "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Adaptability", "Result"]
+        },
+        {
+            "id": "000501",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово hello на русский язык",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "hello",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        },
+        {
+            "id": "000502",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово мир на английский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "мир",
+                "source": "ru",
+                "target": "en"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        },
+        {
+            "id": "000503",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово кот на французский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "кот",
+                "source": "ru",
+                "target": "fr"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        },
+        {
+            "id": "000504",
+            "complexity": "medium",
+            "type": "misprint",
+            "category": "tool_basic",
+            "query": "Переведи helo на русский (кажется там ошибка)",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "hello",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+        },
+        {
+            "id": "000505",
+            "complexity": "medium",
+            "type": "misprint",
+            "category": "tool_basic",
+            "query": "Первеведи wodlr на русский, наверное world?",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "world",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+        },
+        {
+            "id": "000506",
+            "complexity": "medium",
+            "type": "misprint",
+            "category": "tool_basic",
+            "query": "Переведи првет на французский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "привет",
+                "source": "ru",
+                "target": "fr"
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+        },
+        {
+            "id": "000507",
+            "complexity": "medium",
+            "type": "ambiguous",
+            "category": "tool_basic",
+            "query": "Переведи слово good… ну в смысле хорошее или хорошего?",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "good",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+        },
+        {
+            "id": "000508",
+            "complexity": "medium",
+            "type": "ambiguous",
+            "category": "tool_basic",
+            "query": "Переведи слово на английский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": null,
+                "source": "ru",
+                "target": "en"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
+        },
+        {
+            "id": "000509",
+            "complexity": "medium",
+            "type": "ambiguous",
+            "category": "tool_basic",
+            "query": "Переведи слово night",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "night",
+                "source": "en",
+                "target": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
+        },
+        {
+            "id": "000510",
+            "complexity": "hard",
+            "type": "adaptive",
+            "category": "tool_basic",
+            "query": "Переведи слово вода на французский, а нет, передумала, давай на английский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "вода",
+                "source": "ru",
+                "target": "en"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+        },
+        {
+            "id": "000511",
+            "complexity": "hard",
+            "type": "adaptive",
+            "category": "tool_basic",
+            "query": "Переведи слово семья английский, а нет давай лучше слово мир",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "мир",
+                "source": "ru",
+                "target": "en"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+        },
+        {
+            "id": "000512",
+            "complexity": "hard",
+            "type": "adaptive",
+            "category": "tool_basic",
+            "query": "Переведи слово новый на английский, хотя давай на французский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "новый",
+                "source": "ru",
+                "target": "fr"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+        },
+        {
+            "id": "000513",
+            "complexity": "easy",
+            "type": "noise",
+            "category": "tool_basic",
+            "query": "Слушай, можешь, пожалуйста, ну перевести слово dog на русский? Просто интересно.",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "dog",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
+        },
+        {
+            "id": "000514",
+            "complexity": "easy",
+            "type": "noise",
+            "category": "tool_basic",
+            "query": "Кстати, раз уж мы тут, переведи слово цена на французский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "цена",
+                "source": "ru",
+                "target": "fr"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
+        },
+        {
+            "id": "000515",
+            "complexity": "easy",
+            "type": "noise",
+            "category": "tool_basic",
+            "query": "Эй, ну там, переведи пожалуйста world на русский, не слово home, ага?",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "world",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
+        },
+        {
+            "id": "000516",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово apple на русский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "apple",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        },
+        {
+            "id": "000517",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово чай на английский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "чай",
+                "source": "ru",
+                "target": "en"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        },
+        {
+            "id": "000518",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово город на французский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "город",
+                "source": "ru",
+                "target": "fr"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        },
+        {
+            "id": "000519",
+            "complexity": "medium",
+            "type": "misprint",
+            "category": "tool_basic",
+            "query": "Переведи sloow на русский — похоже, это slow",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "slow",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+        },
+        {
+            "id": "000520",
+            "complexity": "medium",
+            "type": "ambiguous",
+            "category": "tool_basic",
+            "query": "Переведи слово work",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "work",
+                "source": "en",
+                "target": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
+        },
+        {
+            "id": "000521",
+            "complexity": "hard",
+            "type": "adaptive",
+            "category": "tool_basic",
+            "query": "Переведи слово универcитет на английский, а если нужно уточнить — выбери правильную форму",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "университет",
+                "source": "ru",
+                "target": "en"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Execution", "Error Handling", "Result"]
+        },
+        {
+            "id": "000522",
+            "complexity": "easy",
+            "type": "noise",
+            "category": "tool_basic",
+            "query": "Ну переведи, пожалуйста, слово friend на русский, спасибо, дружище! только очень срочно сегодня надо, иду на собеседование",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "friend",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
+        },
+        {
+            "id": "000523",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово страна на французский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "страна",
+                "source": "ru",
+                "target": "fr"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        },
+        {
+            "id": "000524",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово night на французский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "night",
+                "source": "en",
+                "target": "fr"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        },
+        {
+            "id": "000525",
+            "complexity": "medium",
+            "type": "misprint",
+            "category": "tool_basic",
+            "query": "Переведи prce на русский — видимо price?",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "price",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+        },
+        {
+            "id": "000526",
+            "complexity": "medium",
+            "type": "ambiguous",
+            "category": "tool_basic",
+            "query": "Переведи слово друг",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "друг",
+                "source": "ru",
+                "target": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
+        },
+        {
+            "id": "000527",
+            "complexity": "hard",
+            "type": "adaptive",
+            "category": "tool_basic",
+            "query": "Переведи слово школа на французский, хотя лучше на английский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "школа",
+                "source": "ru",
+                "target": "en"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+        },
+        {
+            "id": "000528",
+            "complexity": "easy",
+            "type": "noise",
+            "category": "tool_basic",
+            "query": "Эээ, можешь перевести слово bus на русский? Просто ради интереса, нет денег на такси больше.",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "bus",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Noise", "Result"]
+        },
+        {
+            "id": "000529",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово market на русский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "market",
+                "source": "en",
+                "target": "ru"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        },
+        {
+            "id": "000530",
+            "complexity": "easy",
+            "type": "ordinary",
+            "category": "tool_basic",
+            "query": "Переведи слово хлеб на французский",
+            "expected_tool": "translate",
+            "expected_parameters": {
+                "text": "хлеб",
+                "source": "ru",
+                "target": "fr"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
         }
     ]
 }
