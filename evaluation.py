@@ -321,7 +321,7 @@ def calculate_final_score(df: pd.DataFrame) -> float:
 
 console = Console()
 
-def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: List[Dict[str, Any]]) -> None:
+def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: list[dict[str, Any]]) -> None:
     """Выводит таблицу с результатами бенчмарка."""
     
     metric_cols = [
