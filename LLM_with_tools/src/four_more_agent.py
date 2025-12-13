@@ -25,9 +25,14 @@ except ImportError:
 
 class BenchmarkAgent:
 
-    def __init__(
-        self,
-        model: str = "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    def __init__(self):
+        """Базовый конструктор - не используйте напрямую, используйте create()"""
+        pass
+
+    @classmethod
+    async def create(
+        cls,
+        model: str = "openai/gpt-oss-20b",
         *,
         use_retail: bool = True,
         use_weather: bool = True,
@@ -36,85 +41,74 @@ class BenchmarkAgent:
         use_trash: bool = True,
         use_aviation: bool = True,
         use_datetime: bool = True,
-        use_airbnb: bool = True,
-        use_flights: bool = True,
+        use_airbnb: bool = False,
+        use_flights: bool = False,
         verbose: bool = True,
-    ) -> None:
-        """Инициализирует агента для бенчмарка.
-
-        Args:
-            model: Идентификатор модели для OpenAI-совместимого API.
-            use_retail: Подключать ли ecommerce-инструменты.
-            use_weather: Подключать ли погодные/валютные инструменты.
-            use_translate: Подключать ли переводчик.
-            use_calculator: Подключать ли калькулятор.
-            use_trash: Подключать ли вспомогательные trash-инструменты.
-            use_aviation: Подключать ли авиа-инструменты(Non-MCP).
-            use_datetime: Подключать ли инструменты даты/времени.
-            use_airbnb: Запускать ли MCP-сервер Airbnb.
-            use_flights: Запускать ли MCP-сервер flights.
-            verbose: Выводить ли дополнительную диагностику при старте.
-        """
-        self.model = model
-        self.verbose = verbose
-        self.openai_client = self._build_client()
-        self.openai_tools: List[Dict[str, Any]] = []
-        self.executors: Dict[str, Any] = {}
-        self.mcp_clients: Dict[str, Any] = {}
+    ):
+        """Асинхронный конструктор для BenchmarkAgent."""
+        instance = cls()
+        
+        instance.model = model
+        instance.verbose = verbose
+        instance.openai_client = cls._build_client()  # Используем cls вместо instance
+        instance.openai_tools = []
+        instance.executors = {}
+        instance.mcp_clients = {}
 
         if use_retail:
             from retail_tools import EcommerceTools
-
             retail_tools = EcommerceTools.get_tools_metadata()
-            self.openai_tools.extend(self._convert_tools(retail_tools))
-            self.executors.update(self._get_retail_executors())
+            instance.openai_tools.extend(instance._convert_tools(retail_tools))
+            instance.executors.update(instance._get_retail_executors())
 
         if use_weather:
             from weather_and_convert import MiscTools
-
             weather_tools = MiscTools.get_tools_metadata()
-            self.openai_tools.extend(self._convert_tools(weather_tools))
-            self.executors.update(self._get_weather_executors())
+            instance.openai_tools.extend(instance._convert_tools(weather_tools))
+            instance.executors.update(instance._get_weather_executors())
 
         if use_translate:
             from trans import TranslateTools
-
             translate_tools = TranslateTools.get_tools_metadata()
-            self.openai_tools.extend(self._convert_tools(translate_tools))
-            self.executors.update(self._get_translate_executors())
+            instance.openai_tools.extend(instance._convert_tools(translate_tools))
+            instance.executors.update(instance._get_translate_executors())
 
         if use_calculator:
             from caclute import CalculatorTool
-
             calculator_tools = CalculatorTool.get_tools_metadata()
-            self.openai_tools.extend(self._convert_tools(calculator_tools))
-            self.executors.update(self._get_calculator_executors())
+            instance.openai_tools.extend(instance._convert_tools(calculator_tools))
+            instance.executors.update(instance._get_calculator_executors())
 
         if use_trash:
             from trash import NullTools
-
             trash_tools = NullTools.get_tools_metadata()
-            self.openai_tools.extend(self._convert_tools(trash_tools))
-            self.executors.update(self._get_trash_executors())
+            instance.openai_tools.extend(instance._convert_tools(trash_tools))
+            instance.executors.update(instance._get_trash_executors())
+            
         if use_aviation:
             from avia_tools import AviationTools
             aviation_tools = AviationTools.get_tools_metadata()
-            self.openai_tools.extend(self._convert_tools(aviation_tools))
-            self.executors.update(self._get_aviation_executors())
+            instance.openai_tools.extend(instance._convert_tools(aviation_tools))
+            instance.executors.update(instance._get_aviation_executors())
+            
         if use_datetime:
             from datetime_tools import DateTimeTools
             datetime_tools = DateTimeTools.get_tools_metadata()
-            self.openai_tools.extend(self._convert_tools(datetime_tools))
-            self.executors.update(self._get_datetime_executors())
+            instance.openai_tools.extend(instance._convert_tools(datetime_tools))
+            instance.executors.update(instance._get_datetime_executors())
+
         # MCP-серверы поднимаем только при явном запросе.
         if use_airbnb or use_flights:
-            self._setup_mcp_clients(use_airbnb=use_airbnb, use_flights=use_flights)
-            self._register_mcp_tools()
+            await instance._setup_mcp_clients(use_airbnb=use_airbnb, use_flights=use_flights)
+            await instance._register_mcp_tools()
 
-        if self.verbose:
-            print(f"Агент инициализирован с {len(self.openai_tools)} инструментами")
+        if verbose:
+            print(f"Агент инициализирован с {len(instance.openai_tools)} инструментами")
+        
+        return instance
 
-    def _build_client(self) -> OpenAI:
+    @staticmethod
+    def _build_client() -> OpenAI:
         """Создаёт аутентифицированный клиент OpenAI.
 
         Returns:
@@ -127,15 +121,7 @@ class BenchmarkAgent:
         )
 
     def _convert_tools(self, tools_meta: List[Any], *, strict: bool = False) -> List[Dict[str, Any]]:
-        """Преобразует произвольные описания тулзов в формат OpenAI.
-
-        Args:
-            tools_meta: Исходные метаданные от поставщиков инструментов.
-            strict: Запрещать ли дополнительные параметры в схемах.
-
-        Returns:
-            List[Dict[str, Any]]: Описания функций, совместимые с OpenAI.
-        """
+        """Преобразует произвольные описания тулзов в формат OpenAI."""
         converted: List[Dict[str, Any]] = []
         for tool in tools_meta:
             params = tool.get("parameters") or tool.get("inputSchema") or {}
@@ -250,16 +236,9 @@ class BenchmarkAgent:
             if not name.startswith("_")
         }
 
-    def _setup_mcp_clients(self, *, use_airbnb: bool, use_flights: bool) -> None:
-        """Поднимает нужные MCP-клиенты в текущем процессе.
-
-        Args:
-            use_airbnb: Создавать ли клиент Airbnb MCP.
-            use_flights: Создавать ли клиент flights MCP.
-        """
+    async def _setup_mcp_clients(self, *, use_airbnb: bool, use_flights: bool) -> None:
+        """Поднимает нужные MCP-клиенты в текущем процессе."""
         from fastmcp import Client
-
-        loop = asyncio.get_event_loop()
 
         if use_airbnb:
             airbnb_config = {
@@ -271,7 +250,7 @@ class BenchmarkAgent:
                 }
             }
             airbnb_client = Client(airbnb_config)
-            loop.run_until_complete(airbnb_client.__aenter__())
+            await airbnb_client.__aenter__()
             self.mcp_clients["airbnb"] = airbnb_client
 
         if use_flights:
@@ -287,19 +266,17 @@ class BenchmarkAgent:
                 }
             }
             flights_client = Client(flights_config)
-            loop.run_until_complete(flights_client.__aenter__())
+            await flights_client.__aenter__()
             self.mcp_clients["flights"] = flights_client
 
-    def _register_mcp_tools(self) -> None:
+    async def _register_mcp_tools(self) -> None:
         """Запрашивает манифесты MCP-клиентов и регистрирует инструменты."""
         if not self.mcp_clients:
             return
 
-        loop = asyncio.get_event_loop()
-
         for name, client in self.mcp_clients.items():
             try:
-                listing = loop.run_until_complete(client.list_tools())
+                listing = await client.list_tools()
             except Exception as exc:
                 if self.verbose:
                     print(f"Не удалось получить инструменты MCP '{name}': {exc}")
@@ -412,7 +389,6 @@ class BenchmarkAgent:
                 "result": {"error": str(exc)},
             }
 
-
     async def run_single_query_async(
         self,
         *,
@@ -420,73 +396,144 @@ class BenchmarkAgent:
         system_prompt: str,
         query_id: str,
     ) -> Dict[str, Any]:
-        """Асинхронно делает один вызов модели и при необходимости запускает тул.
+        """Асинхронный вызов модели с реальным запуском инструментов."""
 
-        Args:
-            user_query: Текстовый запрос из датасета.
-            system_prompt: Общий системный промпт бенчмарка.
-            query_id: Идентификатор запроса для логов/метрик.
-
-        Returns:
-            Dict[str, Any]: Структурированный ответ с деталями выполнения тула.
-        """
-        
-        loop = asyncio.get_event_loop()
-        response = await loop.run_in_executor(
-            None,
-            lambda: self.openai_client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_query},
-                ],
-                tools=self.openai_tools,
-                tool_choice="auto",
-            )
-        )
-
-        serialized = {
-            "content": getattr(response.choices[0].message, "content", None),
-            "tool_calls": [
-                {
-                    "id": call.id,
-                    "name": call.function.name,
-                    "arguments": call.function.arguments,
-                }
-                for call in getattr(response.choices[0].message, "tool_calls", [])
-            ],
+        settings = OpenAISettings()
+        headers = {
+            "Authorization": f"Bearer {settings.openai_api_key.get_secret_value()}",
+            "Content-Type": "application/json",
         }
+
+        payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_query},
+            ],
+            "max_tokens": 2048,
+            "temperature": 0.0,  
+        }
+
+        if self.openai_tools:
+            payload["tools"] = self.openai_tools
+            payload["tool_choice"] = "auto"
+
+        import aiohttp
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                "https://integrate.api.nvidia.com/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=120),
+            ) as resp:
+                data = await resp.json()
+
+        message = data["choices"][0]["message"]
+        content = message.get("content") or message.get("reasoning_content") or ""
+        
+        # Парсим JSON из ответа
+        try:
+            parsed = json.loads(content)
+        except Exception:
+            parsed = {}
+
+        tool_call_data = parsed.get("tool_call")
+        tool_result = None
+
+        # Реальный вызов инструмента
+        if tool_call_data and tool_call_data.get("called"):
+            tool_name = tool_call_data["tool_name"]
+            params = tool_call_data.get("parameters", {})
+            tool_result = await self._execute_tool_call(tool_name, params)
+            parsed["tool_call"]["called"] = True  # фиксируем
+
+        # Сокращаем reasoning
+        internal = parsed.get("internal", {})
+        if "reasoning" in internal:
+            internal["reasoning"] = internal["reasoning"].split(".")[0]  # одно короткое предложение
+
+        return {
+            "tool_call": tool_result["tool_call"] if tool_result else parsed.get("tool_call"),
+            "tool_result": tool_result["result"] if tool_result else None,
+            "user_message": None if tool_result else parsed.get("user_message"),
+            "clarification_question": parsed.get("clarification_question"),
+            "assistant_response": content,
+            "internal": internal,
+        }
+    # async def run_single_query_async(
+    #     self,
+    #     *,
+    #     user_query: str,
+    #     system_prompt: str,
+    #     query_id: str,
+    # ) -> Dict[str, Any]:
+    #     """Асинхронно делает один вызов модели и при необходимости запускает тул.
+
+    #     Args:
+    #         user_query: Текстовый запрос из датасета.
+    #         system_prompt: Общий системный промпт бенчмарка.
+    #         query_id: Идентификатор запроса для логов/метрик.
+
+    #     Returns:
+    #         Dict[str, Any]: Структурированный ответ с деталями выполнения тула.
+    #     """
+        
+    #     loop = asyncio.get_event_loop()
+    #     response = await loop.run_in_executor(
+    #         None,
+    #         lambda: self.openai_client.chat.completions.create(
+    #             model=self.model,
+    #             messages=[
+    #                 {"role": "system", "content": system_prompt},
+    #                 {"role": "user", "content": user_query},
+    #             ],
+    #             tools=self.openai_tools,
+    #             tool_choice="auto",
+    #         )
+    #     )
+
+    #     serialized = {
+    #         "content": getattr(response.choices[0].message, "content", None),
+    #         "tool_calls": [
+    #             {
+    #                 "id": call.id,
+    #                 "name": call.function.name,
+    #                 "arguments": call.function.arguments,
+    #             }
+    #             for call in getattr(response.choices[0].message, "tool_calls", [])
+    #         ],
+    #     }
       
 
 
-        tool_calls = getattr(response.choices[0].message, "tool_calls", [])
-        if tool_calls:
-            call = tool_calls[0]
-            arguments = json.loads(call.function.arguments)
-            tool_result = await self._execute_tool_call(call.function.name, arguments)
-            return {
-                "tool_call": tool_result["tool_call"],
-                "tool_result": tool_result["result"],
-                "user_message": None,
-                "clarification_question": None,
-                "assistant_response": serialized.get("content"),
-                "internal": {
-                    "query_id": query_id,
-                    "raw_response": serialized,
-                },
-            }
+    #     tool_calls = getattr(response.choices[0].message, "tool_calls", [])
+    #     if tool_calls:
+    #         call = tool_calls[0]
+    #         arguments = json.loads(call.function.arguments)
+    #         tool_result = await self._execute_tool_call(call.function.name, arguments)
+    #         return {
+    #             "tool_call": tool_result["tool_call"],
+    #             "tool_result": tool_result["result"],
+    #             "user_message": None,
+    #             "clarification_question": None,
+    #             "assistant_response": serialized.get("content"),
+    #             "internal": {
+    #                 "query_id": query_id,
+    #                 "raw_response": serialized,
+    #             },
+    #         }
 
-        return {
-            "tool_call": None,
-            "tool_result": None,
-            "user_message": serialized.get("content"),
-            "clarification_question": None,
-            "assistant_response": serialized.get("content"),
-            "internal": {
-                "query_id": query_id,
-                "raw_response": serialized,
-            },
-        }
+    #     return {
+    #         "tool_call": None,
+    #         "tool_result": None,
+    #         "user_message": serialized.get("content"),
+    #         "clarification_question": None,
+    #         "assistant_response": serialized.get("content"),
+    #         "internal": {
+    #             "query_id": query_id,
+    #             "raw_response": serialized,
+    #         },
+    #     }
     def run_single_query(
         self,
         *,
@@ -565,32 +612,19 @@ async def run_benchmark_async(
     system_prompt: str,
     inputs_for_llm: List[Dict[str, Any]],
     inputs_for_logging: List[Dict[str, Any]],
-    model: str = "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    model: str = "openai/gpt-oss-20b",
     use_retail: bool = True,
     use_weather: bool = True,
     use_translate: bool = True,
     use_calculator: bool = True,
     use_trash: bool = False,
     use_aviation: bool = True,
+    use_datetime: bool = True,
     use_airbnb: bool = False,
     use_flights: bool = False,
     verbose: bool = True,
-    max_concurrent: int = 8,  # ← НОВЫЙ ПАРАМЕТР
+    max_concurrent: int = 8,
 ) -> Dict[str, Any]:
-    """
-    Асинхронно запускает все запросы через агента с ограничением конкурентности.
-    
-    Args:
-        system_prompt: Системный промпт для агента
-        inputs_for_llm: Список запросов для модели
-        inputs_for_logging: Список ground truth данных
-        model: Название модели
-        verbose: Выводить прогресс
-        max_concurrent: Максимальное количество одновременных запросов
-    
-    Returns:
-        Словарь с результатами бенчмарка
-    """
     if verbose:
         print(f"\n{'=' * 70}")
         print("RUSSIAN TOOL ВЫЗОВ БЕНЧМАРКА (ASYNC)")
@@ -600,7 +634,8 @@ async def run_benchmark_async(
         print(f"Параллельных запросов: {max_concurrent}")
         print(f"{'=' * 70}\n")
 
-    agent = BenchmarkAgent(
+    # ИСПОЛЬЗУЕМ АСИНХРОННЫЙ КОНСТРУКТОР
+    agent = await BenchmarkAgent.create(
         model=model,
         use_retail=use_retail,
         use_weather=use_weather,
@@ -608,6 +643,7 @@ async def run_benchmark_async(
         use_calculator=use_calculator,
         use_trash=use_trash,
         use_aviation=use_aviation,
+        use_datetime=use_datetime,
         use_airbnb=use_airbnb,
         use_flights=use_flights,
         verbose=False,
@@ -713,7 +749,7 @@ def run_benchmark(
     system_prompt: str,
     inputs_for_llm: List[Dict[str, Any]],
     inputs_for_logging: List[Dict[str, Any]],
-    model: str = "Qwen/Qwen3-235B-A22B-Instruct-2507",
+    model: str = "openai/gpt-oss-20b",
     use_retail: bool = True,
     use_weather: bool = True,
     use_translate: bool = True,
@@ -940,7 +976,7 @@ def main() -> None:
     parser.add_argument(
         "--model",
         type=str,
-        default="Qwen/Qwen3-235B-A22B-Instruct-2507",
+        default="openai/gpt-oss-20b",
         help="Model name to use",
     )
     parser.add_argument(
@@ -988,15 +1024,34 @@ def main() -> None:
     if use_flights and not args.flights and auto_flights:
         print("Flights MCP Подключен")
 
-    results = run_benchmark(
-        system_prompt=default_system_prompt,
-        inputs_for_llm=inputs_for_llm,
-        inputs_for_logging=inputs_for_logging,
-        model=args.model,
-        use_airbnb=use_airbnb,
-        use_flights=use_flights,
-        verbose=not args.quiet,
-        max_concurrent=args.concurrent
+    # results = run_benchmark(
+    #     system_prompt=default_system_prompt,
+    #     inputs_for_llm=inputs_for_llm,
+    #     inputs_for_logging=inputs_for_logging,
+    #     model=args.model,
+    #     use_airbnb=use_airbnb,
+    #     use_flights=use_flights,
+    #     verbose=not args.quiet,
+    #     max_concurrent=args.concurrent
+    # )
+    results = asyncio.run(
+        run_benchmark_async(
+            system_prompt=default_system_prompt,
+            inputs_for_llm=inputs_for_llm,
+            inputs_for_logging=inputs_for_logging,
+            model=args.model,
+            use_airbnb=use_airbnb,
+            use_flights=use_flights,
+            verbose=not args.quiet,
+            max_concurrent=args.concurrent,
+            use_retail=True,
+            use_weather=True,
+            use_translate=True,
+            use_calculator=True,
+            use_trash=False,
+            use_aviation=True,
+            use_datetime=True,
+        )
     )
 
     save_results(results, filename=args.output)
@@ -1007,4 +1062,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    
+   
+        

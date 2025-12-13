@@ -1,23 +1,19 @@
 {
         "queries_booking": [
-        {
-            "id": "000360",
+       {
+            "id": "000401",
             "complexity": "hard",
-            "category": "tool_hotel",
-            "type": "misprint",
-            "query": "какая дата будет через 10 ",
-            "expected_tool": "airbnb_search",
+            "type": "chain",
+            "query": "Найди мне недорогие беспроводные наушники до 1000 рублей и сразу переведи их цену в доллары.",
+            "expected_tool": "search_products, currency_converter",
             "expected_parameters": {
-                "location": "Токио",
-                "adults": 2, 
-                "children": 1,
-                "pets": 1,
-                "minPrice": 100,
-                "maxPrice": 300,
-                "ignoreRobotsText": true
+            "query": "беспроводные наушники",
+            "from_currency": "RUB",
+            "to_currency": "USD",
+            "amount": null
             },
             "requires_clarification": false,
-            "skills": ["Decision", "Tool selection", "Params", "Error Handling", "Result", "Ambiguity"]
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
         }
         
     ]
