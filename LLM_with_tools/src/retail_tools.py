@@ -30,7 +30,7 @@ class EcommerceTools:
             },
             {
                 "name": "search_products",
-                "description": "Ищет товары по запросу",
+                "description": "Ищет товары по запросу и возвращает результат в виде массива products, где каждый элемент имеет формат: {\"id\": string, \"name\": string, \"price\": number}. Пример: products = [{\"id\": \"P001\", \"name\": \"<query> Pro\", \"price\": 299}, {\"id\": \"P002\", \"name\": \"<query> Standard\", \"price\": 199}, {\"id\": \"P003\", \"name\": \"<query> Lite\", \"price\": 99}].",
                 "parameters": {
                     "type": "object",
                     "properties": {
