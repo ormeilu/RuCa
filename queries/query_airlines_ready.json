@@ -8,9 +8,9 @@
       "query": "Хочу забронировать билет из Москвы в Париж на 2025-06-10 эконом класс, меня зовут Иван Иванов",
       "expected_tool": "BookingService",
       "expected_parameters": {
-          "passenger_name": "Ivan Ivanov",
-          "origin": "MOW",
-          "destination": "PAR",
+          "passenger_name": "Иван Иванов",
+          "origin": "Moscow",
+          "destination": "Paris",
           "date": "2025-06-10",
           "seat_class": "economy"
       },
@@ -22,7 +22,7 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Измени дату моего вылета BK123456 на 15 октября SC2421",
+      "query": "Измени дату моего вылета  на 15 октября 2026  айди - BK123456 , новый номер рейса SC2421",
       "expected_tool": "RebookingService",
       "expected_parameters": {
         "booking_id": "BK123456",
@@ -37,10 +37,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Проверь статус рейса SU245 на 2025-06-10",
+      "query": "Проверь статус рейса  на 2025-06-10",
       "expected_tool": "FlightStatusService",
       "expected_parameters": {
-        "flight_number": "SU245",
+        
         "date": "2025-06-10"
       },
       "requires_clarification": false,
@@ -51,10 +51,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Зарегистрируй меня на рейс LH876 на место 12A",
+      "query": "Зарегистрируй меня на рейс  на место 12A",
       "expected_tool": "CheckInService",
       "expected_parameters": {
-        "flight_number": "LH876",
+        
         "seat": "12A"
       },
       "requires_clarification": false,
@@ -65,10 +65,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Хочу апгрейд до бизнес-класса на рейс QR114",
+      "query": "Хочу апгрейд до бизнес-класса на рейс ",
       "expected_tool": "UpgradeService",
       "expected_parameters": {
-        "booking_id": "QR114",
+        
         "new_class": "business"
       },
       "requires_clarification": false,
@@ -79,10 +79,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Оплати мой билет BK12345  с карты на сумму 23 500 рублей",
+      "query": "Оплати мой билет   с карты на сумму 23 500 рублей",
       "expected_tool": "PaymentService",
       "expected_parameters": {
-        "booking_id": "BK12345",
+        
         "amount": 23500,
         "method": "card"
       },
@@ -109,12 +109,12 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Найди мой зарегестрированный багаж по номеру BK77777 весом 23",
-      "expected_tool": "BaggageService"  ,
+      "query": "Найди мой зарегестрированный багаж по номеру  весом 23 , Меня зовут Николай Соболев, бирка багажа 123456",
+      "expected_tool": "LostAndFoundService",  
       "expected_parameters": {
-        "booking_id": "BK77777",
-        "weight": 23,
-        "type": "checked"
+        "passenger_name": "Николай Соболев",
+        "flight_number": "BK77777",
+        "baggage_tag": "123456"
          
       },
       "requires_clarification": false,
@@ -125,10 +125,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Покажи схему мест на рейс AF345 2025-07-20",
+      "query": "Покажи схему мест на рейс  2025-07-20",
       "expected_tool": "SeatMapService",
       "expected_parameters": {
-        "flight_number": "AF345",
+        
         "date": "2025-07-20"
       },
       "requires_clarification": false,
@@ -139,10 +139,11 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Хочу вернуть деньги за отменённый рейс 88888",
+      "query": "Хочу вернуть деньги за отменённый , букинг айди - 88888",
       "expected_tool": "RefundService",
       "expected_parameters": {
-        "flight_number": "8888"
+        "booking_id": "8888",
+        "reason": "cancelled"
         
       },
       "requires_clarification": false,
@@ -156,8 +157,8 @@
       "query": "Система подтвердила задержку рейса SU245?",
       "expected_tool": "OpsService",
       "expected_parameters": {
-        "flight_number": "SU245",
-        "query_type": "delay"
+        "flight_number": "SU245"
+        
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -182,11 +183,11 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Добавь багаж к моему билет BK22334",
+      "query": "Добавь вайфай к моему билет",
       "expected_tool": "AncillariesService",
       "expected_parameters": {
-        "booking_id": "BK22334",
-        "service": "baggage"
+        
+        "service": "Wi-Fi"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -196,10 +197,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Подключи Wi-Fi на борту рейса EK215",
+      "query": "Подключи Wi-Fi на борту рейса ",
       "expected_tool": "AncillariesService",
       "expected_parameters": {
-        "booking_id": "EK215",
+        
         "service": "Wi-Fi"
       },
       "requires_clarification": false,
@@ -210,10 +211,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Оформи стандартную страховку на перелёт BK11223 ",
+      "query": "Оформи стандартную страховку на перелёт  ",
       "expected_tool": "InsuranceService",
       "expected_parameters": {
-        "booking_id": "BK11223",
+       
         "insurance_type": "standard"
       },
       "requires_clarification": false,
@@ -229,8 +230,8 @@
       "expected_parameters": {
         "weight": 20,
         "cargo_type": "fragile",
-        "origin": "MOW",
-        "destination": "BER"
+        "origin": "Moscow",
+        "destination": "Berlin"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -243,7 +244,7 @@
       "query": "Проверь, найден ли мой утерянный чемодан с багажной биркой 123456 на рейсе SU245, меня зовут Иван Петров",
       "expected_tool": "LostAndFoundService",
       "expected_parameters": {
-        "passenger_name": "Ivan Petrov",
+        "passenger_name": "Иван Петров",
         "flight_number": "SU245",
         "baggage_tag": "123456"
       },
@@ -258,7 +259,7 @@
       "query": "Подтверди личность по паспорту 4510 234567, меня зовут Иван Петров, дата рождения 1990-02-15",
       "expected_tool": "IdentityVerificationService",
       "expected_parameters": {
-        "passenger_name": "Ivan Petrov",
+        "passenger_name": "Иван Петров",
         "document_number": "4510 234567",
         "birthdate": "1990-02-15"
       },
@@ -270,12 +271,12 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "У меня задержка рейса, дайте отель в Москве на 1 ночь, меня зовут Иван Иванов",
+      "query": "У меня задержка рейса, дайте отель в Москве(SVO) на 1 ночь, меня зовут Иван Иванов",
       "expected_tool": "HotelService",
       "expected_parameters": {
-        "airport": "MOW",
+        "airport": "SVO",
         "nights": 1,
-        "passenger_name": "Ivan Ivanov"
+        "passenger_name": "Иван Иванов"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -300,10 +301,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Выбери место у окна в эконом-классе на рейс AF345 2025-04-12",
+      "query": "Дай мне схему салона на рейс 2025-04-12",
       "expected_tool": "SeatMapService",
       "expected_parameters": {
-        "flight_number": "AF345",
+        
         "date": "2025-04-12"
       },
       "requires_clarification": false,
@@ -314,10 +315,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Проверь, активна ли стандартная страховка по номеру билета BK11223",
+      "query": "Сделай стандартную страховка по номеру билета",
       "expected_tool": "InsuranceService",
       "expected_parameters": {
-        "booking_id": "BK11223",
+       
         "insurance_type": "standard"
 
       },
@@ -329,11 +330,11 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Добавь питание без глютена(meal) на борт моего рейса BK22334",
+      "query": "Добавь wifi на борт моего рейса",
       "expected_tool": "AncillariesService",
       "expected_parameters": {
         "booking_id": "BK22334",
-        "service": "meal"
+        "service": "Wi-Fi"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -343,10 +344,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Улучши мой билет BK12345 до бизнес-класса",
+      "query": "Улучши мой билет  до бизнес-класса",
       "expected_tool": "UpgradeService",
       "expected_parameters": {
-        "booking_id": "BK12345",
+        
         "new_class": "business"
       },
       "requires_clarification": false,
@@ -357,7 +358,7 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Хочу изменить дату вылета моего рейса BK54321 на 15 июня на рейс SU200",
+      "query": "Хочу изменить дату вылета моего рейса с айди BK54321 на 15  июня  2025 на рейс SU200",
       "expected_tool": "RebookingService",
       "expected_parameters": {
           "booking_id": "BK54321",
@@ -372,11 +373,11 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Закажи дополнительное питание на борту моего рейса BK22334",
+      "query": "Закажи вай фай на борту моего рейса ",
       "expected_tool": "AncillariesService",
       "expected_parameters": {
-        "booking_id": "BK22334",
-        "service": "meal"
+        
+        "service": "WI-FI"
 
       },
       "requires_clarification": false,
@@ -387,13 +388,13 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Отправь груз весом 150 кг, хрупкий, из Шереметьево в Берлин",
+      "query": "Отправь груз весом 150 кг, хрупкий, из Москва в Берлин",
       "expected_tool": "CargoService",
       "expected_parameters": {
         "weight": 150,
         "cargo_type": "fragile",
-        "origin": "SVO",
-        "destination": "BER"
+        "origin": "Moscow",
+        "destination": "Berlin"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -403,12 +404,12 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "У меня задержка рейса в Дубай, забронируй отель на 1 ночь, меня зовут Иван Иванов",
+      "query": "У меня задержка рейса в Дубай DXB , забронируй отель на 1 ночь, меня зовут Иван Иванов",
       "expected_tool": "HotelService",
       "expected_parameters": {
         "airport": "DXB",
         "nights": 1,
-        "passenger_name": "Ivan Ivanov"
+        "passenger_name": "Иван Иванов"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -423,7 +424,7 @@
       "expected_parameters": {
         "flight_number": "LH245",
         "reason": "lost_baggage",
-        "passenger_name": "Ivan Petrov"
+        "passenger_name": "Иван Петров"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -448,10 +449,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Зарегистрируй меня на завтрашний рейс SU300 и выбери место 12A",
+      "query": "Зарегистрируй меня на завтрашний рейс и выбери место 12A",
       "expected_tool": "CheckInService",
       "expected_parameters": {
-        "booking_id": "SU300",
+       
         "seat": "12A"
       },
       "requires_clarification": false,
@@ -462,12 +463,12 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Забронируй билет в Лондон на 10 июня 2025 года эконом-класс, меня зовут Иван Иванов",
+      "query": "Забронируй билет в Лондон из Москвы на 10 июня 2025 года эконом-класс, меня зовут Иван Иванов",
       "expected_tool": "BookingService",
       "expected_parameters": {
-        "passenger_name": "Ivan Ivanov",
-        "origin": "MOW",
-        "destination": "LON",
+        "passenger_name": "Иван Иванов",
+        "origin": "Moscow",
+        "destination": "London",
         "date": "2025-06-10",
         "seat_class": "economy"
       },
@@ -479,10 +480,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Проверь статус рейса AF234 из Парижа на 1 апреля 2025 года",
+      "query": "Проверь статус рейса  из Парижа на 1 апреля 2025 года",
       "expected_tool": "FlightStatusService",
       "expected_parameters": {
-         "flight_number": "AF234",
+         
         "date": "2025-04-01"
       },
       "requires_clarification": false,
@@ -496,7 +497,7 @@
       "query": "Проверь, найден ли мой утерянный чемодан с багажной биркой 123456 на рейсе SU245, меня зовут Ivan Petrov",
       "expected_tool": "LostAndFoundService",
       "expected_parameters": {
-        "passenger_name": "Ivan Petrov",
+        "passenger_name": "Иван Петров",
         "flight_number": "SU245",
         "baggage_tag": "123456"
       },
@@ -508,11 +509,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Добавь  вайфай к моему билету BK22334",
+      "query": "Добавь  вайфай к моему билету ",
       "expected_tool": "AncillariesService",
       "expected_parameters": {
-        "service": "Wi-Fi",
-        "booking_id": "BK22334"
+        "service": "Wi-Fi"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -556,8 +556,8 @@
       "expected_parameters": {
         "weight": 150,
         "cargo_type": "fragile",
-        "origin": "LON",
-        "destination": "MOW"
+        "origin": "London",
+        "destination": "Moscow"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -582,12 +582,14 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Найди мой зарегестрированный багаж по номеру BK77777 весом 23",
-      "expected_tool": "BaggageService",
+      "query": "Найди мой зарегестрированный багаж по номеру BK77777 весом 23, Меня зовут Саня Петров, бирка багажа 654321",
+      "expected_tool": "LostAndFoundService",
       "expected_parameters": {
-        "booking_id": "BK77777",
-        "weight": 23,
-        "type": "checked"
+        
+        "flight_number": "BK77777",
+        "baggage_tag": "654321",
+        "passenger_name": "Саня Петров"
+        
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -597,10 +599,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Зарегистрируй меня на рейс BA123256 и выбери место 32A",
+      "query": "Зарегистрируй меня на рейс  и выбери место 32A",
       "expected_tool": "CheckInService",
       "expected_parameters": {
-        "booking_id": "BA123256",
+        
         "seat": "32A"
       },
       "requires_clarification": false,
@@ -611,10 +613,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Проверь статус рейса QR987 на 1 апреля 2025 года",
+      "query": "Проверь статус рейса  на 1 апреля 2025 года",
       "expected_tool": "FlightStatusService",
       "expected_parameters": {
-        "flight_number": "QR987",
+        
         "date": "2025-04-01"
       },
       "requires_clarification": false,
@@ -654,12 +656,12 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Хочу забронировать билет из Москвы в Прагу на 2025-06-10 эконом класс, меня зовут Ivan Ivanov",
+      "query": "Хочу забронировать билет из Москвы в Лондон на 2025-06-10 эконом класс, меня зовут Ivan Ivanov",
       "expected_tool": "BookingService",
       "expected_parameters": {
-        "passenger_name": "Ivan Ivanov",
-        "origin": "MOW",
-        "destination": "PRG",
+        "passenger_name": "Иван Иванов",
+        "origin": "Moscow",
+        "destination": "London",
         "date": "2025-06-10",
         "seat_class": "economy"
       },
@@ -671,7 +673,7 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Проверь системную задержку багажа 5566",
+      "query": "Проверь системную задержку номер полёта 5566",
       "expected_tool": "OpsService",
       "expected_parameters": {
         "flight_number": "5566"
@@ -689,7 +691,7 @@
       "expected_parameters": {
         "flight_number": "LY245",
         "reason": "delay",
-        "passenger_name": "Ivan Petrov"
+        "passenger_name": "Иван Петров"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -699,10 +701,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Добавь вайфай к текущему билету BK22334",
+      "query": "Добавь вайфай к текущему билету ",
       "expected_tool": "InsuranceService",
       "expected_parameters": {
-           "booking_id": "BK22334",
+           
             "service": "Wi-Fi"
       },
       "requires_clarification": false,
@@ -728,11 +730,11 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "ordinary",
-      "query": "Добавь к билету BA322 услугу «приоритетная посадка»",
+      "query": "Добавь к билету  услугу «приоритетная посадка»",
       "expected_tool": "AncillariesService",
       "expected_parameters": {
-        "service": "priority_boarding",
-        "booking_id": "BA322"
+        "service": "priority_boarding"
+        
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result"]
@@ -742,10 +744,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Потерялс мой бгж 123456 на рейс SU245, мея зовт Ivan Petrov",
+      "query": "Потерялс мой бгж 123456 на рейс SU245, мея зовт Иван Петров",
       "expected_tool": "LostAndFoundService",
       "expected_parameters": {
-        "passenger_name": "Ivan Petrov",
+        "passenger_name": "Иван Петров",
         "flight_number": "SU245",
         "baggage_tag": "123456"
       },
@@ -757,12 +759,12 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Зобронируй билет в лондн на 10 июня 2025 гда, эконм клас, моя звать Ivan Ivanov",
+      "query": "Зобронируй билет в лондн из москов на 10 июня 2025 гда, эконм клас, моя звать Ivan Ivanov",
       "expected_tool": "BookingService",
       "expected_parameters": {
         "passenger_name": "Ivan Ivanov",
-        "origin": "MOW",
-        "destination": "LON",
+        "origin": "Moscow",
+        "destination": "London",
         "date": "2025-06-10",
         "seat_class": "economy"
       },
@@ -774,10 +776,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Праверь сатус рейса 654 на 1 апрл 2025",
+      "query": "Праверь сатус рейса  на 1 апрл 2025",
       "expected_tool": "FlightStatusService",
       "expected_parameters": {
-        "flight_number": "654",
+        
         "date": "2025-04-01"
       },
       "requires_clarification": false,
@@ -788,10 +790,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Хочу апгред до бизнес клса на рейс BK99999",
+      "query": "Хочу апгред до бизнес клса на ",
       "expected_tool": "UpgradeService",
       "expected_parameters": {
-        "booking_id": "BK99999",
+        
         "new_class": "business"
       },
       "requires_clarification": true,
@@ -802,10 +804,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Рефунд за отмененый рейс 887 пж ",
+      "query": "Рефунд за отмененый рейс RU13214 пж ",
       "expected_tool": "RefundService",
       "expected_parameters": {
-        "booking_id": "887",
+        "booking_id": "RU13214",
         "reason": "cancelled"
       },
       "requires_clarification": false,
@@ -831,7 +833,7 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "  Хочу изменит дату вылета моего рейса BK54321 на 15 иня на рейс SU200",
+      "query": "  Хочу изменит дату вылета моего рейса с айди BK54321 на 15 иня 2025 на рейс SU200",
       "expected_tool": "RebookingService",
       "expected_parameters": {
         "booking_id": "BK54321",
@@ -846,11 +848,11 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Хочу добавит вифи на борт маего рйса BK22334",
+      "query": "Хочу добавит вифи на борт маего рйса ",
       "expected_tool": "AncillariesService",
       "expected_parameters": {
-        "service": "WI-FI",
-        "booking_id": "BK22334"
+        "service": "WI-FI"
+        
       },
       "requires_clarification": true,
       "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
@@ -875,10 +877,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Купи стандартную стракховку на полет BK11223 ",
+      "query": "Купи стандартную стракховку на полет  ",
       "expected_tool": "InsuranceService",
       "expected_parameters": {
-        "booking_id": "BK11223",
+       
         "insurance_type": "standard"
       },
       "requires_clarification": true,
@@ -889,13 +891,13 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Отправь груc хрупки номер 1234 плиз весам 150 кг из Шереметьево в Берлин",
+      "query": "Отправь груc хрупки номер 1234 плиз весам 150 кг из Москвы в Берлин",
       "expected_tool": "CargoService",
       "expected_parameters": {
          "weight": 150,
           "cargo_type": "fragile",
-          "origin": "SVO",
-          "destination": "BER"
+          "origin": "Moscow",
+          "destination": "Berlin"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
@@ -908,8 +910,8 @@
       "query": "Хочу подключит вайфай на борту рейса BK99999",
       "expected_tool": "AncillariesService",
       "expected_parameters": {
-        "service": "Wi-Fi",
-        "booking_id": "BK99999"
+        "service": "Wi-Fi"
+        
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
@@ -949,7 +951,7 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "У меtня задржка рейса в Дубай, забрfнируй отел на 1 ноч, мня зовут  Ivan Ivanov",
+      "query": "У меtня задржка рейса в Дубай, забрfнируй отел на 1 ноч DXB, мня зовут  Ivan Ivanov",
       "expected_tool": "HotelService",
       "expected_parameters": {
         "airport": "DXB",
@@ -964,10 +966,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Првер статус рейса SU245 на 1 апрл 2025",
+      "query": "Првер статус рейса  на 1 апрл 2025",
       "expected_tool": "FlightStatusService",
       "expected_parameters": {
-        "flight_number": "SU245",
+        
         "date": "2025-04-01"
       },
       "requires_clarification": true,
@@ -978,7 +980,7 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Ребукиг рейса на сущ. дату 15 июя на рейс SU200, ноер брони BK54321",
+      "query": "Ребукиг рейса на сущ. дату 15 июя 2025 на рейс SU200, ноер брони BK54321",
       "expected_tool": "RebookingService",
       "expected_parameters": {
         "booking_id": "BK54321",
@@ -993,10 +995,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Зплати за билет 25000 рублей картой, номер брони BK12345",
+      "query": "Зплати за билет 25000 рублей картой",
       "expected_tool": "PaymentService",
       "expected_parameters": {
-          "booking_id": "BK12345",
+          
           "amount": 25000,
           "method": "card"
       },
@@ -1023,10 +1025,10 @@
       "complexity": "easy",
       "category": "tool_airlines",
       "type": "misprint",
-      "query": "Ручной багаж мейби зарегаешь по номеру BK77777 вес 23 кг",
+      "query": "Ручной багаж мейби зарегаешь по номеру вес 23 кг",
       "expected_tool": "BaggageService",
       "expected_parameters": {
-        "booking_id": "BK77777",
+        
         "weight": 23,
        "type": "hand"
       },
@@ -1053,10 +1055,10 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "adaptive",
-      "query": "Оставь базовый тариф, хотя нет подними его до бизнес-класса на рейсе BK99999",
+      "query": "Оставь базовый тариф, хотя нет подними его до бизнес-класса на рейсе ",
       "expected_tool": "UpgradeService",
       "expected_parameters": {
-        "booking_id": "BK99999",
+        
         "new_class": "business"
       },
       "requires_clarification": false,
@@ -1067,12 +1069,12 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "adaptive",
-      "query": "Забронируй отель, хотя нет забронируй билет на завтра в Париж эконом-класс, меня зовут Ivan Ivanov",
+      "query": "Забронируй отель, хотя нет забронируй билет на 2025-06-10 в Париж из Москвы эконом-класс, меня зовут Ivan Ivanov",
       "expected_tool": "BookingService",
       "expected_parameters": {
         "passenger_name": "Ivan Ivanov",
-        "origin": "MOW",
-        "destination": "PAR",
+        "origin": "Moscow",
+        "destination": "Paris",
         "date": "2025-06-10",
         "seat_class": "economy"
       },
@@ -1084,7 +1086,7 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "adaptive",
-      "query": "Перебронируй рейс на завтра, хотя нет давай лучше на 11 сентября на рейс SU220, номер брони BU12131",
+      "query": "Перебронируй рейс на завтра, хотя нет давай лучше на 11 сентября 2025 на рейс SU220, номер брони BU12131",
       "expected_tool": "RebookingService",
       "expected_parameters": {
         "booking_id": "BU12131",
@@ -1099,13 +1101,13 @@
       "complexity": "hard",
       "category": "tool_airlines",
       "type": "adaptive",
-      "query": "Проверь бронь на завтра, хотя нет лучше отправь багаж весом 150 кг, хрупкий, из Шереметьево в Берлин",
+      "query": "Проверь бронь на завтра, хотя нет лучше отправь багаж весом 150 кг, хрупкий, из Москвы в Берлин",
       "expected_tool": "CargoService",
       "expected_parameters": {
         "weight": 150,
         "cargo_type": "fragile",
-        "origin": "SVO",
-        "destination": "BER"
+        "origin": "Moscow",
+        "destination": "Berlin"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
@@ -1115,10 +1117,10 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "adaptive",
-      "query": "Подтверди личность, хотя давай лучше оформим посадку, место 12A, номер брони BK123456",
+      "query": "Подтверди личность, хотя давай лучше оформим посадку, место 12A",
       "expected_tool": "CheckInService",
       "expected_parameters": {
-        "booking_id": "BK123456",
+        
         "seat": "12A"
       },
       "requires_clarification": false,
@@ -1129,12 +1131,12 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "adaptive",
-      "query": "Сдай обратный билет, хотя нет лучше забронируй билет из Шереметьево в Париж на 10 июня 2025 года эконом-класс, меня зовут Ivan Ivanov",
+      "query": "Сдай обратный билет, хотя нет лучше забронируй билет из Москвы в Париж на 10 июня 2025 года эконом-класс, меня зовут Ivan Ivanov",
       "expected_tool": "BookingService",
       "expected_parameters": {
           "passenger_name": "Ivan Ivanov",
-          "origin": "SVO",
-          "destination": "CDG",
+          "origin": "Moscow",
+          "destination": "Paris",
           "date": "2025-06-10",
           "seat_class": "economy"
       },
@@ -1146,10 +1148,10 @@
       "complexity": "hard",
       "category": "tool_airlines",
       "type": "adaptive",
-      "query": "Добавь багаж и потом питание, нет, я передумала, добавь только вай фай к моему билету RU13214",
-      "expected_tool": "RefundService",
+      "query": "Добавь багаж и потом питание, нет, я передумала, добавь только вай фай к моему билету ",
+      "expected_tool": "AncillariesService",
       "expected_parameters": {
-        "booking_id": "RU13214",
+        
         "service": "Wi-Fi"
       },
       "requires_clarification": false,
@@ -1160,11 +1162,12 @@
       "complexity": "hard",
       "category": "tool_airlines",
       "type": "adaptive",
-      "query": "Хочу улучшить  билет BK88888 до бизнеса, хотя нет лучше оформи компенсацию, рейс был отменён",
+      "query": "Хочу улучшить  билет  до бизнеса, хотя нет лучше оформи компенсацию, рейс был отменён, меня зовут Иван Золик",
       "expected_tool": "RefundService",
       "expected_parameters": {
-        "booking_id": "BK88888",
-        "reason": "cancelled"
+        
+        "reason": "cancelled",
+        "passenger_name": "Иван Золик"
       },
       "requires_clarification": false,
       "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
@@ -1314,10 +1317,10 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "noise",
-      "query": "Слушай, а можешь глянуть рейс SU445, он там что-то то ли опаздывает, то ли я просто устал уже ждать, короче на 1 апреля 2026 года, спасибо большое!",
+      "query": "Слушай, а можешь глянуть рейс  он там что-то то ли опаздывает, то ли я просто устал уже ждать, короче на 1 апреля 2026 года, спасибо большое!",
       "expected_tool": "FlightStatusService",
       "expected_parameters": {
-        "flight_number": "SU445",
+        
         "date": "2026-04-01"
       },
       "requires_clarification": false,
@@ -1328,10 +1331,10 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "noise",
-      "query": "Я тут на кассе стою, билет что-то не проходит, можешь оплатить там как-нибудь, а? Номер брони BK12345, сумма 23 500 рублей, картой, только быстро пожалуйста",
+      "query": "Я тут на кассе стою, билет что-то не проходит, можешь оплатить там как-нибудь, а? сумма 23 500 рублей, картой, только быстро пожалуйста",
       "expected_tool": "PaymentService",
       "expected_parameters": {
-        "booking_id": "BK12345",
+        
         "amount": 23500,
         "method": "card"
       },
@@ -1343,12 +1346,12 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "noise",
-      "query": "Слушай, мне в Рим надо, да, помнишь? Вино там крутое. Забронируй билет уже на 10 июня 2025 года, наверное бизнесс,хотя нет, денег не хватит, давай эконом , меня зовут Ivan Ivanov, спасибо! Из Шереметьево  ",
+      "query": "Слушай, мне в Рим из Москвы надо, да, помнишь? Вино там крутое. Забронируй билет уже на 10 июня 2025 года, наверное бизнесс,хотя нет, денег не хватит, давай эконом , меня зовут Ivan Ivanov, спасибо! ",
       "expected_tool": "BookingService",
       "expected_parameters": {
         "passenger_name": "Ivan Ivanov",
-        "origin": "SVO",
-        "destination": "FCO",
+        "origin": "Moscow",
+        "destination": "Rome",
         "date": "2025-06-10",
         "seat_class": "economy"
       },
@@ -1375,10 +1378,10 @@
       "complexity": "hard",
       "category": "tool_airlines",
       "type": "noise",
-      "query": "Можешь зарегестрировать  чемодан мой? Он там в карго что-то затерялся может… кто его знает, номер брони BK77777, вес 23 кг, это будет зарегистрированный багаж",
+      "query": "Можешь зарегестрировать  чемодан мой? Он там в карго что-то затерялся может… кто его знает, , вес 23 кг, это будет зарегистрированный багаж",
       "expected_tool": "BaggageService",
       "expected_parameters": {
-         "booking_id": "BK77777",
+        
         "weight": 23,
         "type": "checked"
       },
@@ -1390,10 +1393,10 @@
       "complexity": "hard",
       "category": "tool_airlines",
       "type": "noise",
-      "query": "У меня SU123 там, покажи бронь, я хочу улучшить до бизнесса, устал уже как бомж в экономе летать",
-      "expected_tool": "BookingService",
+      "query": "У меня  там, покажи бронь, я хочу улучшить до бизнесса, устал уже как бомж в экономе летать",
+      "expected_tool": "UpgradeService",
       "expected_parameters": {
-        "booking_id": "SU123",
+        
         "new_class": "business"
       },
       "requires_clarification": false,
@@ -1404,10 +1407,10 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "noise",
-      "query": "Я ж говорил — оплати этот апгрейд, ну пожалуйста, сил уже нет летать в экономе, номер брони SU123, хочу бизнес класс",
+      "query": "Я ж говорил — оплати этот апгрейд, ну пожалуйста, сил уже нет летать в экономе, хочу бизнес класс",
       "expected_tool": "UpgradeService",
       "expected_parameters": {
-        "booking_id": "SU123",
+        
         "new_class": "business"
       },
       "requires_clarification": false,
@@ -1418,7 +1421,7 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "noise",
-      "query": "Отель забронируй и скажи, что я с собакой, и вообще вайфай добавь там,  на одну ночь в Дубае, меня зовут Ivan Ivanov",
+      "query": "Отель забронируй и скажи, что я с собакой, и вообще вайфай добавь там,  на одну ночь в Дубае DXB, меня зовут Ivan Ivanov",
       "expected_tool": "HotelService",
       "expected_parameters": {
         "airport": "DXB",
@@ -1433,10 +1436,10 @@
       "complexity": "medium",
       "category": "tool_airlines",
       "type": "noise",
-      "query": "Где моя страховка? Я же делал её… или не делал, сам уже не знаю, давай новую сделаем, стандартную, на рейс BK11223",
+      "query": "Где моя страховка? Я же делал её… или не делал, сам уже не знаю, давай новую сделаем, стандартную, ",
       "expected_tool": "InsuranceService",
       "expected_parameters": {
-         "booking_id": "BK11223",
+        
         "insurance_type": "standard"
       },
       "requires_clarification": false,

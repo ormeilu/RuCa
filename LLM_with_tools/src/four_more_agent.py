@@ -4,14 +4,13 @@ import json
 import os
 import sys
 import time
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Optional
 
 import dotenv
 from openai import OpenAI
 
 from settings import OpenAISettings
 
-# Подключаем папку с инструментами рядом со скриптом
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "tools"))
 
 dotenv.load_dotenv(dotenv.find_dotenv())
@@ -21,7 +20,13 @@ try:
 except ImportError:
     process_all_queries = None
     default_system_prompt = "Ты — ассистент, вызывающий инструменты."
-
+#Выбор модели wwwwwwww
+# ========================================================================
+DEFAULT_MODEL = "openai/gpt-oss-20b"
+# DEFAULT_MODEL = "nvidia/llama-3.1-nemotron-safety-guard-8b-v3"
+# DEFAULT_MODEL = "qwen/qwen3-next-80b-a3b-instruct"
+# DEFAULT_MODEL = "openai/gpt-oss-120b"
+# ========================================================================
 
 class BenchmarkAgent:
 
@@ -32,7 +37,7 @@ class BenchmarkAgent:
     @classmethod
     async def create(
         cls,
-        model: str = "openai/gpt-oss-20b",
+        model: str = DEFAULT_MODEL,
         *,
         use_retail: bool = True,
         use_weather: bool = True,
@@ -42,7 +47,6 @@ class BenchmarkAgent:
         use_aviation: bool = True,
         use_datetime: bool = True,
         use_airbnb: bool = False,
-        use_flights: bool = False,
         verbose: bool = True,
     ):
         """Асинхронный конструктор для BenchmarkAgent."""
@@ -50,7 +54,7 @@ class BenchmarkAgent:
         
         instance.model = model
         instance.verbose = verbose
-        instance.openai_client = cls._build_client()  # Используем cls вместо instance
+        instance.openai_client = cls._build_client()
         instance.openai_tools = []
         instance.executors = {}
         instance.mcp_clients = {}
@@ -97,9 +101,8 @@ class BenchmarkAgent:
             instance.openai_tools.extend(instance._convert_tools(datetime_tools))
             instance.executors.update(instance._get_datetime_executors())
 
-        # MCP-серверы поднимаем только при явном запросе.
-        if use_airbnb or use_flights:
-            await instance._setup_mcp_clients(use_airbnb=use_airbnb, use_flights=use_flights)
+        if use_airbnb:
+            await instance._setup_mcp_clients(use_airbnb=True)
             await instance._register_mcp_tools()
 
         if verbose:
@@ -109,11 +112,7 @@ class BenchmarkAgent:
 
     @staticmethod
     def _build_client() -> OpenAI:
-        """Создаёт аутентифицированный клиент OpenAI.
-
-        Returns:
-            OpenAI: Клиент с заранее настроенным base URL.
-        """
+        """Создаёт аутентифицированный клиент OpenAI."""
         settings = OpenAISettings()
         return OpenAI(
             api_key=settings.openai_api_key.get_secret_value(),
@@ -144,102 +143,67 @@ class BenchmarkAgent:
         return converted
 
     def _get_retail_executors(self) -> Dict[str, Any]:
-        """Возвращает исполняемые методы для ретейл тулзов."""
         from retail_tools import EcommerceTools
-
         method_names = [
-            "cancel_order",
-            "search_products",
-            "return_order",
-            "place_order",
-            "track_order",
-            "update_address",
-            "add_to_cart",
-            "remove_from_cart",
-            "update_payment_method",
-            "apply_discount_code",
-            "get_order_history",
-            "schedule_delivery",
-            "update_profile",
-            "contact_support",
+            "cancel_order", "search_products", "return_order", "place_order",
+            "track_order", "update_address", "add_to_cart", "remove_from_cart",
+            "update_payment_method", "apply_discount_code", "get_order_history",
+            "schedule_delivery", "update_profile", "contact_support",
         ]
         return {
             name: getattr(EcommerceTools, name)
             for name in method_names
             if hasattr(EcommerceTools, name)
         }
-    def _get_aviation_executors(self) -> Dict[str, Any]:
-        """Возвращает исполняемые методы для авиа-инструментов."""
-        from avia_tools import AviationTools
 
+    def _get_aviation_executors(self) -> Dict[str, Any]:
+        from avia_tools import AviationTools
         method_names = [
-            "BookingService",
-            "FlightStatusService",
-            "CheckInService",
-            "UpgradeService",
-            "PaymentService",
-            "LoyaltyService",
-            "BaggageService",
-            "SeatMapService",
-            "RefundService",
-            "RebookingService",
-            "AncillariesService",
-            "InsuranceService",
-            "CargoService",
-            "LostAndFoundService",
-            "OpsService",
-            "HotelService",
-            "CompensationService",
-            "IdentityVerificationService",
+            "BookingService", "FlightStatusService", "CheckInService",
+            "UpgradeService", "PaymentService", "LoyaltyService",
+            "BaggageService", "SeatMapService", "RefundService",
+            "RebookingService", "AncillariesService", "InsuranceService",
+            "CargoService", "LostAndFoundService", "OpsService",
+            "HotelService", "CompensationService", "IdentityVerificationService",
         ]
         return {
             name: getattr(AviationTools, name)
             for name in method_names
             if hasattr(AviationTools, name)
         }
-    def _get_datetime_executors(self) -> Dict[str, Any]:
-        """Возвращает исполняемые методы для инструментов даты/времени."""
-        from datetime_tools import DateTimeTools
 
+    def _get_datetime_executors(self) -> Dict[str, Any]:
+        from datetime_tools import DateTimeTools
         return {
             "get_date": DateTimeTools.get_date,
             "get_time": DateTimeTools.get_time,
         }
-    def _get_weather_executors(self) -> Dict[str, Any]:
-        """Возвращает исполняемые методы для погодных/валютных тулзов."""
-        from weather_and_convert import MiscTools
 
+    def _get_weather_executors(self) -> Dict[str, Any]:
+        from weather_and_convert import MiscTools
         return {
             "get_weather": MiscTools.get_weather,
             "currency_converter": MiscTools.currency_converter,
         }
 
     def _get_translate_executors(self) -> Dict[str, Any]:
-        """Возвращает исполняемые методы для тулзов перевода."""
         from trans import TranslateTools
-
         return {"translate": TranslateTools.translate}
 
     def _get_calculator_executors(self) -> Dict[str, Any]:
-        """Возвращает исполняемые методы для калькуляторных тулзов."""
         from caclute import CalculatorTool
-
         return {"calculator": CalculatorTool.calculate}
 
     def _get_trash_executors(self) -> Dict[str, Any]:
-        """Возвращает исполняемые методы для мусорных тулзов."""
         from trash import NullTools
-
         return {
             name: getattr(NullTools, name)
             for name in dir(NullTools)
             if not name.startswith("_")
         }
 
-    async def _setup_mcp_clients(self, *, use_airbnb: bool, use_flights: bool) -> None:
-        """Поднимает нужные MCP-клиенты в текущем процессе."""
+    async def _setup_mcp_clients(self, *, use_airbnb: bool) -> None:
         from fastmcp import Client
-
         if use_airbnb:
             airbnb_config = {
                 "mcpServers": {
@@ -253,27 +217,9 @@ class BenchmarkAgent:
             await airbnb_client.__aenter__()
             self.mcp_clients["airbnb"] = airbnb_client
 
-        if use_flights:
-            duffel_api_key = os.getenv("DUFFEL_API_KEY_LIVE", "")
-            flights_path = os.path.join(os.path.dirname(__file__), "flights-mcp")
-            flights_config = {
-                "mcpServers": {
-                    "flights": {
-                        "command": "uv",
-                        "args": ["--directory", flights_path, "run", "flights-mcp"],
-                        "env": {"DUFFEL_API_KEY_LIVE": duffel_api_key},
-                    }
-                }
-            }
-            flights_client = Client(flights_config)
-            await flights_client.__aenter__()
-            self.mcp_clients["flights"] = flights_client
-
     async def _register_mcp_tools(self) -> None:
-        """Запрашивает манифесты MCP-клиентов и регистрирует инструменты."""
         if not self.mcp_clients:
             return
-
         for name, client in self.mcp_clients.items():
             try:
                 listing = await client.list_tools()
@@ -281,7 +227,6 @@ class BenchmarkAgent:
                 if self.verbose:
                     print(f"Не удалось получить инструменты MCP '{name}': {exc}")
                 continue
-
             tools_meta = getattr(listing, "tools", listing) or []
             for tool in tools_meta:
                 openai_tool = {
@@ -296,14 +241,12 @@ class BenchmarkAgent:
 
     @staticmethod
     def _safe_attr(tool: Any, key: str) -> str:
-        """Безопасно читает атрибут или ключ из описания тула."""
         if isinstance(tool, dict):
             return str(tool.get(key, ""))
         return str(getattr(tool, key, ""))
 
     @staticmethod
     def _extract_schema(tool: Any) -> Dict[str, Any]:
-        """Нормализует произвольные схемы до вида JSON."""
         def _normalize(schema: Any) -> Dict[str, Any]:
             if schema is None:
                 return {"type": "object", "properties": {}, "required": []}
@@ -328,11 +271,6 @@ class BenchmarkAgent:
         return _normalize(schema)
 
     def get_tools_info(self) -> List[Dict[str, str]]:
-        """Возвращает краткие метаданные обо всех зарегистрированных тулах.
-
-        Returns:
-            List[Dict[str, str]]: Названия и описания для логирования.
-        """
         return [
             {
                 "name": tool["function"].get("name", ""),
@@ -342,15 +280,7 @@ class BenchmarkAgent:
         ]
 
     async def _execute_tool_call(self, tool_name: str, arguments: Dict[str, Any]):
-        """Выполняет единичный вызов тула локально или через MCP.
-
-        Args:
-            tool_name: Название вызываемого инструмента.
-            arguments: Распаршенные аргументы из ответа модели.
-
-        Returns:
-            Dict[str, Any]: Эхо-вызов и фактический результат.
-        """
+        """Выполняет единичный вызов тула локально или через MCP."""
         try:
             if tool_name in self.executors:
                 result = self.executors[tool_name](**arguments)
@@ -395,145 +325,140 @@ class BenchmarkAgent:
         user_query: str,
         system_prompt: str,
         query_id: str,
+        max_chain_length: int = 5,
     ) -> Dict[str, Any]:
-        """Асинхронный вызов модели с реальным запуском инструментов."""
-
+        """
+        Асинхронный вызов модели с поддержкой цепочек инструментов.
+        
+        Args:
+            user_query: Запрос пользователя
+            system_prompt: Системный промпт
+            query_id: ID запроса
+            max_chain_length: Максимальная длина цепочки вызовов
+            
+        Returns:
+            Dict с полями:
+                - tool_calls: List[Dict] - список вызовов (для цепочек) ИЛИ None
+                - tool_call: Dict - один вызов (для обратной совместимости)
+                - tool_results: List - результаты всех вызовов
+                - tool_result: Any - результат последнего вызова
+                - is_chain: bool - флаг цепочки
+                - user_message: str|None
+                - clarification_question: str|None
+                - assistant_response: str
+                - internal: Dict
+        """
         settings = OpenAISettings()
         headers = {
             "Authorization": f"Bearer {settings.openai_api_key.get_secret_value()}",
             "Content-Type": "application/json",
         }
 
-        payload = {
-            "model": self.model,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_query},
-            ],
-            "max_tokens": 2048,
-            "temperature": 0.0,  
-        }
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_query},
+        ]
 
-        if self.openai_tools:
-            payload["tools"] = self.openai_tools
-            payload["tool_choice"] = "auto"
-
-        import aiohttp
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                "https://integrate.api.nvidia.com/v1/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=aiohttp.ClientTimeout(total=120),
-            ) as resp:
-                data = await resp.json()
-
-        message = data["choices"][0]["message"]
-        content = message.get("content") or message.get("reasoning_content") or ""
+        all_tool_calls = []
+        all_tool_results = []
+        conversation_history = []
         
-        # Парсим JSON из ответа
-        try:
-            parsed = json.loads(content)
-        except Exception:
-            parsed = {}
+        import aiohttp
+        
+        for iteration in range(max_chain_length):
+            payload = {
+                "model": self.model,
+                "messages": messages,
+                "max_tokens": 2048,
+                "temperature": 0.5,
+            }
 
-        tool_call_data = parsed.get("tool_call")
-        tool_result = None
+            if self.openai_tools:
+                payload["tools"] = self.openai_tools
+                payload["tool_choice"] = "auto"
 
-        # Реальный вызов инструмента
-        if tool_call_data and tool_call_data.get("called"):
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    "https://integrate.api.nvidia.com/v1/chat/completions",
+                    headers=headers,
+                    json=payload,
+                    timeout=aiohttp.ClientTimeout(total=120),
+                ) as resp:
+                    data = await resp.json()
+
+            message = data["choices"][0]["message"]
+            content = message.get("content") or message.get("reasoning_content") or ""
+            
+            # Сохраняем историю
+            conversation_history.append({
+                "iteration": iteration,
+                "response": content
+            })
+
+            # Парсим JSON из ответа
+            try:
+                parsed = json.loads(content)
+            except Exception:
+                parsed = {}
+
+            tool_call_data = parsed.get("tool_call")
+            
+            # Если нет вызова инструмента - заканчиваем цепочку
+            if not tool_call_data or not tool_call_data.get("called"):
+                break
+
+            # Выполняем инструмент
             tool_name = tool_call_data["tool_name"]
             params = tool_call_data.get("parameters", {})
             tool_result = await self._execute_tool_call(tool_name, params)
-            parsed["tool_call"]["called"] = True  # фиксируем
+            
+            all_tool_calls.append(tool_result["tool_call"])
+            all_tool_results.append(tool_result["result"])
 
+            # Добавляем результат в историю для следующей итерации
+            messages.append({
+                "role": "assistant",
+                "content": content
+            })
+            messages.append({
+                "role": "user",
+                "content": f"Результат выполнения {tool_name}: {json.dumps(tool_result['result'], ensure_ascii=False)}"
+            })
+
+            # Если в parsed есть признак завершения цепочки
+            if parsed.get("chain_complete", False):
+                break
+
+        # Формируем итоговый ответ
+        is_chain = len(all_tool_calls) > 1
+        
         # Сокращаем reasoning
         internal = parsed.get("internal", {})
         if "reasoning" in internal:
-            internal["reasoning"] = internal["reasoning"].split(".")[0]  # одно короткое предложение
+            internal["reasoning"] = internal["reasoning"].split(".")[0]
+        
+        internal["conversation_history"] = conversation_history
+        internal["iterations"] = len(all_tool_calls)
 
-        return {
-            "tool_call": tool_result["tool_call"] if tool_result else parsed.get("tool_call"),
-            "tool_result": tool_result["result"] if tool_result else None,
-            "user_message": None if tool_result else parsed.get("user_message"),
+        result = {
+            # Новые поля для цепочек
+            "tool_calls": all_tool_calls if all_tool_calls else None,
+            "tool_results": all_tool_results if all_tool_results else None,
+            "is_chain": is_chain,
+            
+            # Старые поля для обратной совместимости
+            "tool_call": all_tool_calls[-1] if all_tool_calls else None,
+            "tool_result": all_tool_results[-1] if all_tool_results else None,
+            
+            # Остальные поля
+            "user_message": None if all_tool_calls else parsed.get("user_message"),
             "clarification_question": parsed.get("clarification_question"),
             "assistant_response": content,
             "internal": internal,
         }
-    # async def run_single_query_async(
-    #     self,
-    #     *,
-    #     user_query: str,
-    #     system_prompt: str,
-    #     query_id: str,
-    # ) -> Dict[str, Any]:
-    #     """Асинхронно делает один вызов модели и при необходимости запускает тул.
 
-    #     Args:
-    #         user_query: Текстовый запрос из датасета.
-    #         system_prompt: Общий системный промпт бенчмарка.
-    #         query_id: Идентификатор запроса для логов/метрик.
+        return result
 
-    #     Returns:
-    #         Dict[str, Any]: Структурированный ответ с деталями выполнения тула.
-    #     """
-        
-    #     loop = asyncio.get_event_loop()
-    #     response = await loop.run_in_executor(
-    #         None,
-    #         lambda: self.openai_client.chat.completions.create(
-    #             model=self.model,
-    #             messages=[
-    #                 {"role": "system", "content": system_prompt},
-    #                 {"role": "user", "content": user_query},
-    #             ],
-    #             tools=self.openai_tools,
-    #             tool_choice="auto",
-    #         )
-    #     )
-
-    #     serialized = {
-    #         "content": getattr(response.choices[0].message, "content", None),
-    #         "tool_calls": [
-    #             {
-    #                 "id": call.id,
-    #                 "name": call.function.name,
-    #                 "arguments": call.function.arguments,
-    #             }
-    #             for call in getattr(response.choices[0].message, "tool_calls", [])
-    #         ],
-    #     }
-      
-
-
-    #     tool_calls = getattr(response.choices[0].message, "tool_calls", [])
-    #     if tool_calls:
-    #         call = tool_calls[0]
-    #         arguments = json.loads(call.function.arguments)
-    #         tool_result = await self._execute_tool_call(call.function.name, arguments)
-    #         return {
-    #             "tool_call": tool_result["tool_call"],
-    #             "tool_result": tool_result["result"],
-    #             "user_message": None,
-    #             "clarification_question": None,
-    #             "assistant_response": serialized.get("content"),
-    #             "internal": {
-    #                 "query_id": query_id,
-    #                 "raw_response": serialized,
-    #             },
-    #         }
-
-    #     return {
-    #         "tool_call": None,
-    #         "tool_result": None,
-    #         "user_message": serialized.get("content"),
-    #         "clarification_question": None,
-    #         "assistant_response": serialized.get("content"),
-    #         "internal": {
-    #             "query_id": query_id,
-    #             "raw_response": serialized,
-    #         },
-    #     }
     def run_single_query(
         self,
         *,
@@ -541,70 +466,15 @@ class BenchmarkAgent:
         system_prompt: str,
         query_id: str,
     ) -> Dict[str, Any]:
-        """Делает один вызов модели и при необходимости запускает тул.
-
-        Args:
-            user_query: Текстовый запрос из датасета.
-            system_prompt: Общий системный промпт бенчмарка.
-            query_id: Идентификатор запроса для логов/метрик.
-
-        Returns:
-            Dict[str, Any]: Структурированный ответ с деталями выполнения тула.
-        """
+        """Синхронная обёртка для run_single_query_async"""
         loop = asyncio.get_event_loop()
-        response = self.openai_client.chat.completions.create(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_query},
-            ],
-            tools=self.openai_tools,
-            tool_choice="auto",
-        )
-
-        serialized = {
-            "content": getattr(response.choices[0].message, "content", None),
-            "tool_calls": [
-                {
-                    "id": call.id,
-                    "name": call.function.name,
-                    "arguments": call.function.arguments,
-                }
-                for call in getattr(response.choices[0].message, "tool_calls", [])
-            ],
-        }
-
-        tool_calls = getattr(response.choices[0].message, "tool_calls", [])
-        if tool_calls:
-            call = tool_calls[0]
-            arguments = json.loads(call.function.arguments)
-            tool_result = loop.run_until_complete(
-                self._execute_tool_call(call.function.name, arguments)
+        return loop.run_until_complete(
+            self.run_single_query_async(
+                user_query=user_query,
+                system_prompt=system_prompt,
+                query_id=query_id
             )
-            return {
-                "tool_call": tool_result["tool_call"],
-                "tool_result": tool_result["result"],
-                "user_message": None,
-                "clarification_question": None,
-                "assistant_response": serialized.get("content"),
-                "internal": {
-                    "query_id": query_id,
-                    "raw_response": serialized,
-                },
-            }
-
-        return {
-            "tool_call": None,
-            "tool_result": None,
-            "user_message": serialized.get("content"),
-            "clarification_question": None,
-            "assistant_response": serialized.get("content"),
-            "internal": {
-                "query_id": query_id,
-                "raw_response": serialized,
-            },
-        }
-
+        )
 
 
 async def run_benchmark_async(
@@ -612,7 +482,7 @@ async def run_benchmark_async(
     system_prompt: str,
     inputs_for_llm: List[Dict[str, Any]],
     inputs_for_logging: List[Dict[str, Any]],
-    model: str = "openai/gpt-oss-20b",
+    model: str = DEFAULT_MODEL,
     use_retail: bool = True,
     use_weather: bool = True,
     use_translate: bool = True,
@@ -621,20 +491,18 @@ async def run_benchmark_async(
     use_aviation: bool = True,
     use_datetime: bool = True,
     use_airbnb: bool = False,
-    use_flights: bool = False,
     verbose: bool = True,
     max_concurrent: int = 8,
 ) -> Dict[str, Any]:
     if verbose:
         print(f"\n{'=' * 70}")
-        print("RUSSIAN TOOL ВЫЗОВ БЕНЧМАРКА (ASYNC)")
+        print("RUSSIAN TOOL ВЫЗОВ БЕНЧМАРКА (ASYNC WITH CHAINS)")
         print(f"{'=' * 70}")
         print(f"Модель: {model}")
         print(f"Всего запросов: {len(inputs_for_llm)}")
         print(f"Параллельных запросов: {max_concurrent}")
         print(f"{'=' * 70}\n")
 
-    # ИСПОЛЬЗУЕМ АСИНХРОННЫЙ КОНСТРУКТОР
     agent = await BenchmarkAgent.create(
         model=model,
         use_retail=use_retail,
@@ -645,7 +513,6 @@ async def run_benchmark_async(
         use_aviation=use_aviation,
         use_datetime=use_datetime,
         use_airbnb=use_airbnb,
-        use_flights=use_flights,
         verbose=False,
     )
 
@@ -655,11 +522,9 @@ async def run_benchmark_async(
     results: Dict[str, Any] = {}
     started = time.time()
 
-    # Создаём семафор для ограничения конкурентности
     semaphore = asyncio.Semaphore(max_concurrent)
     
     async def process_single_query(idx: int, request_data: Dict[str, Any], ground_truth: Dict[str, Any]):
-        """Обрабатывает один запрос с учётом семафора"""
         async with semaphore:
             query_id = request_data["id"]
 
@@ -675,7 +540,10 @@ async def run_benchmark_async(
                 )
 
                 if verbose:
-                    if agent_output["tool_call"]:
+                    if agent_output.get("is_chain"):
+                        print(f"Цепочка из {len(agent_output['tool_calls'])} инструментов: " + 
+                              " -> ".join([tc['name'] for tc in agent_output['tool_calls']]))
+                    elif agent_output["tool_call"]:
                         print(f"Инструмент: {agent_output['tool_call']['name']}")
                     elif agent_output["clarification_question"]:
                         print("Требуется уточнение")
@@ -689,6 +557,9 @@ async def run_benchmark_async(
                     print(f"Ошибка: {exc}")
                 agent_output = {
                     "tool_call": None,
+                    "tool_calls": None,
+                    "tool_results": None,
+                    "is_chain": False,
                     "clarification_question": None,
                     "user_message": None,
                     "internal": {
@@ -710,7 +581,6 @@ async def run_benchmark_async(
                 },
             }
 
-    # Создаём задачи для всех запросов
     tasks = [
         process_single_query(idx, request_data, ground_truth)
         for idx, (request_data, ground_truth) in enumerate(
@@ -718,10 +588,8 @@ async def run_benchmark_async(
         )
     ]
 
-    # Запускаем все задачи параллельно
     completed_results = await asyncio.gather(*tasks, return_exceptions=True)
 
-    # Собираем результаты
     for result in completed_results:
         if isinstance(result, Exception):
             if verbose:
@@ -738,168 +606,31 @@ async def run_benchmark_async(
         print(f"{'=' * 70}")
         print(f"Бенчмарк завершен за {elapsed:.2f} секунд")
         print(f"Среднее время на запрос: {elapsed / len(inputs_for_llm):.2f}s")
-        print(f"Ускорение: ~{len(inputs_for_llm) * 2 / elapsed:.1f}x (теоретически)")
-        print(f"{'=' * 70}\n")
-
-    return results
-
-
-def run_benchmark(
-    *,
-    system_prompt: str,
-    inputs_for_llm: List[Dict[str, Any]],
-    inputs_for_logging: List[Dict[str, Any]],
-    model: str = "openai/gpt-oss-20b",
-    use_retail: bool = True,
-    use_weather: bool = True,
-    use_translate: bool = True,
-    use_calculator: bool = True,
-    use_trash: bool = False,
-    use_aviation: bool = True,
-    use_datetime: bool = True, 
-    use_airbnb: bool = False,
-    use_flights: bool = False,
-    verbose: bool = True,
-    max_concurrent: int = 8,
-) -> Dict[str, Any]:
-    
-    """
-    Запускает все запросы через агента и собирает результаты в словарь.
-    
-    Args:
-        system_prompt: Системный промпт для агента
-        inputs_for_llm: Список запросов для модели
-        inputs_for_logging: Список ground truth данных
-        model: Название модели
-        verbose: Выводить прогресс
-    
-    Returns:
-        Словарь с результатами бенчмарка
-    """
-    if verbose:
-        print(f"\n{'=' * 70}")
-        print("RUSSIAN TOOL ВЫЗОВ БЕНЧМАРКА")
-        print(f"{'=' * 70}")
-        print(f"Модель: {model}")
-        print(f"Всего запросов: {len(inputs_for_llm)}")
-        print(f"{'=' * 70}\n")
-
-    agent = BenchmarkAgent(
-        model=model,
-        use_retail=use_retail,
-        use_weather=use_weather,
-        use_translate=use_translate,
-        use_calculator=use_calculator,
-        use_trash=use_trash,
-        use_aviation=use_aviation,
-        use_datetime=use_datetime,
-        use_airbnb=use_airbnb,
-        use_flights=use_flights,
-        verbose=False,
-    )
-
-    if verbose:
-        print(f"Агент инициализирован с {len(agent.get_tools_info())} инструментами\n")
-
-    results: Dict[str, Any] = {}
-    started = time.time()
-
-    # Прогоняем через агента
-    for idx, (request_data, ground_truth) in enumerate(
-        zip(inputs_for_llm, inputs_for_logging),
-        1,
-    ):
-        query_id = request_data["id"]
-
-        if verbose:
-            print(f"[{idx}/{len(inputs_for_llm)}] Обработка: {query_id}")
-            print(f"Запрос: {request_data['user_query'][:80]}...")
-
-        try:
-            # Вызываем агента
-            agent_output = agent.run_single_query(
-                user_query=request_data["user_query"],
-                system_prompt=system_prompt,
-                query_id=query_id,
-            )
-
-            if verbose:
-                if agent_output["tool_call"]:
-                    print(f"Инструмент: {agent_output['tool_call']['name']}")
-                elif agent_output["clarification_question"]:
-                    print("Требуется уточнение")
-                elif agent_output["user_message"]:
-                    print("Текстовый ответ")
-                else:
-                    print("Нет вывода")
-
-        except Exception as exc:
-            if verbose:
-                print(f"Ошибка: {exc}")
-            agent_output = {
-                "tool_call": None,
-                "clarification_question": None,
-                "user_message": None,
-                "internal": {
-                    "reasoning": None,
-                    "raw_response": None,
-                    "errors": f"RUNNER_ERROR: {exc}",
-                },
-            }
-
-        results[query_id] = {
-            "id": query_id,
-            "user_query": request_data["user_query"],
-            "agent_response": agent_output,
-            "ground_truth": {
-                "expected_tool": ground_truth["expected_tool"],
-                "expected_parameters": ground_truth["expected_parameters"],
-                "requires_clarification": ground_truth["requires_clarification"],
-                "skills": ground_truth["skills"],
-            },
-        }
-
-        if verbose:
-            print()
-
-    elapsed = time.time() - started
-    if verbose and inputs_for_llm:
-        print(f"{'=' * 70}")
-        print(f"Бенчмарк завершен за {elapsed:.2f} секунд")
-        print(f"Среднее время на запрос: {elapsed / len(inputs_for_llm):.2f}s")
         print(f"{'=' * 70}\n")
 
     return results
 
 
 def save_results(results: Dict[str, Any], filename: str = "benchmark_results.json") -> None:
-    """Сохраняет результаты бенчмарка на диск.
-
-    Args:
-        results: Словарь с выводом агента.
-        filename: Имя JSON-файла назначения.
-    """
     with open(filename, "w", encoding="utf-8") as handle:
         json.dump(results, handle, ensure_ascii=False, indent=2)
     print(f"Результаты сохранены в: {filename}")
 
 
 def print_statistics(results: Dict[str, Any]) -> None:
-    """
-    Выводит базовую статистику по результатам.
-    
-    Args:
-        results: Словарь с результатами бенчмарка
-    """
     total = len(results)
     tool_calls = 0
+    chain_calls = 0
     clarifications = 0
     text_responses = 0
     errors = 0
 
     for entry in results.values():
         agent_response = entry["agent_response"]
-        if agent_response.get("tool_call"):
+        
+        if agent_response.get("is_chain"):
+            chain_calls += 1
+        elif agent_response.get("tool_call"):
             tool_calls += 1
         elif agent_response.get("clarification_question"):
             clarifications += 1
@@ -914,32 +645,21 @@ def print_statistics(results: Dict[str, Any]) -> None:
         return
 
     print(f"\n{'=' * 70}")
-    print("Стастистика")
+    print("Статистика")
     print(f"{'=' * 70}")
-    print(f"Всего запросов:        {total}")
-    print(f"Вызовы инструментов:           {tool_calls} ({tool_calls / total * 100:.1f}%)")
-    print(f"Уточняющие вопросы:       {clarifications} ({clarifications / total * 100:.1f}%)")
-    print(f"Текстовые ответы:       {text_responses} ({text_responses / total * 100:.1f}%)")
-    print(f"Ошибки:               {errors} ({errors / total * 100:.1f}%)")
+    print(f"Всего запросов:              {total}")
+    print(f"Одиночные вызовы:            {tool_calls} ({tool_calls / total * 100:.1f}%)")
+    print(f"Цепочки инструментов:        {chain_calls} ({chain_calls / total * 100:.1f}%)")
+    print(f"Уточняющие вопросы:          {clarifications} ({clarifications / total * 100:.1f}%)")
+    print(f"Текстовые ответы:            {text_responses} ({text_responses / total * 100:.1f}%)")
+    print(f"Ошибки:                      {errors} ({errors / total * 100:.1f}%)")
     print(f"{'=' * 70}\n")
 
 
 def _load_dataset() -> Dict[str, List[Dict[str, Any]]]:
-    """Загружает датасет через `json_parser` и делит его на два списка.
-
-    Returns:
-        Dict[str, List[Dict[str, Any]]]: Ключи `inputs_for_llm` и
-        `inputs_for_logging`, как в `json_parser.process_all_queries`.
-
-    Raises:
-        RuntimeError: Если `json_parser` недоступен для импорта.
-    """
     if process_all_queries is None:
-        raise RuntimeError(
-            "json_parser.py не найден"
-        )
-
-    inputs_for_llm, inputs_for_logging = process_all_queries(  # type: ignore
+        raise RuntimeError("json_parser.py не найден")
+    inputs_for_llm, inputs_for_logging = process_all_queries(
         system_prompt=default_system_prompt,
     )
     return {
@@ -952,16 +672,6 @@ def _dataset_requires_tool(
     entries: List[Dict[str, Any]],
     keywords: Tuple[str, ...],
 ) -> bool:
-    """Проверяет, встречаются ли указанные ключевые слова в ground truth.
-
-    Args:
-        entries: Строки ground truth с полем `expected_tool`.
-        keywords: Подстроки, по которым решаем, нужен ли MCP.
-
-    Returns:
-        bool: True, если найден хотя бы один инструмент с таким словом.
-    """
-
     lowered = tuple(keyword.lower() for keyword in keywords)
     for entry in entries:
         expected_tool = str(entry.get("expected_tool", "")).lower()
@@ -971,41 +681,12 @@ def _dataset_requires_tool(
 
 
 def main() -> None:
-    """Парсит CLI-аргументы, включает нужные тулзы и запускает бенчмарк."""
     parser = argparse.ArgumentParser(description="Run Russian Tool Calling Benchmark")
-    parser.add_argument(
-        "--model",
-        type=str,
-        default="openai/gpt-oss-20b",
-        help="Model name to use",
-    )
-    parser.add_argument(
-        "--output",
-        type=str,
-        default="benchmark_results.json",
-        help="Output filename",
-    )
-    parser.add_argument(
-        "--quiet",
-        action="store_true",
-        help="Suppress verbose output",
-    )
-    parser.add_argument(
-        "--airbnb",
-        action="store_true",
-        help="Enable Airbnb MCP tools",
-    )
-    parser.add_argument(
-        "--flights",
-        action="store_true",
-        help="Enable flights MCP tools",
-    )
-    parser.add_argument(
-    "--concurrent",
-    type=int,
-    default=8,
-    help="Maximum number of concurrent requests (default: 8)",
-    )
+    parser.add_argument("--model", type=str, default=DEFAULT_MODEL, help="Model name")
+    parser.add_argument("--output", type=str, default="benchmark_results.json", help="Output filename")
+    parser.add_argument("--quiet", action="store_true", help="Suppress verbose output")
+    parser.add_argument("--airbnb", action="store_true", help="Enable Airbnb MCP tools")
+    parser.add_argument("--concurrent", type=int, default=8, help="Max concurrent requests")
 
     args = parser.parse_args()
 
@@ -1014,26 +695,11 @@ def main() -> None:
     inputs_for_logging = dataset["inputs_for_logging"]
 
     auto_airbnb = _dataset_requires_tool(inputs_for_logging, ("airbnb",))
-    auto_flights = _dataset_requires_tool(inputs_for_logging, ("flight", "duffel"))
-
     use_airbnb = args.airbnb or auto_airbnb
-    use_flights = args.flights or auto_flights
 
     if use_airbnb and not args.airbnb and auto_airbnb:
         print("Airbnb MCP Подключен")
-    if use_flights and not args.flights and auto_flights:
-        print("Flights MCP Подключен")
 
-    # results = run_benchmark(
-    #     system_prompt=default_system_prompt,
-    #     inputs_for_llm=inputs_for_llm,
-    #     inputs_for_logging=inputs_for_logging,
-    #     model=args.model,
-    #     use_airbnb=use_airbnb,
-    #     use_flights=use_flights,
-    #     verbose=not args.quiet,
-    #     max_concurrent=args.concurrent
-    # )
     results = asyncio.run(
         run_benchmark_async(
             system_prompt=default_system_prompt,
@@ -1041,7 +707,6 @@ def main() -> None:
             inputs_for_logging=inputs_for_logging,
             model=args.model,
             use_airbnb=use_airbnb,
-            use_flights=use_flights,
             verbose=not args.quiet,
             max_concurrent=args.concurrent,
             use_retail=True,
@@ -1056,11 +721,8 @@ def main() -> None:
 
     save_results(results, filename=args.output)
     print_statistics(results)
-    print(json.dumps(results, ensure_ascii=False, indent=2))
     print(f"\nБенчмарк проведен! Проверь {args.output} для подробных результатов.")
 
 
 if __name__ == "__main__":
     main()
-   
-        
