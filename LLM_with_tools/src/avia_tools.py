@@ -21,8 +21,8 @@ class AviationTools:
                     "type": "object",
                     "properties": {
                         "passenger_name": {"type": "string", "description": "Имя пассажира"},
-                        "origin": {"type": "string", "description": "Аэропорт вылета (IATA код)"},
-                        "destination": {"type": "string", "description": "Аэропорт прилета (IATA код)"},
+                        "origin": {"type": "string", "description": "Аэропорт вылета "},
+                        "destination": {"type": "string", "description": "Аэропорт прилета "},
                         "date": {"type": "string", "description": "Дата рейса YYYY-MM-DD"},
                         "seat_class": {"type": "string", "description": "Класс обслуживания (economy/business/first)"}
                     },
@@ -35,10 +35,10 @@ class AviationTools:
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "flight_number": {"type": "string", "description": "Номер рейса, например SU123"},
+                        
                         "date": {"type": "string", "description": "Дата вылета YYYY-MM-DD"}
                     },
-                    "required": ["flight_number"]
+                    "required": ["date"]
                 }
             },
             {
@@ -47,35 +47,34 @@ class AviationTools:
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "booking_id": {"type": "string", "description": "ID бронирования"},
+                        
                         "seat": {"type": "string", "description": "Желаемое место, например 14A"},
                     },
-                    "required": ["booking_id"]
+                    "required": ["seat"]
                 }
             },
             {
                 "name": "UpgradeService",
-                "description": "Оформляет повышение класса обслуживания",
+                "description": "Оформляет повышение класса обслуживания не запращивая дополнительную информацию (Booking ID не нужен)",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "booking_id": {"type": "string"},
                         "new_class": {"type": "string", "description": "Новый класс обслуживания"},
                     },
-                    "required": ["booking_id", "new_class"]
+                    "required": [ "new_class"]
                 }
             },
             {
                 "name": "PaymentService",
-                "description": "Проводит оплату авиауслуг",
+                "description": "Проводит оплату авиауслуг (Booking ID не нужен)",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "booking_id": {"type": "string"},
+                        
                         "amount": {"type": "number"},
                         "method": {"type": "string", "description": "Тип оплаты (card/apple_pay/google_pay)"},
                     },
-                    "required": ["booking_id", "amount"]
+                    "required": [ "amount"]
                 }
             },
             {
@@ -93,27 +92,27 @@ class AviationTools:
             },
             {
                 "name": "BaggageService",
-                "description": "Добавляет багаж или меняет параметры багажа",
+                "description": "Добавляет багаж или меняет параметры багажа (Booking ID не нужен)",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "booking_id": {"type": "string"},
+                        
                         "weight": {"type": "number", "description": "Вес багажа"},
                         "type": {"type": "string", "description": "checked/hand"}
                     },
-                    "required": ["booking_id"]
+                    "required": [ "weight", "type" ]
                 }
             },
             {
                 "name": "SeatMapService",
-                "description": "Получает схему салона",
+                "description": "Получает схему салона (Booking ID не нужен, Flight Number тоже не нужен)",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "flight_number": {"type": "string"},
+                        
                         "date": {"type": "string"}
                     },
-                    "required": ["flight_number"]
+                    "required": ["date"]
                 }
             },
             {
@@ -147,34 +146,34 @@ class AviationTools:
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "booking_id": {"type": "string"},
+                        
                         "service": {"type": "string"},
                     },
-                    "required": ["booking_id", "service"]
+                    "required": ["service"]
                 }
             },
             {
                 "name": "InsuranceService",
-                "description": "Подключает страхование к бронированию",
+                "description": "Подключает страхование к бронированию (Booking ID не нужен)",
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "booking_id": {"type": "string"},
+                        
                         "insurance_type": {"type": "string"}
                     },
-                    "required": ["booking_id", "insurance_type"]
+                    "required": [ "insurance_type"]
                 }
             },
             {
                 "name": "CargoService",
-                "description": "Бронирование грузоперевозок",
+                "description": "Бронирование грузоперевозок ",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "weight": {"type": "number"},
                         "cargo_type": {"type": "string"},
-                        "origin": {"type": "string"},
-                        "destination": {"type": "string"}
+                        "origin": {"type": "string", },
+                        "destination": {"type": "string", }
                     },
                     "required": ["weight", "origin", "destination"]
                 }
@@ -258,35 +257,35 @@ class AviationTools:
         }
 
     @staticmethod
-    def FlightStatusService(flight_number: str, date: str = None):
+    def FlightStatusService(date: str = None):
         statuses = ["on_time", "delayed", "boarding", "cancelled"]
         return {
             "success": True,
-            "flight_number": flight_number,
+            
             "status": random.choice(statuses)
         }
 
     @staticmethod
-    def CheckInService(booking_id: str, seat: str = None):
+    def CheckInService( seat: str = None):
         return {
             "success": True,
-            "booking_id": booking_id,
+            
             "seat": seat or "auto_assigned"
         }
 
     @staticmethod
-    def UpgradeService(booking_id: str, new_class: str):
+    def UpgradeService( new_class: str):
         return {
             "success": True,
-            "booking_id": booking_id,
+            
             "upgraded_to": new_class
         }
 
     @staticmethod
-    def PaymentService(booking_id: str, amount: float, method: str = "card"):
+    def PaymentService( amount: float, method: str = "card"):
         return {
             "success": True,
-            "booking_id": booking_id,
+            
             "paid": amount,
             "method": method
         }
@@ -301,19 +300,19 @@ class AviationTools:
         }
 
     @staticmethod
-    def BaggageService(booking_id: str, weight: float = 20.0, type: str = "checked"):
+    def BaggageService(weight: float = 20.0, type: str = "checked"):
         return {
             "success": True,
-            "booking_id": booking_id,
+            
             "weight": weight,
             "type": type
         }
 
     @staticmethod
-    def SeatMapService(flight_number: str, date: str = None):
+    def SeatMapService( date: str = None):
         return {
             "success": True,
-            "flight_number": flight_number,
+            
             "seatmap": "mock_seatmap_data"
         }
 
@@ -335,18 +334,18 @@ class AviationTools:
         }
 
     @staticmethod
-    def AncillariesService(booking_id: str, service: str):
+    def AncillariesService( service: str):
         return {
             "success": True,
-            "booking_id": booking_id,
+            
             "service_added": service
         }
 
     @staticmethod
-    def InsuranceService(booking_id: str, insurance_type: str):
+    def InsuranceService( insurance_type: str):
         return {
             "success": True,
-            "booking_id": booking_id,
+            
             "insurance": insurance_type
         }
 
