@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
+import os
 
 # Юзер вставляет свой путь к папке с JSON файлами
-QUERIES_FOLDER = "/home/alena-kuriatnikova/ML модуль/benchmark/queries"
+QUERIES_FOLDER = os.path.join(os.path.dirname(__file__), "queries")
 
 #читаем все json файлы из папки
 def read_json_files(folder_path):
@@ -37,11 +38,20 @@ def validate_item(item):
 
 #приводим данные к единому виду
 def normalize_item(item):
+
+    expected_params = item.get("expected_parameters", {})
+    normalized_params = {}
+    for key, value in expected_params.items():
+        if isinstance(value, str):
+            normalized_params[key] = value.lower().strip()
+        else:
+            normalized_params[key] = value
+            
     normalized = {
         "id": str(item.get("id", "")).strip(),
         "query": item.get("query", "").strip(),
-        "expected_tool": item.get("expected_tool", "").strip().lower(),
-        "expected_parameters": item.get("expected_parameters", {}),
+        "expected_tool": (item.get("expected_tool") or "").strip().lower(),
+        "expected_parameters": normalized_params,
         "requires_clarification": item.get("requires_clarification", False),
         "skills": item.get("skills", [])
     }
@@ -90,38 +100,43 @@ def process_all_queries(folder_path=QUERIES_FOLDER, system_prompt=""):
     
     return inputs_for_llm, inputs_for_logging
 
-SYSTEM_PROMPT = """
-Ты — ассистент, прогоняющий запросы из tool-calling бенчмарка. Твоя задача: прочитать user query и выполнить один из трех пунктов:
-1) вызвать инструмент (tool) с корректными параметрами;
-2) если данных недостаточно — не вызывать инструмент и задать вопрос уточнения;
-3) если действие не предполагает tool, вернуть called=false.
+system_prompt = """
+Ты — агент, который ДОЛЖЕН строго возвращать JSON-объект.
+Никакого текста вне JSON.
 
-Правила:
-- Используй список доступных инструментов (tools manifest) — если он указан в input, выбери один из них.
-- Никогда не фантазируй значения параметров: если ожидается order_id, а его нет в запросе — возвращай clarification_question.
-- Если запрос явный (пользователь называет имя тулза) — проверь, что тулз существует в manifest. Если нет — верни called=false и message об отсутствии тулза.
-- При шуме (личные данные, внешние ссылки, рекламный текст) — игнорируй эти данные при формировании аргументов тулза. Не включай PII в arguments; если в аргументах должен быть PII — замаскируй.
-- Всегда заполняй поле internal.reasoning: короткая фраза почему выбран тул/почему нужна уточняющая фраза.
-- Форматируй ответ строго в JSON (см. RETURN FORMAT). Любой другой вывод будет считаться ошибкой.
+Всегда возвращай JSON строго следующей структуры:
 
-RETURN FORMAT:
 {
-    "id": "000000",                                                     #id запроса, который был передан в input
+    "id": "<ID запроса>",
     "tool_call": {
-        "tool_name": "cancel_order",                                    #название tool, который был вызван моделью
-        "parameters": {"order_id": "ORD1023"},                          #параметры, которые модель передала в tool
-        "called": true                                                  #был ли tool вызван
+        "tool_name": "...",
+        "parameters": { ... },
+        "called": true/false
     },
-    "clarification_question": null,                                     #был ли задан вопрос уточнения
-    "user_message": "Отменяю заказ ORD1023 на наушники.",               #модель отвечает на вопрос пользователя
+    "clarification_question": null или строка,
+    "user_message": null или строка,
     "internal": {
-        "reasoning": "Явный запрос cancel_order + корректный order_id", #какой модель выбрала tool для вызова и какие параметры забрала
-        "errors": null                                                  #была ли у модели ошибка
+        "reasoning": "<ОДНО короткое предложение>",
+        "errors": null
     }
 }
+
+Правила:
+1. Если можешь вызвать инструмент — вызывай. "tool_call.called": true.
+2. Если данных мало — НЕ вызывай инструмент, а задай вопрос (clarification_question).
+3. НЕ заворачивай JSON в строки. НЕ используй markdown. НЕ пиши текст вокруг.
+4. "internal.reasoning" должен быть ОДНОЙ КОРОТКОЙ ФРАЗОЙ (до 15 слов).
+5. "assistant_response": должен быть не более нескольких КОРОТКИХ ФРАЗ (2-3 предложения до 15 слов).
+5. Параметры инструмента должны быть только те, что есть в его спецификации.
+6. Если вызываешь инструмент — "user_message": null.
+7. Если НЕ вызываешь — "tool_call": null.
+8. Ты можешь вызывать инструменты ПОСЛЕДОВАТЕЛЬНО.
+    После получения результата инструмента ты можешь вызвать следующий инструмент,
+    если это необходимо для ответа пользователю.
+    Ты обязан следовать этим правилам и НИКОГДА не выводить JSON как текст.
+
 """
-    
-inputs_for_llm, inputs_for_logging = process_all_queries(
-    folder_path=QUERIES_FOLDER,
-    system_prompt=SYSTEM_PROMPT
-)
+if __name__ == "__main__":
+    inputs_for_llm, inputs_for_logging = process_all_queries(
+        system_prompt=system_prompt
+    ) 

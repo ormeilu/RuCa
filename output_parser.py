@@ -1,27 +1,67 @@
 import json
 
-#вставить путь до файла с результатами
-RESULTS_FILE = "/home/alena-kuriatnikova/ML модуль/benchmark/benchmark_results.json"
+RESULTS_FILE = "/home/alena-kuriatnikova/Загрузки/RuCa-master/benchmark_results (7).json"
 
-#читаем файл
 def read_benchmark_results(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         data = json.load(f)
     return data
 
-#извлекаем нужные данные из json-файла
+# Извлекаем нужные данные из bencchmark_results.json
 def extract_output(query_id, item):
     agent_response = item.get("agent_response", {})
-    internal_data = agent_response.get("internal", {})
-    raw_response = internal_data.get("raw_response", {})
-    tool_calls_list = raw_response.get("tool_calls", [])
     
-    name = ""
-    arguments = ""
-    if tool_calls_list and len(tool_calls_list) > 0:
-        first_tool_call = tool_calls_list[0]
-        name = first_tool_call.get("name", "")
-        arguments = first_tool_call.get("arguments", "")
+    # Для запросов с несколькими tool_calls
+    tool_calls_list = agent_response.get("tool_calls", [])
+    
+    if tool_calls_list and isinstance(tool_calls_list, list):
+        names = []
+        all_parameters = {}
+        
+        for tool_call in tool_calls_list:
+            name = tool_call.get("name", "").lower()
+            parameters = tool_call.get("parameters", {})
+            
+            names.append(name)
+            
+            for key, value in parameters.items():
+                if isinstance(value, str):
+                    all_parameters[key] = value.lower()
+                else:
+                    all_parameters[key] = value
+        
+        name_str = ",".join(names)
+        arguments = json.dumps(all_parameters, ensure_ascii=False)
+        
+        output = {
+            "id": query_id,
+            "name": name_str,
+            "arguments": arguments
+        }
+        return output
+    
+    # Для запросов с одинм tool_call
+    tool_call = agent_response.get("tool_call")
+    
+    if tool_call is None or not isinstance(tool_call, dict):
+        output = {
+            "id": query_id,
+            "name": "",
+            "arguments": ""
+        }
+        return output
+    
+    name = tool_call.get("name", "").lower()
+    parameters = tool_call.get("parameters", {})
+    
+    parameters_lower = {}
+    for key, value in parameters.items():
+        if isinstance(value, str):
+            parameters_lower[key] = value.lower()
+        else:
+            parameters_lower[key] = value
+    
+    arguments = json.dumps(parameters_lower, ensure_ascii=False)
     
     output = {
         "id": query_id,
@@ -44,4 +84,3 @@ def process_benchmark_results(filepath=RESULTS_FILE):
     return outputs_for_logging
 
 outputs_for_logging = process_benchmark_results(RESULTS_FILE)
-
