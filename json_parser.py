@@ -136,7 +136,7 @@ system_prompt = """
     Ты обязан следовать этим правилам и НИКОГДА не выводить JSON как текст.
 
 """
-if __name__ == "__main__":
-    inputs_for_llm, inputs_for_logging = process_all_queries(
-        system_prompt=system_prompt
-    ) 
+
+inputs_for_llm, inputs_for_logging = process_all_queries(
+    system_prompt=system_prompt
+) 

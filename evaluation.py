@@ -1,12 +1,11 @@
 from typing import Any
 import pandas as pd
 import json
-import math
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
-from rich.progress import Progress, BarColumn, TextColumn
 from rich import box
+from metrics_enum import Metrics
 from json_parser import inputs_for_logging
 from output_parser import outputs_for_logging
 
@@ -38,21 +37,24 @@ def validate_ids(inputs_for_logging: list[dict[str, Any]], outputs_for_logging: 
     return True
 
 
-# ---------- вспомогательная функция: нужна ли метрика ----------
-def _is_metric_enabled(inp: dict[str, Any], metric_name: str) -> bool:
-    """
-    Возвращает True, если в поле skills есть metric_name.
-    Если skills отсутствует – считаем, что метрика НЕ нужна.
-    """
+# вспомогательная функция: нужна ли метрика
+def _is_metric_enabled(inp: dict[str, Any], metric: Metrics) -> bool:
+    """Возвращает True, если метрика есть в skills."""
     skills = inp.get("skills", [])
-    return metric_name in skills
-
+    
+    def normalize(s: str) -> str:
+        return s.lower().replace(" ", "").replace("_", "")
+    
+    skills_normalized = [normalize(s) for s in skills]
+    metric_normalized = normalize(metric.value)
+    
+    return metric_normalized in skills_normalized
 
 # ---------- метрики ----------
 
 def decision(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """Да/нет: ожидался вызов и он был / не ожидался и не был."""
-    if not _is_metric_enabled(inp, "Decision"):
+    if not _is_metric_enabled(inp, Metrics.DECISION):
         return None
 
     expected = bool(inp["expected_tool"])
@@ -60,16 +62,20 @@ def decision(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     has_tool = bool(actual_tools and actual_tools.strip())
     return float(expected == has_tool)
 
-
 def tool_selection_f1(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
-    """F1 по множеству имён вызванных тулзов (без учёта порядка)."""
-    if not _is_metric_enabled(inp, "Tool selection"):
+    """Проверяет tool в ответе на совпадение с expected_tool"""
+    if not _is_metric_enabled(inp, Metrics.TOOL_SELECTION):
         return None
-
-    ref_tools = set(t.strip() for t in inp["expected_tool"].split(","))
+    
+    expected_tool = inp["expected_tool"]
+    if expected_tool is None or expected_tool == "":
+        ref_tools = set()
+    else:
+        ref_tools = set(t.strip().lower() for t in expected_tool.split(",") if t.strip())
+    
     actual_tools = set(out.get("name", "").split(","))
-    actual_tools.discard("")
-
+    actual_tools = set(t.strip().lower() for t in actual_tools if t.strip())
+    
     if not ref_tools and not actual_tools:
         return 1.0
 
@@ -82,10 +88,9 @@ def tool_selection_f1(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
 
     return 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
 
-
 def params_recall(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """Доля правильных параметров (None-поля пропускаются)."""
-    if not _is_metric_enabled(inp, "Params"):
+    if not _is_metric_enabled(inp, Metrics.PARAMS):
         return None
 
     ref_params = inp["expected_parameters"]
@@ -113,7 +118,7 @@ def params_recall(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
 
 def result(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """Сводная: правильность tool + правильность параметров."""
-    if not _is_metric_enabled(inp, "Result"):
+    if not _is_metric_enabled(inp, Metrics.RESULT):
         return None
 
     tool_correct = tool_selection_f1(inp, out)
@@ -128,7 +133,7 @@ def result(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
 
 def execution(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """Строгий порядок вызовов (chain)."""
-    if not _is_metric_enabled(inp, "Execution"):
+    if not _is_metric_enabled(inp, Metrics.EXECUTION):
         return None
 
     ref_tools = [t.strip() for t in inp["expected_tool"].split(",")]
@@ -142,7 +147,7 @@ def noise(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     1 = вызваны ровно те тулзы и ровно те параметры, что в expected
     0 = появился лишний тулз или лишний параметр
     """
-    if not _is_metric_enabled(inp, "Noise"):
+    if not _is_metric_enabled(inp, Metrics.NOISE):
         return None
 
     ref_tools = set(t.strip() for t in inp["expected_tool"].split(","))
@@ -164,13 +169,12 @@ def noise(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
 
     return 1.0
 
-
 def adaptability(inp: dict[str, Any], last_out: dict[str, Any]) -> float | None:
     """
     1 = последний вызов полностью совпал с expected (имена и параметры)
     0 = любое несовпадение
     """
-    if not _is_metric_enabled(inp, "Adaptability"):
+    if not _is_metric_enabled(inp, Metrics.ADAPTABILITY):
         return None
 
     ref_tools = set(t.strip() for t in inp["expected_tool"].split(","))
@@ -198,7 +202,7 @@ def error_handling(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     Если агент НЕ вызвал ни одного тулза – 1.0 балл,
     иначе – 0.0 (метрика про «не вызвал»).
     """
-    if not _is_metric_enabled(inp, "Error Handling"):
+    if not _is_metric_enabled(inp, Metrics.ERROR_HANDLING):
         return None
 
     return float(not out.get("name", "").strip())
@@ -214,7 +218,7 @@ def ambiguity(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
         0.5 = только tool или только params
         0 = ни tool, ни params не совпали
     """
-    if not _is_metric_enabled(inp, "Ambiguity"):
+    if not _is_metric_enabled(inp, Metrics.AMBIGUITY):
         return None
 
     ref_tools = set(t.strip() for t in inp["expected_tool"].split(","))
@@ -250,47 +254,49 @@ def evaluate_batch(inputs_for_logging: list[dict[str, Any]],
     for inp, out in zip(inputs_for_logging, outputs_for_logging):
         records.append({
             "id": inp["id"],
-            "decision": decision(inp, out),
-            "tool_selection": tool_selection_f1(inp, out),
-            "params": params_recall(inp, out),
-            "error_handling": error_handling(inp, out),
-            "result": result(inp, out),
-            "execution": execution(inp, out),
-            "noise": noise(inp, out),
-            "adaptability": adaptability(inp, out),
-            "ambiguity": ambiguity(inp, out),
+            Metrics.DECISION.column_name: decision(inp, out),
+            Metrics.TOOL_SELECTION.column_name: tool_selection_f1(inp, out),
+            Metrics.PARAMS.column_name: params_recall(inp, out),
+            Metrics.ERROR_HANDLING.column_name: error_handling(inp, out),
+            Metrics.RESULT.column_name: result(inp, out),
+            Metrics.EXECUTION.column_name: execution(inp, out),
+            Metrics.NOISE.column_name: noise(inp, out),
+            Metrics.ADAPTABILITY.column_name: adaptability(inp, out),
+            Metrics.AMBIGUITY.column_name: ambiguity(inp, out),
         })
     return pd.DataFrame(records)
 
 
 #финальная оценка
 def calculate_final_score(df: pd.DataFrame) -> float:
-    """
-    Для каждого запроса определяем, сколько у него метрик,
-    и считаем скор по соответствующей схеме, затем усредняем.
-    """
-
+    """Для каждого запроса определяем, сколько у него метрик..."""
+    
     weights_4 = {
-        "decision": 0.30,
-        "tool_selection": 0.30,
-        "params": 0.22,
-        "result": 0.18
+        Metrics.DECISION.column_name: 0.30,
+        Metrics.TOOL_SELECTION.column_name: 0.30,
+        Metrics.PARAMS.column_name: 0.22,
+        Metrics.RESULT.column_name: 0.18
     }
 
     weights_5_base = {
-        "decision": 0.28,
-        "tool_selection": 0.28,
-        "params": 0.20,
-        "result": 0.04
+        Metrics.DECISION.column_name: 0.28,
+        Metrics.TOOL_SELECTION.column_name: 0.28,
+        Metrics.PARAMS.column_name: 0.20,
+        Metrics.RESULT.column_name: 0.04
     }
 
-    specific_metrics = ["Ambiguity", "Noise", "Adaptability", "Error Handling", "Execution"]
+    specific_metrics = [
+        Metrics.AMBIGUITY.column_name,
+        Metrics.NOISE.column_name,
+        Metrics.ADAPTABILITY.column_name,
+        Metrics.ERROR_HANDLING.column_name,
+        Metrics.EXECUTION.column_name
+    ]
     specific_weight = 0.20
 
     scores = []
 
     for idx, row in df.iterrows():
-
         specific_found = None
         for metric in specific_metrics:
             if metric in row.index and pd.notna(row[metric]):
@@ -298,7 +304,6 @@ def calculate_final_score(df: pd.DataFrame) -> float:
                 break
 
         if specific_found:
-
             score = 0.0
             for metric, weight in weights_5_base.items():
                 if metric in row.index and pd.notna(row[metric]):
@@ -324,10 +329,8 @@ console = Console()
 def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: list[dict[str, Any]]) -> None:
     """Выводит таблицу с результатами бенчмарка."""
     
-    metric_cols = [
-        "decision", "tool_selection", "params", "result",
-        "ambiguity", "noise", "adaptability", "error_handling", "execution"
-    ]
+    metric_cols = [m.column_name for m in Metrics]
+    
     total_queries = len(df)
     
     # Считаем успешные запросы
@@ -406,17 +409,18 @@ def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: list[dict[str,
         show_header=True,
         header_style="bold cyan"
     )
-    
+
     metrics_table.add_column("Метрика", style="white", justify="left", width=25)
     metrics_table.add_column("Значение", justify="center", width=10)
     metrics_table.add_column("Визуализация", justify="left", width=25)
 
-    for metric_name, metric_value in metrics_display.items():
-
-        if math.isnan(metric_value):
+    for metric in Metrics:
+        metric_value = means.get(metric.column_name)
+        
+        if pd.isna(metric_value):
             value_str = "[white]N/A[/white]"
             bar = "░" * 20
-            metrics_table.add_row(metric_name, value_str, bar)
+            metrics_table.add_row(metric.value, value_str, bar)
             continue
 
         if metric_value >= 0.8:
@@ -430,14 +434,13 @@ def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: list[dict[str,
         bar = "█" * bar_length + "░" * (20 - bar_length)
 
         metrics_table.add_row(
-            metric_name,
+            metric.value,
             f"[{value_style}]{metric_value:.2f}[/{value_style}]",
             f"[{value_style}]{bar}[/{value_style}]"
         )
-    
+
     console.print(metrics_table)
     console.print()
-
 
 if __name__ == "__main__":
     # Проверяем совместимость ID
