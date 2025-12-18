@@ -39,7 +39,7 @@ def validate_item(item):
 #приводим данные к единому виду
 def normalize_item(item):
 
-    expected_params = item.get("expected_parameters", {})
+    expected_params = item.get("expected_parameters" or {})
     normalized_params = {}
     for key, value in expected_params.items():
         if isinstance(value, str):
@@ -136,7 +136,6 @@ system_prompt = """
     Ты обязан следовать этим правилам и НИКОГДА не выводить JSON как текст.
 
 """
-
 inputs_for_llm, inputs_for_logging = process_all_queries(
-    system_prompt=system_prompt
-) 
+        system_prompt=system_prompt
+    ) 

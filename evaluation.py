@@ -1,13 +1,42 @@
 from typing import Any
 import pandas as pd
 import json
+import math
+import os
+from datetime import datetime
+from pathlib import Path
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich import box
 from metrics_enum import Metrics
 from json_parser import inputs_for_logging
+import argparse
+
+# Обработка аргументов командной строки для установки переменной окружения
+parser_temp = argparse.ArgumentParser(add_help=False)
+parser_temp.add_argument("--input", type=str, default="benchmark_results.json")
+args_temp, _ = parser_temp.parse_known_args()
+os.environ['BENCHMARK_FILE'] = args_temp.input
+
+# Теперь импортируем output_parser, который будет использовать установленную переменную окружения
 from output_parser import outputs_for_logging
+console = Console()
+
+# Хранилище для детальных ошибок
+detailed_errors = []
+
+def log_error(query_id: str, metric_name: str, reason: str, expected: Any = None, actual: Any = None):
+    """Логирует детальную информацию об ошибке."""
+    error_entry = {
+        "id": query_id,
+        "metric": metric_name,
+        "reason": reason,
+        "expected": expected,
+        "actual": actual
+    }
+    detailed_errors.append(error_entry)
+
 
 #проверяем совместимы ли id запроса и ответа от модели
 def validate_ids(inputs_for_logging: list[dict[str, Any]], outputs_for_logging: list[dict[str, Any]]) -> bool:
@@ -60,22 +89,39 @@ def decision(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     expected = bool(inp["expected_tool"])
     actual_tools = out.get("name", "")
     has_tool = bool(actual_tools and actual_tools.strip())
-    return float(expected == has_tool)
+    
+    result = float(expected == has_tool)
+    
+    if result == 0.0:
+        if expected and not has_tool:
+            log_error(
+                inp["id"], 
+                "Decision",
+                "Ожидался вызов инструмента, но инструмент не был вызван",
+                expected=f"Должен был вызвать: {inp['expected_tool']}",
+                actual="Инструмент не вызван"
+            )
+        elif not expected and has_tool:
+            log_error(
+                inp["id"],
+                "Decision", 
+                "Не ожидался вызов инструмента, но инструмент был вызван",
+                expected="Не должен был вызывать инструменты",
+                actual=f"Вызван: {actual_tools}"
+            )
+    
+    return result
+
 
 def tool_selection_f1(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
-    """Проверяет tool в ответе на совпадение с expected_tool"""
+    """F1 по множеству имён вызванных тулзов (без учёта порядка)."""
     if not _is_metric_enabled(inp, Metrics.TOOL_SELECTION):
         return None
-    
-    expected_tool = inp["expected_tool"]
-    if expected_tool is None or expected_tool == "":
-        ref_tools = set()
-    else:
-        ref_tools = set(t.strip().lower() for t in expected_tool.split(",") if t.strip())
-    
+
+    ref_tools = set(t.strip() for t in inp["expected_tool"].split(","))
     actual_tools = set(out.get("name", "").split(","))
-    actual_tools = set(t.strip().lower() for t in actual_tools if t.strip())
-    
+    actual_tools.discard("")
+
     if not ref_tools and not actual_tools:
         return 1.0
 
@@ -86,7 +132,27 @@ def tool_selection_f1(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     precision = true_positive / (true_positive + false_positive) if (true_positive + false_positive) else 1.0
     recall = true_positive / (true_positive + false_negative) if (true_positive + false_negative) else 1.0
 
-    return 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
+    f1_score = 2 * precision * recall / (precision + recall) if (precision + recall) else 0.0
+    
+    if f1_score < 1.0:
+        errors = []
+        if false_positive > 0:
+            extra = actual_tools - ref_tools
+            errors.append(f"Лишние инструменты: {', '.join(extra)}")
+        if false_negative > 0:
+            missing = ref_tools - actual_tools
+            errors.append(f"Не хватает инструментов: {', '.join(missing)}")
+        
+        log_error(
+            inp["id"],
+            "Tool Selection",
+            " | ".join(errors),
+            expected=f"Должны быть вызваны: {', '.join(ref_tools)}",
+            actual=f"Вызваны: {', '.join(actual_tools) if actual_tools else 'Нет'}"
+        )
+    
+    return f1_score
+
 
 def params_recall(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     """Доля правильных параметров (None-поля пропускаются)."""
@@ -105,15 +171,31 @@ def params_recall(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
 
     total_count = 0
     correct_count = 0
+    wrong_params = []
 
     for key, value in ref_params.items():
         if value is None:
             continue
         total_count += 1
         actual_value = actual_params.get(key)
-        correct_count += int(actual_value == value)
+        
+        if actual_value == value:
+            correct_count += 1
+        else:
+            wrong_params.append(f"{key}: ожидалось '{value}', получено '{actual_value}'")
 
-    return correct_count / total_count if total_count else 1.0
+    recall = correct_count / total_count if total_count else 1.0
+    
+    if recall < 1.0 and wrong_params:
+        log_error(
+            inp["id"],
+            "Params",
+            f"Неправильные параметры: {' | '.join(wrong_params)}",
+            expected=ref_params,
+            actual=actual_params
+        )
+    
+    return recall
 
 
 def result(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
@@ -139,7 +221,19 @@ def execution(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     ref_tools = [t.strip() for t in inp["expected_tool"].split(",")]
     actual_tools = out.get("name", "").split(",")
     actual_tools = [t for t in actual_tools if t]
-    return float(actual_tools == ref_tools)
+    
+    is_correct = actual_tools == ref_tools
+    
+    if not is_correct:
+        log_error(
+            inp["id"],
+            "Execution",
+            "Неправильный порядок вызова инструментов",
+            expected=f"Порядок: {' -> '.join(ref_tools)}",
+            actual=f"Порядок: {' -> '.join(actual_tools) if actual_tools else 'Нет'}"
+        )
+    
+    return float(is_correct)
 
 
 def noise(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
@@ -155,6 +249,21 @@ def noise(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     actual_tools.discard("")
 
     if actual_tools != ref_tools:
+        extra = actual_tools - ref_tools
+        missing = ref_tools - actual_tools
+        errors = []
+        if extra:
+            errors.append(f"Лишние инструменты: {', '.join(extra)}")
+        if missing:
+            errors.append(f"Недостающие инструменты: {', '.join(missing)}")
+        
+        log_error(
+            inp["id"],
+            "Noise",
+            " | ".join(errors),
+            expected=', '.join(ref_tools),
+            actual=', '.join(actual_tools) if actual_tools else 'Нет'
+        )
         return 0.0
 
     ref_params_keys = set(inp["expected_parameters"].keys())
@@ -165,6 +274,21 @@ def noise(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
         actual_params_keys = set()
 
     if actual_params_keys != ref_params_keys:
+        extra = actual_params_keys - ref_params_keys
+        missing = ref_params_keys - actual_params_keys
+        errors = []
+        if extra:
+            errors.append(f"Лишние параметры: {', '.join(extra)}")
+        if missing:
+            errors.append(f"Недостающие параметры: {', '.join(missing)}")
+        
+        log_error(
+            inp["id"],
+            "Noise",
+            " | ".join(errors),
+            expected=', '.join(ref_params_keys),
+            actual=', '.join(actual_params_keys) if actual_params_keys else 'Нет'
+        )
         return 0.0
 
     return 1.0
@@ -182,6 +306,13 @@ def adaptability(inp: dict[str, Any], last_out: dict[str, Any]) -> float | None:
     last_tools.discard("")
 
     if last_tools != ref_tools:
+        log_error(
+            inp["id"],
+            "Adaptability",
+            "Инструменты в последнем вызове не совпадают",
+            expected=', '.join(ref_tools),
+            actual=', '.join(last_tools) if last_tools else 'Нет'
+        )
         return 0.0
 
     ref_params = {k: v for k, v in inp["expected_parameters"].items() if v is not None}
@@ -192,6 +323,13 @@ def adaptability(inp: dict[str, Any], last_out: dict[str, Any]) -> float | None:
         last_params = {}
 
     if last_params != ref_params:
+        log_error(
+            inp["id"],
+            "Adaptability",
+            "Параметры в последнем вызове не совпадают",
+            expected=ref_params,
+            actual=last_params
+        )
         return 0.0
 
     return 1.0
@@ -205,7 +343,18 @@ def error_handling(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
     if not _is_metric_enabled(inp, Metrics.ERROR_HANDLING):
         return None
 
-    return float(not out.get("name", "").strip())
+    has_tool = bool(out.get("name", "").strip())
+    
+    if has_tool:
+        log_error(
+            inp["id"],
+            "Error Handling",
+            "Инструмент был вызван, хотя не должен был (ошибка обработки)",
+            expected="Не должен вызывать инструменты",
+            actual=f"Вызван: {out.get('name', '')}"
+        )
+    
+    return float(not has_tool)
 
 
 def ambiguity(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
@@ -233,23 +382,54 @@ def ambiguity(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
         actual_params = {}
 
     if inp["requires_clarification"]:
-        return float(not actual_tools and not actual_params)
+        result = float(not actual_tools and not actual_params)
+        if result == 0.0:
+            log_error(
+                inp["id"],
+                "Ambiguity",
+                "Требовалось уточнение, но были вызваны инструменты или переданы параметры",
+                expected="Не должен вызывать инструменты, нужно запросить уточнение",
+                actual=f"Инструменты: {', '.join(actual_tools) if actual_tools else 'Нет'}, Параметры: {actual_params}"
+            )
+        return result
 
     tool_correct = actual_tools == ref_tools
     param_correct = actual_params == ref_params
 
     if tool_correct and param_correct:
         return 1.0
-    if tool_correct or param_correct:
+    elif tool_correct or param_correct:
+        errors = []
+        if not tool_correct:
+            errors.append(f"Инструменты не совпадают (ожидалось: {', '.join(ref_tools)}, получено: {', '.join(actual_tools) if actual_tools else 'Нет'})")
+        if not param_correct:
+            errors.append(f"Параметры не совпадают")
+        
+        log_error(
+            inp["id"],
+            "Ambiguity",
+            " | ".join(errors),
+            expected={"tools": list(ref_tools), "params": ref_params},
+            actual={"tools": list(actual_tools), "params": actual_params}
+        )
         return 0.5
-    return 0.0
-
-
+    else:
+        log_error(
+            inp["id"],
+            "Ambiguity",
+            "Не совпадают ни инструменты, ни параметры",
+            expected={"tools": list(ref_tools), "params": ref_params},
+            actual={"tools": list(actual_tools), "params": actual_params}
+        )
+        return 0.0
 
 # ---------- единая обёртка ----------
 def evaluate_batch(inputs_for_logging: list[dict[str, Any]],
                 outputs_for_logging: list[dict[str, Any]]) -> pd.DataFrame:
     """Принимает два списка одинаковой длины и возвращает DataFrame со скорами."""
+    global detailed_errors
+    detailed_errors = [] # Очищаем перед новым запуском
+    
     records = []
     for inp, out in zip(inputs_for_logging, outputs_for_logging):
         records.append({
@@ -266,11 +446,13 @@ def evaluate_batch(inputs_for_logging: list[dict[str, Any]],
         })
     return pd.DataFrame(records)
 
-
 #финальная оценка
 def calculate_final_score(df: pd.DataFrame) -> float:
-    """Для каждого запроса определяем, сколько у него метрик..."""
-    
+    """
+    Для каждого запроса определяем, сколько у него метрик,
+    и считаем скор по соответствующей схеме, затем усредняем.
+    """
+
     weights_4 = {
         Metrics.DECISION.column_name: 0.30,
         Metrics.TOOL_SELECTION.column_name: 0.30,
@@ -324,9 +506,53 @@ def calculate_final_score(df: pd.DataFrame) -> float:
     else:
         return 0.0
 
-console = Console()
+def print_detailed_errors(threshold: float = 0.8):
+    """Выводит детальную информацию об ошибках для запросов с низким скором."""
+    if not detailed_errors:
+        console.print("[green]✓ Ошибок не обнаружено![/green]\n")
+        return
+    
+    console.print(Panel.fit(
+        f"[bold red]ДЕТАЛЬНЫЙ АНАЛИЗ ОШИБОК ({len(detailed_errors)} проблем)[/bold red]",
+        border_style="red"
+    ))
+    console.print()
+    
+    errors_by_id = {}
+    for error in detailed_errors:
+        query_id = error["id"]
+        if query_id not in errors_by_id:
+            errors_by_id[query_id] = []
+        errors_by_id[query_id].append(error)
+    
+    for query_id, errors in errors_by_id.items():
+        error_table = Table(
+            title=f"[bold yellow]ID запроса: {query_id}[/bold yellow]",
+            box=box.ROUNDED,
+            show_header=True,
+            header_style="bold red"
+        )
+        
+        error_table.add_column("Метрика", style="cyan", width=20)
+        error_table.add_column("Причина ошибки", style="white", width=50)
+        error_table.add_column("Ожидалось", style="green", width=30)
+        error_table.add_column("Получено", style="red", width=30)
+        
+        for err in errors:
+            expected_str = str(err["expected"])[:50] if err["expected"] else "N/A"
+            actual_str = str(err["actual"])[:50] if err["actual"] else "N/A"
+            
+            error_table.add_row(
+                err["metric"],
+                err["reason"],
+                expected_str,
+                actual_str
+            )
+        
+        console.print(error_table)
+        console.print()
 
-def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: list[dict[str, Any]]) -> None:
+def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: list[dict[str, Any]], benchmark_file: str = "benchmark_results.json") -> None:
     """Выводит таблицу с результатами бенчмарка."""
     
     metric_cols = [m.column_name for m in Metrics]
@@ -409,7 +635,7 @@ def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: list[dict[str,
         show_header=True,
         header_style="bold cyan"
     )
-
+    
     metrics_table.add_column("Метрика", style="white", justify="left", width=25)
     metrics_table.add_column("Значение", justify="center", width=10)
     metrics_table.add_column("Визуализация", justify="left", width=25)
@@ -438,11 +664,62 @@ def print_benchmark_results(df: pd.DataFrame, inputs_for_logging: list[dict[str,
             f"[{value_style}]{metric_value:.2f}[/{value_style}]",
             f"[{value_style}]{bar}[/{value_style}]"
         )
-
+    
     console.print(metrics_table)
     console.print()
+    
+    # Выводим детальные ошибки
+    # print_detailed_errors()
+    
+    try:
+        output = {
+            "config": {},
+            "total_queries": total_queries,
+            "successful": int(successful),
+            "failed": int(failed),
+            "success_rate": round(success_rate, 2),
+            "final_score": round(final, 2),
+            "metrics_mean": {m.column_name: (None if pd.isna(means.get(m.column_name)) else round(means.get(m.column_name), 4)) for m in Metrics},
+        }
+        
+        try:
+            with open(benchmark_file, "r", encoding="utf-8") as f: 
+                bench_data = json.load(f)
+                print(f"DEBUG evaluation.py: Found {benchmark_file}") 
+                if "config" in bench_data:
+                    output["config"] = bench_data["config"]
+                    print(f"DEBUG: Config saved to evaluate_results.json: temperature={output['config'].get('temperature')}, top_p={output['config'].get('top_p')}, top_k={output['config'].get('top_k')}, seed={output['config'].get('seed')}")
+                else:
+                    print(f"DEBUG: No 'config' key in {benchmark_file}")  
+        except Exception as e:
+            print(f"DEBUG: Exception reading {benchmark_file}: {e}")  
+        
+        with open("evaluate_results.json", "w", encoding="utf-8") as f:
+            json.dump(output, f, ensure_ascii=False, indent=2)
+        console.print("[green]Результаты сохранены в evaluate_results.json[/green]")
+    except Exception as e:
+        console.print(f"[red]Не удалось сохранить результаты в json: {e}[/red]")
+
+def save_detailed_errors_json(filepath: str = "detailed_errors.json"):
+    """Сохраняет детальные ошибки в JSON-файл."""
+    if not detailed_errors:
+        return
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(detailed_errors, f, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Evaluate benchmark results")
+    parser.add_argument(
+        "--input",
+        type=str,
+        default="benchmark_results.json",
+        help="Path to benchmark results JSON file"
+    )
+    
+    args = parser.parse_args()
+    # Переменная окружения уже установлена выше, но обновляем на случай явного запуска этого скрипта
+    os.environ['BENCHMARK_FILE'] = args.input
     # Проверяем совместимость ID
     validate_ids(inputs_for_logging, outputs_for_logging)
 
@@ -450,4 +727,6 @@ if __name__ == "__main__":
     df = evaluate_batch(inputs_for_logging, outputs_for_logging)
 
     # Вывод результатов
-    print_benchmark_results(df, inputs_for_logging)
+    print_benchmark_results(df, inputs_for_logging, benchmark_file=args.input)
+    # Детальные ошибки в виде жисона
+    # save_detailed_errors_json("detailed_errors.json")
