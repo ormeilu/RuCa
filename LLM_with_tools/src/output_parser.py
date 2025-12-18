@@ -1,10 +1,15 @@
 import json
 
 #RESULTS_FILE = "/home/alena-kuriatnikova/Загрузки/RuCa-master/benchmark_results (7).json"
-
+RESULTS_FILE = RESULTS_FILE = "benchmark_results.json"
 def read_benchmark_results(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         data = json.load(f)
+    
+    # Если data имеет структуру с config и results, извлекаем только results
+    if isinstance(data, dict) and "results" in data and "config" in data:
+        return data["results"]
+    
     return data
 
 # Извлекаем нужные данные из bencchmark_results.json

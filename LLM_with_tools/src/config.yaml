@@ -1,0 +1,24 @@
+models:
+  model_A:
+    model_name: "openai/gpt-oss-20b"
+    temperature: 0.5
+    top_p: 0.7
+    top_k: 15
+    seed: 42
+    reasoning: false
+    api_key: ""  # пусто = берется из окружения
+    base_url: ""  # пусто = берется из окружения
+
+  model_B:
+    model_name: "openai/gpt-oss-120b"
+    temperature: 0.7
+    top_p: 0.9
+    top_k: 40
+    seed: 42
+    reasoning: true
+    api_key: ""
+    base_url: ""
+
+# Можно добавить больше моделей
+# model_C:
+#   ...

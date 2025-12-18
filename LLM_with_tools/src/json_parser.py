@@ -3,10 +3,7 @@ from pathlib import Path
 import os
 
 # Юзер вставляет свой путь к папке с JSON файлами
-# QUERIES_FOLDER = os.path.join(os.path.dirname(__file__), "queries")
-
-QUERIES_FOLDER = "queries"
-#"/home/alena-kuriatnikova/ML модуль/benchmark/queries"
+QUERIES_FOLDER = os.path.join(os.path.dirname(__file__), "queries")
 
 #читаем все json файлы из папки
 def read_json_files(folder_path):
@@ -41,11 +38,20 @@ def validate_item(item):
 
 #приводим данные к единому виду
 def normalize_item(item):
+
+    expected_params = item.get("expected_parameters" or {})
+    normalized_params = {}
+    for key, value in expected_params.items():
+        if isinstance(value, str):
+            normalized_params[key] = value.lower().strip()
+        else:
+            normalized_params[key] = value
+            
     normalized = {
         "id": str(item.get("id", "")).strip(),
         "query": item.get("query", "").strip(),
         "expected_tool": (item.get("expected_tool") or "").strip().lower(),
-        "expected_parameters": item.get("expected_parameters", {}),
+        "expected_parameters": normalized_params,
         "requires_clarification": item.get("requires_clarification", False),
         "skills": item.get("skills", [])
     }
@@ -93,6 +99,7 @@ def process_all_queries(folder_path=QUERIES_FOLDER, system_prompt=""):
     inputs_for_llm, inputs_for_logging = prepare_for_llm(normalized_queries, system_prompt)
     
     return inputs_for_llm, inputs_for_logging
+
 system_prompt = """
 Ты — агент, который ДОЛЖЕН строго возвращать JSON-объект.
 Никакого текста вне JSON.
@@ -100,19 +107,18 @@ system_prompt = """
 Всегда возвращай JSON строго следующей структуры:
 
 {
-  "id": "<ID запроса>",
-  "tool_call": {
-      "tool_name": "...",
-      "parameters": { ... },
-      "called": true/false
-  },
-  "clarification_question": null или строка,
-  "user_message": null или строка,
-  "chain_complete": true/false,
-  "internal": {
-      "reasoning": "<ОДНО короткое предложение>",
-      "errors": null
-  }
+    "id": "<ID запроса>",
+    "tool_call": {
+        "tool_name": "...",
+        "parameters": { ... },
+        "called": true/false
+    },
+    "clarification_question": null или строка,
+    "user_message": null или строка,
+    "internal": {
+        "reasoning": "<ОДНО короткое предложение>",
+        "errors": null
+    }
 }
 
 Правила:
@@ -120,33 +126,16 @@ system_prompt = """
 2. Если данных мало — НЕ вызывай инструмент, а задай вопрос (clarification_question).
 3. НЕ заворачивай JSON в строки. НЕ используй markdown. НЕ пиши текст вокруг.
 4. "internal.reasoning" должен быть ОДНОЙ КОРОТКОЙ ФРАЗОЙ (до 15 слов).
-5. "user_message": должен быть не более нескольких КОРОТКИХ ФРАЗ (2-3 предложения до 15 слов).
-6. Параметры инструмента должны быть только те, что есть в его спецификации.
-7. Если вызываешь инструмент — "user_message": null.
-8. Если НЕ вызываешь — "tool_call": null.
-
-ПОДДЕРЖКА ЦЕПОЧЕК ИНСТРУМЕНТОВ:
-9. Если задача требует НЕСКОЛЬКИХ инструментов последовательно:
-   - Вызови ПЕРВЫЙ инструмент
-   - Установи "chain_complete": false
-   - После получения результата ты получишь новый запрос с результатом
-   - Вызови СЛЕДУЮЩИЙ инструмент с учетом предыдущего результата
-   - Когда все инструменты выполнены — установи "chain_complete": true
-
-Примеры цепочек:
-- "Найди товар и переведи цену в USD" → search_products, потом currency_converter
-- "Узнай погоду и переведи на английский" → get_weather, потом translate
-- "Вычисли сумму и переведи в евро" → calculator, потом currency_converter
-
-10. Для цепочек: используй результат предыдущего инструмента в параметрах следующего.
-11. Если это последний/единственный инструмент в цепочке — "chain_complete": true.
-
+5. "assistant_response": должен быть не более нескольких КОРОТКИХ ФРАЗ (2-3 предложения до 15 слов).
+5. Параметры инструмента должны быть только те, что есть в его спецификации.
+6. Если вызываешь инструмент — "user_message": null.
+7. Если НЕ вызываешь — "tool_call": null.
+8. Ты можешь вызывать инструменты ПОСЛЕДОВАТЕЛЬНО.
+    После получения результата инструмента ты можешь вызвать следующий инструмент,
+    если это необходимо для ответа пользователю.
+    Ты обязан следовать этим правилам и НИКОГДА не выводить JSON как текст.
 
 """
-if __name__ == "__main__":
-    
-    
-    
-    inputs_for_llm, inputs_for_logging = process_all_queries(
+inputs_for_llm, inputs_for_logging = process_all_queries(
         system_prompt=system_prompt
     ) 
