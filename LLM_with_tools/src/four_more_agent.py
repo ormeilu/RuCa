@@ -7,9 +7,11 @@ import time
 from typing import Any, Dict, List, Tuple, Optional
 
 import dotenv
+import yaml
 from openai import OpenAI
 
 from settings import OpenAISettings
+from config_loader import get_all_models, resolve_model_params
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "tools"))
 
@@ -326,6 +328,10 @@ class BenchmarkAgent:
         system_prompt: str,
         query_id: str,
         max_chain_length: int = 5,
+        temperature: float = 0.5,
+        top_p: float = None,
+        top_k: int = None,
+        seed: int = None,
     ) -> Dict[str, Any]:
         """
         Асинхронный вызов модели с поддержкой цепочек инструментов.
@@ -370,8 +376,13 @@ class BenchmarkAgent:
                 "model": self.model,
                 "messages": messages,
                 "max_tokens": 2048,
-                "temperature": 0.5,
+                "temperature": temperature,
             }
+            
+            if top_p is not None:
+                payload["top_p"] = top_p
+            if top_k is not None:
+                payload["top_k"] = top_k
 
             if self.openai_tools:
                 payload["tools"] = self.openai_tools
@@ -493,6 +504,10 @@ async def run_benchmark_async(
     use_airbnb: bool = False,
     verbose: bool = True,
     max_concurrent: int = 8,
+    temperature: float = 0.5,
+    top_p: float = None,
+    top_k: int = None,
+    seed: int = None,
 ) -> Dict[str, Any]:
     if verbose:
         print(f"\n{'=' * 70}")
@@ -503,6 +518,8 @@ async def run_benchmark_async(
         print(f"Параллельных запросов: {max_concurrent}")
         print(f"{'=' * 70}\n")
 
+    settings = OpenAISettings()
+    
     agent = await BenchmarkAgent.create(
         model=model,
         use_retail=use_retail,
@@ -537,6 +554,10 @@ async def run_benchmark_async(
                     user_query=request_data["user_query"],
                     system_prompt=system_prompt,
                     query_id=query_id,
+                    temperature=temperature,
+                    top_p=top_p,
+                    top_k=top_k,
+                    seed=seed,
                 )
 
                 if verbose:
@@ -608,24 +629,64 @@ async def run_benchmark_async(
         print(f"Среднее время на запрос: {elapsed / len(inputs_for_llm):.2f}s")
         print(f"{'=' * 70}\n")
 
-    return results
+    # Добавляем метаинформацию о конфигурации
+    api_key = settings.openai_api_key.get_secret_value()
+    api_key_masked = api_key[:4] + "***" if len(api_key) > 4 else "***"
+    
+    results_with_config = {
+        "config": {
+            "model": model,
+            "base_url": str(settings.openai_base_url),
+            "api_key_prefix": api_key_masked,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "seed": seed,
+        },
+        "results": results,
+    }
+
+    return results_with_config
 
 
 def save_results(results: Dict[str, Any], filename: str = "benchmark_results.json") -> None:
+    # Если results содержит 'config' и 'results', сохраняем оба
+    if "config" in results and "results" in results:
+        output = results
+    else:
+        # Иначе оборачиваем в структуру с config
+        output = {
+            "config": {
+                "model": "unknown",
+                "base_url": "unknown",
+                "api_key_prefix": "***",
+                "temperature": 0.5,
+                "top_p": None,
+                "top_k": None,
+            },
+            "results": results,
+        }
+    
     with open(filename, "w", encoding="utf-8") as handle:
-        json.dump(results, handle, ensure_ascii=False, indent=2)
+        json.dump(output, handle, ensure_ascii=False, indent=2)
     print(f"Результаты сохранены в: {filename}")
 
 
 def print_statistics(results: Dict[str, Any]) -> None:
-    total = len(results)
+    # Извлекаем результаты, если они обёрнуты в config
+    if "results" in results:
+        actual_results = results["results"]
+    else:
+        actual_results = results
+    
+    total = len(actual_results)
     tool_calls = 0
     chain_calls = 0
     clarifications = 0
     text_responses = 0
     errors = 0
 
-    for entry in results.values():
+    for entry in actual_results.values():
         agent_response = entry["agent_response"]
         
         if agent_response.get("is_chain"):
@@ -687,6 +748,10 @@ def main() -> None:
     parser.add_argument("--quiet", action="store_true", help="Suppress verbose output")
     parser.add_argument("--airbnb", action="store_true", help="Enable Airbnb MCP tools")
     parser.add_argument("--concurrent", type=int, default=8, help="Max concurrent requests")
+    parser.add_argument("--temperature", type=float, default=0.5, help="Temperature parameter")
+    parser.add_argument("--top_p", type=float, default=None, help="Top-p parameter")
+    parser.add_argument("--top_k", type=int, default=None, help="Top-k parameter")
+    parser.add_argument("--seed", type=int, default=None, help="Random seed")
 
     args = parser.parse_args()
 
@@ -716,8 +781,25 @@ def main() -> None:
             use_trash=False,
             use_aviation=True,
             use_datetime=True,
+            temperature=args.temperature,
+            top_p=args.top_p,
+            top_k=args.top_k,
+            seed=args.seed,
         )
     )
+
+    print(f"\nDEBUG: Config from args:")
+    print(f"  temperature={args.temperature}")
+    print(f"  top_p={args.top_p}")
+    print(f"  top_k={args.top_k}")
+    print(f"  seed={args.seed}")
+    print(f"DEBUG: Config from results:")
+    if "config" in results:
+        print(f"  temperature={results['config'].get('temperature')}")
+        print(f"  top_p={results['config'].get('top_p')}")
+        print(f"  top_k={results['config'].get('top_k')}")
+        print(f"  seed={results['config'].get('seed')}")
+    print()
 
     save_results(results, filename=args.output)
     print_statistics(results)

@@ -30,7 +30,7 @@ class EcommerceTools:
             },
             {
                 "name": "search_products",
-                "description": "Ищет товары по запросу и возвращает результат в виде массива products, где каждый элемент имеет формат: {\"id\": string, \"name\": string, \"price\": number}. Пример: products = [{\"id\": \"P001\", \"name\": \"<query> Pro\", \"price\": 299}, {\"id\": \"P002\", \"name\": \"<query> Standard\", \"price\": 199}, {\"id\": \"P003\", \"name\": \"<query> Lite\", \"price\": 99}].",
+                "description": "Ищет товар по запросу и возвращает ОДИН результат результат в виде {\"id\": string, \"name\": string, \"price\": number}. Пример: product = {\"id\": \"P001\", \"name\": \"<query> Pro\", \"price\": 299}.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -38,10 +38,7 @@ class EcommerceTools:
                             "type": "string",
                             "description": "Поисковый запрос"
                         },
-                        "category": {
-                            "type": "string",
-                            "description": "Категория товара (опционально)"
-                        },
+                        
                         "max_price": {
                             "type": "number",
                             "description": "Максимальная цена (опционально)"
@@ -70,14 +67,14 @@ class EcommerceTools:
             },
             {
                 "name": "place_order",
-                "description": "Оформляет новый заказ",
+                "description": "Оформляет новый заказ. Используя товар из запроса НЕ производя дополнительного поиска. ",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "items": {
-                            "type": "array",
-                            "description": "Список товаров",
-                            "items": {"type": "string"}
+                            "type": "string",
+                            "description": "Название товара",
+                           # "items": {"type": "string"}
                         },
                         "address": {
                             "type": "string",
@@ -268,23 +265,17 @@ class EcommerceTools:
         }
     
     @staticmethod
-    def search_products(query: str, category: str = None, max_price: float = None) -> Dict[str, Any]:
+    def search_products(query: str,  max_price: float = None) -> Dict[str, Any]:
         """Ищет товары"""
-        products = [
-            {"id": "P001", "name": f"{query} Pro", "price": 299},
-            {"id": "P002", "name": f"{query} Standard", "price": 199},
-            {"id": "P003", "name": f"{query} Lite", "price": 99}
-        ]
+        product ={"id": "P001", "name": f"{query} Pro", "price": 299} 
         
-        # Фильтрация по цене
-        if max_price:
-            products = [p for p in products if p["price"] <= max_price]
+        
         
         return {
             "success": True,
             "query": query,
-            "count": len(products),
-            "products": products
+            "count": len(product),
+            "products": product
         }
     
     @staticmethod
@@ -299,16 +290,16 @@ class EcommerceTools:
         }
     
     @staticmethod
-    def place_order(items: list, address: str) -> Dict[str, Any]:
+    def place_order(items: str, address: str) -> Dict[str, Any]:
         """Оформляет заказ"""
-        order_id = f"ORD{random.randint(10000, 99999)}"
-        total = len(items) * 150  # Простая калькуляция
+       # order_id = f"ORD{random.randint(10000, 99999)}"
+        #total = len(items) * 150  # Простая калькуляция
         
         return {
             "success": True,
-            "order_id": order_id,
-            "items_count": len(items),
-            "total": total,
+           # "order_id": order_id,
+           # "items_count": len(items),
+           # "total": total,
             "address": address,
             "status": "confirmed"
         }
