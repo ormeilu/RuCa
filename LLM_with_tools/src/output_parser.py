@@ -1,7 +1,8 @@
 import json
+import os
 
-#RESULTS_FILE = "/home/alena-kuriatnikova/Загрузки/RuCa-master/benchmark_results (7).json"
-RESULTS_FILE = RESULTS_FILE = "benchmark_results.json"
+# Получаем путь из переменной окружения или используем значение по умолчанию
+RESULTS_FILE = os.environ.get('BENCHMARK_FILE', 'benchmark_results.json')
 def read_benchmark_results(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         data = json.load(f)

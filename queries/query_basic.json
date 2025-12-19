@@ -979,10 +979,10 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Какая погода 2025-12-11 в столице?",
-            "expected_tool": "get_weather",
+            "expected_tool": null,
             "expected_parameters": {
                 "location": null,
-                "date": "2025-12-11"
+                "date": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -993,11 +993,11 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Переведи 100 долларов в валюту Европы",
-            "expected_tool": "currency_converter",
+            "expected_tool": null,
             "expected_parameters": {
-                "from_currency": "USD",
+                "from_currency": null,
                 "to_currency": null,
-                "amount": 100
+                "amount": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1008,9 +1008,9 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Сколько сейчас у нас?",
-            "expected_tool": "get_time",
+            "expected_tool": null,
             "expected_parameters": {
-                "format": "24h"
+                "format": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1021,10 +1021,10 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Какая будет погода 2025-12-12?",
-            "expected_tool": "get_weather",
+            "expected_tool": null,
             "expected_parameters": {
                 "location": null,
-                "date": "2025-12-12"
+                "date": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1035,11 +1035,11 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Посчитай курс доллара.",
-            "expected_tool": "currency_converter",
+            "expected_tool": null,
             "expected_parameters": {
-                "from_currency": "USD",
+                "from_currency": null,
                 "to_currency": null,
-                "amount": 1
+                "amount": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1050,9 +1050,9 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Скажи дату следующего понедельника.",
-            "expected_tool": "get_date",
+            "expected_tool": null,
             "expected_parameters": {
-                "format": "iso",
+                "format": null,
                 "offset_days": null
             },
             "requires_clarification": true,
@@ -1064,11 +1064,11 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Переведи 500 долларов",
-            "expected_tool": "currency_converter",
+            "expected_tool": null,
             "expected_parameters": {
-                "from_currency": "USD",
+                "from_currency": null,
                 "to_currency": null,
-                "amount": 500
+                "amount": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1079,7 +1079,7 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Какая погода там, где сейчас полдень?",
-            "expected_tool": "get_weather",
+            "expected_tool": null,
             "expected_parameters": {
                 "location": null,
                 "date": null
@@ -1093,9 +1093,9 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Сколько времени на западе США в следующем месяце?",
-            "expected_tool": "get_time",
+            "expected_tool": null,
             "expected_parameters": {
-                "format": "24h",
+                "format": null,
                 "offset_hours": null
             },
             "requires_clarification": true,
@@ -1107,10 +1107,10 @@
             "category": "tool_basic",
             "type": "ambiguous",
             "query": "Вычисли 100 делить на половину",
-            "expected_tool": "calculator",
+            "expected_tool": null,
             "expected_parameters": {
                 "expression": null,
-                "precision": "2"
+                "precision": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Ambiguity", "Result"]
@@ -1450,7 +1450,7 @@
                 "source": "en",
                 "target": "ru"
             },
-            "requires_clarification": true,
+            "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
@@ -1465,7 +1465,7 @@
                 "source": "en",
                 "target": "ru"
             },
-            "requires_clarification": true,
+            "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
@@ -1480,7 +1480,7 @@
                 "source": "ru",
                 "target": "fr"
             },
-            "requires_clarification": true,
+            "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
@@ -1489,11 +1489,11 @@
             "type": "ambiguous",
             "category": "tool_basic",
             "query": "Переведи слово good… ну в смысле хорошее или хорошего?",
-            "expected_tool": "translate",
+            "expected_tool": null,
             "expected_parameters": {
-                "text": "good",
-                "source": "en",
-                "target": "ru"
+                "text": null,
+                "source": null,
+                "target": null
             },
             "requires_clarification": true,
             "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
@@ -1675,7 +1675,7 @@
                 "source": "en",
                 "target": "ru"
             },
-            "requires_clarification": true,
+            "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
@@ -1765,7 +1765,7 @@
                 "source": "en",
                 "target": "ru"
             },
-            "requires_clarification": true,
+            "requires_clarification": false,
             "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
         },
         {
