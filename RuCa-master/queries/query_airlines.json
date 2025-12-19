@@ -1,0 +1,1311 @@
+{
+  "queries_airlines": [
+    {
+      "id": "000100",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Хочу забронировать билет из Москвы в Париж на завтра",
+      "expected_tool": "BookingService",
+      "expected_parameters": {
+        "from": "Moscow",
+        "to": "Paris",
+        "date": "tomorrow"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000101",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Измени дату моего вылета на 15 октября",
+      "expected_tool": "RebookingService",
+      "expected_parameters": {
+        "new_date": "October 15"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000102",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь статус рейса SU245",
+      "expected_tool": "FlightStatusService",
+      "expected_parameters": {
+        "flight_number": "SU245"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000103",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Зарегистрируй меня на рейс LH876",
+      "expected_tool": "CheckInService",
+      "expected_parameters": {
+        "flight_number": "LH876"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000104",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Хочу апгрейд до бизнес-класса на рейс QR114",
+      "expected_tool": "UpgradeService",
+      "expected_parameters": {
+        "flight_number": "QR114",
+        "class": "business"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000105",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Оплати мой билет с карты на сумму 23 500 рублей",
+      "expected_tool": "PaymentService",
+      "expected_parameters": {
+        "amount": 23500,
+        "currency": "RUB",
+        "payment_method": "card"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000106",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Оплати билет милями",
+      "expected_tool": "LoyaltyService",
+      "expected_parameters": {
+        "payment_method": "miles"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000107",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Найди мой багаж по номеру 123456",
+      "expected_tool": "BaggageService",
+      "expected_parameters": {
+        "baggage_id": "123456"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000108",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Покажи схему мест на рейс AF345",
+      "expected_tool": "SeatMapService",
+      "expected_parameters": {
+        "flight_number": "AF345"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000109",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Хочу вернуть деньги за отменённый рейс SU778",
+      "expected_tool": "RefundService",
+      "expected_parameters": {
+        "flight_number": "SU778",
+        "reason": "cancelled"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000110",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Система подтвердила задержку рейса SU245?",
+      "expected_tool": "OpsService",
+      "expected_parameters": {
+        "flight_number": "SU245",
+        "query_type": "delay"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000111",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Подтверди статус доставки багажа 9876",
+      "expected_tool": "BaggageService",
+      "expected_parameters": {
+        "baggage_id": "9876"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000112",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Добавь багаж к моему билету",
+      "expected_tool": "AncillariesService",
+      "expected_parameters": {
+        "service_type": "baggage"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000113",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Подключи Wi-Fi на борту рейса EK215",
+      "expected_tool": "AncillariesService",
+      "expected_parameters": {
+        "flight_number": "EK215",
+        "service_type": "wifi"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000114",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Оформи страховку на перелёт Москва — Рим",
+      "expected_tool": "InsuranceService",
+      "expected_parameters": {
+        "route": "Moscow — Rome"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000115",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Отправь груз весом 20 кг из Москвы в Берлин",
+      "expected_tool": "CargoService",
+      "expected_parameters": {
+        "weight": 20,
+        "from": "Moscow",
+        "to": "Berlin"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000116",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь, найден ли мой утерянный чемодан",
+      "expected_tool": "LostAndFoundService",
+      "expected_parameters": {
+        "item_type": "suitcase"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000117",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Подтверди личность по паспорту 4510 №234567",
+      "expected_tool": "IdentityVerificationService",
+      "expected_parameters": {
+        "passport_series": "4510",
+        "passport_number": "234567"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000118",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "У меня задержка рейса, дайте отель",
+      "expected_tool": "HotelService",
+      "expected_parameters": {
+        "reason": "flight_delay"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000119",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Оформи компенсацию за задержку рейса SU456",
+      "expected_tool": "CompensationService",
+      "expected_parameters": {
+        "flight_number": "SU456",
+        "reason": "delay"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000120",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Выбери место у окна в эконом-классе",
+      "expected_tool": "SeatMapService",
+      "expected_parameters": {
+        "seat_type": "window",
+        "class": "economy"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000121",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь, активна ли страховка по номеру 55421",
+      "expected_tool": "InsuranceService",
+      "expected_parameters": {
+        "insurance_id": "55421"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000122",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Добавь питание без глютена",
+      "expected_tool": "AncillariesService",
+      "expected_parameters": {
+        "service_type": "meal",
+        "meal_type": "gluten_free"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000123",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь доступные апгрейды для моего рейса",
+      "expected_tool": "UpgradeService",
+      "expected_parameters": {},
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000124",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Хочу изменить дату вылета на следующую неделю",
+      "expected_tool": "RebookingService",
+      "expected_parameters": {
+        "new_date": "next_week"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000125",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Закажи дополнительное питание на борту",
+      "expected_tool": "AncillariesService",
+      "expected_parameters": {
+        "service_type": "meal"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000126",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь статус моего груза номер 7890",
+      "expected_tool": "CargoService",
+      "expected_parameters": {
+        "cargo_id": "7890"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000127",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Добавь партнёрский отель к моей броне",
+      "expected_tool": "HotelService",
+      "expected_parameters": {
+        "hotel_type": "partner"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000128",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Запроси компенсацию за утерю багажа 2234",
+      "expected_tool": "CompensationService",
+      "expected_parameters": {
+        "baggage_id": "2234",
+        "reason": "lost"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000129",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь мой бонусный счёт",
+      "expected_tool": "LoyaltyService",
+      "expected_parameters": {},
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000130",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Зарегистрируй меня на завтрашний рейс SU300",
+      "expected_tool": "CheckInService",
+      "expected_parameters": {
+        "flight_number": "SU300",
+        "date": "tomorrow"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000131",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Забронируй билет в Лондон на следующую пятницу",
+      "expected_tool": "BookingService",
+      "expected_parameters": {
+        "to": "London",
+        "date": "next_friday"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000132",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь статус рейса AF234 из Парижа",
+      "expected_tool": "FlightStatusService",
+      "expected_parameters": {
+        "flight_number": "AF234",
+        "from": "Paris"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000133",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Где находится стойка Lost & Found?",
+      "expected_tool": "LostAndFoundService",
+      "expected_parameters": {
+        "query_type": "location"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000134",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Добавь 5 кг багажа",
+      "expected_tool": "AncillariesService",
+      "expected_parameters": {
+        "service_type": "baggage",
+        "weight": 5
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000135",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Хочу вернуть деньги за билет 8843",
+      "expected_tool": "RefundService",
+      "expected_parameters": {
+        "ticket_id": "8843"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000136",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Перенеси мой рейс на понедельник",
+      "expected_tool": "RebookingService",
+      "expected_parameters": {
+        "new_date": "monday"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000137",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь доставку груза 4321",
+      "expected_tool": "CargoService",
+      "expected_parameters": {
+        "cargo_id": "4321"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000138",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь компенсацию по делу 777",
+      "expected_tool": "CompensationService",
+      "expected_parameters": {
+        "case_id": "777"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000139",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь местоположение багажа 3456",
+      "expected_tool": "BaggageService",
+      "expected_parameters": {
+        "baggage_id": "3456"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000140",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Подтверди регистрацию на рейс LH876",
+      "expected_tool": "CheckInService",
+      "expected_parameters": {
+        "flight_number": "LH876"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000141",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь статус рейса QR987",
+      "expected_tool": "FlightStatusService",
+      "expected_parameters": {
+        "flight_number": "QR987"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000142",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Начисли мили за вчерашний полёт",
+      "expected_tool": "LoyaltyService",
+      "expected_parameters": {
+        "flight_date": "yesterday"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000143",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Верни деньги за отменённый рейс LH245",
+      "expected_tool": "RefundService",
+      "expected_parameters": {
+        "flight_number": "LH245",
+        "reason": "cancelled"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000144",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Забронируй билет на завтра в Прагу",
+      "expected_tool": "BookingService",
+      "expected_parameters": {
+        "to": "Prague",
+        "date": "tomorrow"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000145",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь системную задержку багажа 5566",
+      "expected_tool": "OpsService",
+      "expected_parameters": {
+        "baggage_id": "5566",
+        "query_type": "delay"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000146",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Проверь компенсацию по рейсу SU887",
+      "expected_tool": "CompensationService",
+      "expected_parameters": {
+        "flight_number": "SU887"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000147",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Добавь страховку к текущему билету",
+      "expected_tool": "InsuranceService",
+      "expected_parameters": {},
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000148",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Хочу узнать, сколько осталось миль до бесплатного апгрейда",
+      "expected_tool": "LoyaltyService",
+      "expected_parameters": {
+        "query_type": "miles_to_upgrade"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000149",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "ordinary",
+      "query": "Добавь к билету услугу «приоритетная посадка»",
+      "expected_tool": "AncillariesService",
+      "expected_parameters": {
+        "service_type": "priority_boarding"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result"]
+    },
+    {
+      "id": "000150",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Потерялс мой бгж 223",
+      "expected_tool": "BaggageService",
+      "expected_parameters": {
+        "baggage_id": "223"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000151",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Зобронируй билет в лондн",
+      "expected_tool": "BookingService",
+      "expected_parameters": {
+        "to": "London"
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000152",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Проверь сатус рейса 654",
+      "expected_tool": "FlightStatusService",
+      "expected_parameters": {
+        "flight_number": "654"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000153",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Хочу апгред до бизнес клса",
+      "expected_tool": "UpgradeService",
+      "expected_parameters": {
+        "class": "business"
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000154",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Рефунд за рейс 887 пж",
+      "expected_tool": "RefundService",
+      "expected_parameters": {
+        "flight_number": "887"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000155",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Проверь мой бонусны счёт",
+      "expected_tool": "LoyaltyService",
+      "expected_parameters": {},
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000156",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Пераброн рейс на завтра",
+      "expected_tool": "RebookingService",
+      "expected_parameters": {
+        "new_date": "tomorrow"
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000157",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Хочу добавит багаж 5кг",
+      "expected_tool": "AncillariesService",
+      "expected_parameters": {
+        "service_type": "baggage",
+        "weight": 5
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000158",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Проверь коменсацию 444",
+      "expected_tool": "CompensationService",
+      "expected_parameters": {
+        "case_id": "444"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000159",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Купи стракховку на полет",
+      "expected_tool": "InsuranceService",
+      "expected_parameters": {},
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000160",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Проверь груc номер 1234",
+      "expected_tool": "CargoService",
+      "expected_parameters": {
+        "cargo_id": "1234"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000161",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Хочу подключит вайфай на борту",
+      "expected_tool": "AncillariesService",
+      "expected_parameters": {
+        "service_type": "wifi"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000162",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Нйди мой чемодан 333",
+      "expected_tool": "LostAndFoundService",
+      "expected_parameters": {
+        "item_id": "333"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000163",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Потдтверди личность",
+      "expected_tool": "IdentityVerificationService",
+      "expected_parameters": {},
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000164",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Забрнри отель в париж",
+      "expected_tool": "HotelService",
+      "expected_parameters": {
+        "city": "Paris"
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000165",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Првер статус рейса",
+      "expected_tool": "FlightStatusService",
+      "expected_parameters": {},
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000166",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Ребукиг рейса на суботу",
+      "expected_tool": "RebookingService",
+      "expected_parameters": {
+        "new_date": "saturday"
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000167",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Зплати за билет 25000",
+      "expected_tool": "PaymentService",
+      "expected_parameters": {
+        "amount": 25000
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000168",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Чемодан not find, хелп плиз 555",
+      "expected_tool": "LostAndFoundService",
+      "expected_parameters": {
+        "item_id": "555"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000169",
+      "complexity": "easy",
+      "category": "tool_airlines",
+      "type": "misprint",
+      "query": "Багаж мейби в аэропорт остался?",
+      "expected_tool": "BaggageService",
+      "expected_parameters": {},
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000170",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Перенеси рейс на завтра, хотя нет на послезавтра",
+      "expected_tool": "RebookingService",
+      "expected_parameters": {
+        "date": "the day after tomorrow"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000171",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Оставь базовый тариф, хотя нет подними его до бизнес-класса",
+      "expected_tool": "UpgradeService",
+      "expected_parameters": {
+        "upgrade": "business class"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000172",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Забронируй отель, хотя нет забронируй билет на завтра в Париж",
+      "expected_tool": "BookingService",
+      "expected_parameters": {
+        "booking": "tomorrow",
+        "city": "Paris"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000173",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Перебронируй рейс на завтра, хотя нет давай на следующий понедельник",
+      "expected_tool": "RebookingService",
+      "expected_parameters": {
+        "date": "next monday"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000174",
+      "complexity": "hard",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Проверь бронь на завтра, хотя нет лучше проверь багаж",
+      "expected_tool": "BaggageService",
+      "expected_parameters": {
+        "check_baggage": true
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000175",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Подтверди личность, хотя давай лучше оформим посадку",
+      "expected_tool": "CheckInService",
+      "expected_parameters": {
+        "check_in": true
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000176",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Сдай обратный билет, хотя нет лучше забронируй билет",
+      "expected_tool": "BookingService",
+      "expected_parameters": {
+        "booking": true
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000177",
+      "complexity": "hard",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Добавь багаж и потом питание, нет, я передумала, всё отмени",
+      "expected_tool": "RefundService",
+      "expected_parameters": {
+        "cancel_all": true
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000178",
+      "complexity": "hard",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Проверь статус рейса, хотя давай мразу его отменим",
+      "expected_tool": "RefundService",
+      "expected_parameters": {
+        "conditional_refund": true
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000179",
+      "complexity": "hard",
+      "category": "tool_airlines",
+      "type": "adaptive",
+      "query": "Найди мой багаж, хотя мне уже сказали, что он потерян, лучше оформи компенсацию",
+      "expected_tool": "CompensationService",
+      "expected_parameters": {
+        "conditional_compensation": true
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Adaptability"]
+    },
+    {
+      "id": "000180",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Хочу забронировать билет",
+      "expected_tool": "BookingService",
+      "expected_parameters": {
+        "date": null,
+        "city": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000181",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Проверь статус какого-то рейса",
+      "expected_tool": "FlightStatusService",
+      "expected_parameters": {
+        "date": null,
+        "flight_number": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000182",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Что-то с моими милями странное, но я не понимаю что",
+      "expected_tool": "LoyaltyService",
+      "expected_parameters": {
+        "miles_issue": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000183",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Похоже, что мой багаж где-то, но я не знаю где",
+      "expected_tool": "BaggageService",
+      "expected_parameters": {
+        "baggage_status": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000184",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Мне говорили, что будет компенсация, но я не понял за что именно",
+      "expected_tool": "CompensationService",
+      "expected_parameters": {
+        "compensation_reason": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000185",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Что-то не так с оплатой, но я не понимаю что именно нужно сделать",
+      "expected_tool": "PaymentService",
+      "expected_parameters": {
+        "payment_issue": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000186",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Кажется, у меня была бронь отеля, но я не уверен",
+      "expected_tool": "HotelService",
+      "expected_parameters": {
+        "booking_lookup": null,
+        "date": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000187",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Мне нужно место получше, но я не знаю какое",
+      "expected_tool": "SeatMapService",
+      "expected_parameters": {
+        "seat_preference": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000188",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Хочу что-то поменять в билете, но я не помню что именно",
+      "expected_tool": "RebookingService",
+      "expected_parameters": {
+        "change_request": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000189",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "ambiguous",
+      "query": "Мне нужно подтвердить личность, но я не знаю каким способом",
+      "expected_tool": "IdentityVerificationService",
+      "expected_parameters": {
+        "verification_method": null
+      },
+      "requires_clarification": true,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Ambiguity"]
+    },
+    {
+      "id": "000190",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "Ну короче, чемодан мой где-то там потерялся, я вчера улетал, номер вроде 987, ну ты разберись",
+      "expected_tool": "BaggageService",
+      "expected_parameters": {
+        "baggage_id": "987"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    },
+    {
+      "id": "000191",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "Слушай, а можешь глянуть рейс SU445, он там что-то то ли опаздывает, то ли я просто устал уже",
+      "expected_tool": "FlightStatusService",
+      "expected_parameters": {
+        "flight_number": "SU445"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    },
+    {
+      "id": "000192",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "Я тут на кассе стою, билет что-то не проходит, можешь оплатить там как-нибудь, а?",
+      "expected_tool": "PaymentService",
+      "expected_parameters": {},
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    },
+    {
+      "id": "000193",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "Слушай, мне в Рим надо, да, помнишь? Вино там крутое. Забронируй билет уже",
+      "expected_tool": "BookingService",
+      "expected_parameters": {
+        "to": "Rome"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    },
+    {
+      "id": "000194",
+      "complexity": "hard",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "Вот это вообще жесть — еда на рейсе была ужас, можно мили начислить или что там делают?",
+      "expected_tool": "CompensationService",
+      "expected_parameters": {
+        "complaint_type": "meal_quality"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    },
+    {
+      "id": "000195",
+      "complexity": "hard",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "Можешь посмотреть, где чемодан мой? Он там в карго что-то затерялся может… кто его знает",
+      "expected_tool": "BaggageService",
+      "expected_parameters": {},
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    },
+    {
+      "id": "000196",
+      "complexity": "hard",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "У меня SU123 там, покажи бронь, я хочу поменять, устал уже",
+      "expected_tool": "BookingService",
+      "expected_parameters": {
+        "flight_number": "SU123",
+        "action": "modify"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    },
+    {
+      "id": "000197",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "Я ж говорил — оплати этот апгрейд, ну пожалуйста, сил уже нет",
+      "expected_tool": "UpgradeService",
+      "expected_parameters": {},
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    },
+    {
+      "id": "000198",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "Отель забронируй и скажи, что я с собакой, и вообще вайфай добавь там",
+      "expected_tool": "HotelService",
+      "expected_parameters": {
+        "special_request": "with_pet",
+        "wifi": true
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    },
+    {
+      "id": "000199",
+      "complexity": "medium",
+      "category": "tool_airlines",
+      "type": "noise",
+      "query": "Где моя страховка? Я же делал её… или не делал, сам уже не знаю",
+      "expected_tool": "InsuranceService",
+      "expected_parameters": {
+        "action": "check_status"
+      },
+      "requires_clarification": false,
+      "skills": ["Decision", "Tool selection", "Params", "Result", "Noise"]
+    }
+  ]
+}

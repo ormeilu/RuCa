@@ -1,0 +1,88 @@
+{
+  "config": {
+    "model": "openai/gpt-oss-20b",
+    "base_url": "https://integrate.api.nvidia.com/v1",
+    "api_key_prefix": "nvap***",
+    "temperature": 0.5,
+    "top_p": null,
+    "top_k": null
+  },
+  "results": {
+    "000200": {
+      "id": "000200",
+      "user_query": "Найди платье красного цвета до 7000 рублей.",
+      "agent_response": {
+        "tool_calls": [
+          {
+            "name": "search_products",
+            "parameters": {
+              "query": "платье красного цвета",
+              "max_price": 7000
+            }
+          }
+        ],
+        "tool_results": [
+          {
+            "success": true,
+            "query": "платье красного цвета",
+            "count": 3,
+            "products": {
+              "id": "P001",
+              "name": "платье красного цвета Pro",
+              "price": 299
+            }
+          }
+        ],
+        "is_chain": false,
+        "tool_call": {
+          "name": "search_products",
+          "parameters": {
+            "query": "платье красного цвета",
+            "max_price": 7000
+          }
+        },
+        "tool_result": {
+          "success": true,
+          "query": "платье красного цвета",
+          "count": 3,
+          "products": {
+            "id": "P001",
+            "name": "платье красного цвета Pro",
+            "price": 299
+          }
+        },
+        "user_message": null,
+        "clarification_question": "Хотите добавить платье в корзину?",
+        "assistant_response": "{\"id\":\"req-12346\",\"tool_call\":null,\"clarification_question\":\"Хотите добавить платье в корзину?\",\"user_message\":null,\"internal\":{\"reasoning\":\"Product found, ask to add to cart.\",\"errors\":null}}",
+        "internal": {
+          "reasoning": "Product found, ask to add to cart",
+          "errors": null,
+          "conversation_history": [
+            {
+              "iteration": 0,
+              "response": "{\"id\":\"req-12345\",\"tool_call\":{\"tool_name\":\"search_products\",\"parameters\":{\"query\":\"платье красного цвета\",\"max_price\":7000},\"called\":true},\"clarification_question\":null,\"user_message\":null,\"internal\":{\"reasoning\":\"Searching for red dress under 7000 rubles.\",\"errors\":null}}"
+            },
+            {
+              "iteration": 1,
+              "response": "{\"id\":\"req-12346\",\"tool_call\":null,\"clarification_question\":\"Хотите добавить платье в корзину?\",\"user_message\":null,\"internal\":{\"reasoning\":\"Product found, ask to add to cart.\",\"errors\":null}}"
+            }
+          ],
+          "iterations": 1
+        }
+      },
+      "ground_truth": {
+        "expected_tool": "cancel_order",
+        "expected_parameters": {
+          "order_id": "ord1023"
+        },
+        "requires_clarification": false,
+        "skills": [
+          "Decision",
+          "Tool selection",
+          "Params",
+          "Result"
+        ]
+      }
+    }
+  }
+}
