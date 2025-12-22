@@ -29,25 +29,15 @@ models:
     api_key: ""
     base_url: ""
   
-  model_D:
-    model_name: "nvidia/llama-3.3-nemotron-super-49b-v1.5"
-    temperature: 0.6
-    top_p: 0.95
-    top_k: 40
-    seed: 42
-    reasoning: true
-    api_key: ""
-    base_url: ""
-  
-  
-    model_E:
-    model_name: "minimaxai/minimax-m2"
-    temperature: 0.6
-    top_p: 0.95
-    top_k: 40
-    seed: 42
-    reasoning: true
-    api_key: ""
-    base_url: ""
+
+    # model_D:
+    # model_name: "minimaxai/minimax-m2"
+    # temperature: 0.6
+    # top_p: 0.95
+    # top_k: 40
+    # seed: 42
+    # reasoning: true
+    # api_key: ""
+    # base_url: ""
 
 
