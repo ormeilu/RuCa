@@ -1,0 +1,399 @@
+{
+    "queries_chain": [
+        {
+            "id": "000401",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Найди мне недорогие беспроводные наушники и сразу переведи их цену в доллары.",
+            "expected_tool": "search_products, currency_converter",
+            "expected_parameters": {
+            "product_query": "беспроводные наушники",
+            "from_currency": "local",
+            "to_currency": "USD",
+            "amount": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000402",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь погоду в Париже и забронируй отель на Airbnb неподалёку.",
+            "expected_tool": "get_weather, airbnb_search",
+            "expected_parameters": {
+            "location": "Paris",
+            "stay_location": "Paris",
+            "dates": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000403",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Добавь в корзину новый смартфон и затем оформи доставку на завтра.",
+            "expected_tool": "add_to_cart, schedule_delivery",
+            "expected_parameters": {
+            "product": "smartphone",
+            "delivery_date": "tomorrow"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000404",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Переведи мой запрос на английский и найди мне зимнее пальто.",
+            "expected_tool": "translate, search_products",
+            "expected_parameters": {
+            "text_to_translate": "мой запрос",
+            "target_language": "en",
+            "product_query": "winter coat"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000405",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Определи текущее время в Нью-Йорке и забронируй рейс туда на завтра.",
+            "expected_tool": "get_time, BookingService",
+            "expected_parameters": {
+            "location": "New York",
+            "destination": "New York",
+            "date": "tomorrow"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000406",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь статус моего рейса и забронируй отель рядом с аэропортом.",
+            "expected_tool": "FlightStatusService, HotelService",
+            "expected_parameters": {
+            "flight_number": null,
+            "hotel_location": "near_airport"
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000407",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Добавь новую карту для оплаты и оплати мой текущий заказ.",
+            "expected_tool": "update_payment_method, PaymentService",
+            "expected_parameters": {
+            "payment_method": "card",
+            "order_id": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000408",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Переведи 200 евро в доллары и сразу оформи оплату бронирования.",
+            "expected_tool": "currency_converter, PaymentService",
+            "expected_parameters": {
+            "from_currency": "EUR",
+            "to_currency": "USD",
+            "amount": 200,
+            "payment_id": null
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000409",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Найди свободные квартиры Airbnb в Париже и переведи их описания на русский.",
+            "expected_tool": "airbnb_search, translate",
+            "expected_parameters": {
+            "location": "Paris",
+            "text_to_translate": "French",
+            "target_language": "ru"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000410",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Отследи мой заказ и затем обнови адрес доставки.",
+            "expected_tool": "track_order, update_address",
+            "expected_parameters": {
+            "order_id": null,
+            "new_address": null
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000411",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь дату следующего понедельника и забронируй билет на этот день в Париж.",
+            "expected_tool": "get_date, BookingService",
+            "expected_parameters": {
+            "date": "next_monday",
+            "destination": "Paris"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000412",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Подсчитай общую стоимость товаров и сразу примени скидочный код.",
+            "expected_tool": "calculator, apply_discount_code",
+            "expected_parameters": {
+            "expression": null,
+            "discount_code": null
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000413",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь статус багажа и сразу запроси компенсацию, если он потерян.",
+            "expected_tool": "BaggageService, CompensationService",
+            "expected_parameters": {
+            "baggage_id": null,
+            "reason": "lost"
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000414",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Найди историю заказов и сразу оформи возврат одного из них.",
+            "expected_tool": "get_order_history, return_order",
+            "expected_parameters": {
+            "user_id": null,
+            "order_id": null
+            },
+            "requires_clarification": true,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000415",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь доступные апгрейды сидений и затем добавь услугу Wi-Fi.",
+            "expected_tool": "SeatMapService, WiFiService",
+            "expected_parameters": {
+            "flight_number": null,
+            "service_type": "wifi"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000416",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Найди спортивные часы Garmin и сразу добавь их в корзину.",
+            "expected_tool": "search_products, add_to_cart",
+            "expected_parameters": {
+            "product_query": "Garmin sports watch",
+            "product_id": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000417",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь цену наушников Sony WH-1000XM5 и переведи её в евро.",
+            "expected_tool": "search_products, currency_converter",
+            "expected_parameters": {
+            "product_query": "Sony WH-1000XM5",
+            "from_currency": "local",
+            "to_currency": "EUR",
+            "amount": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000418",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь погоду в Токио и забронируй авиабилет туда на 25 марта.",
+            "expected_tool": "get_weather, BookingService",
+            "expected_parameters": {
+            "location": "Tokyo",
+            "destination": "Tokyo",
+            "date": "2025-03-25"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000419",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Найди квартиру в центре Барселоны на 10–14 апреля и покажи подробности первой найденной.",
+            "expected_tool": "airbnb_search, airbnb_listing_details",
+            "expected_parameters": {
+            "location": "Barcelona",
+            "check_in": "2025-04-10",
+            "check_out": "2025-04-14",
+            "listing_id": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000420",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь дату следующей субботы и назначь доставку моего заказа на этот день.",
+            "expected_tool": "get_date, schedule_delivery",
+            "expected_parameters": {
+            "date": "next_saturday",
+            "order_id": null,
+            "delivery_date": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000421",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Найди игровые ноутбуки ASUS и сразу примени скидочный код GAMER25.",
+            "expected_tool": "search_products, apply_discount_code",
+            "expected_parameters": {
+            "product_query": "ASUS gaming laptop",
+            "discount_code": "GAMER25"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000422",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь статус рейса LH876 и если он задерживается, забронируй отель рядом с терминалом.",
+            "expected_tool": "FlightStatusService, HotelService",
+            "expected_parameters": {
+            "flight_number": "LH876",
+            "hotel_location": "near_terminal"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000423",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Добавь к моему рейсу SU245 место у окна и оформи Wi-Fi на борту.",
+            "expected_tool": "SeatMapService, AncillariesService",
+            "expected_parameters": {
+            "flight_number": "SU245",
+            "seat_type": "window",
+            "service_type": "wifi"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000424",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Переведи фразу «лучшие рестораны поблизости» на итальянский и найди товары по этому запросу.",
+            "expected_tool": "translate, search_products",
+            "expected_parameters": {
+            "text_to_translate": "лучшие рестораны поблизости",
+            "target_language": "it",
+            "product_query": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000425",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Отследи заказ 55321 и затем обнови адрес доставки на новый: Москва, Ленинградский 10.",
+            "expected_tool": "track_order, update_address",
+            "expected_parameters": {
+            "order_id": "55321",
+            "new_address": "Moscow, Leningradsky 10"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000426",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь наличие багажа 9832 и затем запроси компенсацию, если он потерян.",
+            "expected_tool": "BaggageService, CompensationService",
+            "expected_parameters": {
+            "baggage_id": "9832",
+            "reason": "lost"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000427",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Найди мне ноутбук MacBook Air M3 и добавь его в корзину.",
+            "expected_tool": "search_products, add_to_cart",
+            "expected_parameters": {
+            "product_query": "MacBook Air M3",
+            "product_id": null
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000428",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь погоду в Берлине и найди квартиру Airbnb с датами 1–5 мая.",
+            "expected_tool": "get_weather, airbnb_search",
+            "expected_parameters": {
+            "location": "Berlin",
+            "stay_location": "Berlin",
+            "check_in": "2025-05-01",
+            "check_out": "2025-05-05"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        },
+        {
+            "id": "000429",
+            "complexity": "hard",
+            "type": "chain",
+            "query": "Проверь историю моих заказов и оформи возврат заказа 77112.",
+            "expected_tool": "get_order_history, return_order",
+            "expected_parameters": {
+            "user_id": null,
+            "order_id": "77112"
+            },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result", "Execution"]
+        }
+    ]
+}

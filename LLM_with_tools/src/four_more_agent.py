@@ -24,7 +24,8 @@ except ImportError:
     default_system_prompt = "Ты — ассистент, вызывающий инструменты."
 #Выбор модели wwwwwwww
 # ========================================================================
-DEFAULT_MODEL = "openai/gpt-oss-20b"
+DEFAULT_MODEL = "minimaxai/minimax-m2"
+# DEFAULT_MODEL = "openai/gpt-oss-20b"
 # DEFAULT_MODEL = "nvidia/llama-3.1-nemotron-safety-guard-8b-v3"
 # DEFAULT_MODEL = "qwen/qwen3-next-80b-a3b-instruct"
 # DEFAULT_MODEL = "openai/gpt-oss-120b"
@@ -198,11 +199,9 @@ class BenchmarkAgent:
 
     def _get_trash_executors(self) -> Dict[str, Any]:
         from trash import NullTools
-        return {
-            name: getattr(NullTools, name)
-            for name in dir(NullTools)
-            if not name.startswith("_")
-        }
+        metas = NullTools.get_tools_metadata()
+        valid_names = {meta["name"] for meta in metas}
+        return {name: getattr(NullTools, name) for name in valid_names if hasattr(NullTools, name)}
 
     async def _setup_mcp_clients(self, *, use_airbnb: bool) -> None:
         from fastmcp import Client
@@ -498,7 +497,7 @@ async def run_benchmark_async(
     use_weather: bool = True,
     use_translate: bool = True,
     use_calculator: bool = True,
-    use_trash: bool = False,
+    use_trash: bool = True,
     use_aviation: bool = True,
     use_datetime: bool = True,
     use_airbnb: bool = False,
@@ -778,7 +777,7 @@ def main() -> None:
             use_weather=True,
             use_translate=True,
             use_calculator=True,
-            use_trash=False,
+            use_trash=True,
             use_aviation=True,
             use_datetime=True,
             temperature=args.temperature,

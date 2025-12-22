@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0c0f16">
+  <title>RuCaMetrics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: radial-gradient(circle at 18% 18%, rgba(76, 86, 110, 0.25), transparent 38%),
+             radial-gradient(circle at 82% 80%, rgba(74, 89, 118, 0.18), transparent 36%),
+             radial-gradient(circle at 12% 40%, rgba(82, 72, 82, 0.25), transparent 42%),
+             linear-gradient(135deg, #0c0f16, #0f131d 48%, #0f121b);
+      --card: rgba(32, 39, 55, 0.6);
+      --card-glow: rgba(255, 255, 255, 0.12);
+      --border: rgba(255, 255, 255, 0.16);
+      --text: #f3f6ff;
+      --muted: #9fabc2;
+      --accent: #7ab1ff;
+      --accent-2: #7de5c9;
+      --bar-good: #7de5c9;
+      --bar-mid: #f1d36a;
+      --bar-low: #ef767a;
+      --bar-bg: rgba(255, 255, 255, 0.12);
+      --shadow: 0 18px 40px rgba(4, 8, 16, 0.5);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 32px 18px 42px;
+    }
+
+    .page {
+      width: min(1200px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .glass {
+      position: relative;
+      background: linear-gradient(150deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .glass::before,
+    .glass::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    .glass::before {
+      background: linear-gradient(120deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+      opacity: 0.5;
+      mix-blend-mode: screen;
+    }
+
+    .glass::after {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow:
+        inset 0 0 25px rgba(255, 255, 255, 0.12),
+        0 30px 80px rgba(0, 0, 0, 0.45);
+      opacity: 0.9;
+    }
+
+    .hero {
+      padding: 24px 24px 22px;
+    }
+
+    .title {
+      margin: 0 0 6px;
+      font-size: clamp(26px, 4vw, 34px);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .upload {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .file-input {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.3s ease;
+      border-radius: 14px;
+    }
+
+    .file-input:hover {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .file-input input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .pill {
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      padding: 12px 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px 10px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      color: #f3f7ff;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    .score-badge {
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      color: #0f111a;
+      background: linear-gradient(135deg, #7ab1ff, #7de5c9);
+      box-shadow: 0 10px 30px rgba(122, 177, 255, 0.25);
+      border: 1px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .metrics, .config {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .config {
+      margin-top: 4px;
+    }
+
+    .metric, .config-item {
+      background: linear-gradient(160deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.06);
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .metric-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 24px;
+    }
+
+    .metric-name {
+      font-family: 'Space Grotesk', 'SFMono-Regular', Consolas, monospace;
+      font-size: 13px;
+      color: var(--text);
+      letter-spacing: 0.01em;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    .metric-value {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+    }
+
+    .metric-value.good { color: var(--bar-good); }
+    .metric-value.mid { color: var(--bar-mid); }
+    .metric-value.low { color: var(--bar-low); }
+
+    .bar {
+      position: relative;
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--bar-bg);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .bar-fill {
+      position: absolute;
+      inset: 0;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0));
+    }
+
+    .bar-fill.good { background: linear-gradient(90deg, #63e0b2, #4bc3d7); }
+    .bar-fill.mid { background: linear-gradient(90deg, #f6d76d, #f3c54d); }
+    .bar-fill.low { background: linear-gradient(90deg, #f17d7d, #d4556a); }
+
+    .metric label, .config-item label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .config-item strong {
+      font-size: 15px;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      word-break: break-word;
+    }
+
+    .ranking {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .ranking.show {
+      display: grid;
+    }
+
+    .rank-card {
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rank-medal {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border);
+      font-weight: 700;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .rank-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .rank-position {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+
+    .rank-model {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    .rank-score {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 28px;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    }
+
+    .error {
+      margin-top: 10px;
+      color: #ffb4b4;
+      background: linear-gradient(135deg, rgba(255, 106, 106, 0.22), rgba(255, 106, 106, 0.08));
+      border: 1px solid rgba(255, 106, 106, 0.4);
+      padding: 10px 12px;
+      border-radius: 12px;
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 20px 14px; }
+      .card { padding: 16px; }
+      .card-header { grid-template-columns: 1fr; }
+      .score-badge { justify-self: flex-start; }
+      .upload { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 900px) {
+      .card-header { grid-template-columns: 1fr; }
+      .score-badge { justify-self: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero glass">
+      <h1 class="title">RuCaMetrics</h1>
+    </section>
+
+    <section id="ranking" class="ranking"></section>
+    <section id="cards" class="grid" aria-live="polite"></section>
+    <div class="empty" id="emptyState">Здесь будут метрики LLM после загрузки JSON файла с результатами метрик</div>
+  </div>
+
+  <script>
+    const cards = document.getElementById('cards');
+    const ranking = document.getElementById('ranking');
+    const emptyState = document.getElementById('emptyState');
+    const hiddenConfigKeys = new Set(['base_url', 'api_key_prefix', 'endpoint', 'end_point', 'model']);
+    const API_URL = 'https://huggingface.co/spaces/<org>/<space>/proxy/7860/leaderboard';
+    const apiOverride = new URLSearchParams(window.location.search).get('api');
+    const dataUrl = apiOverride || API_URL;
+
+    const defaultData = {
+  "averages": {
+    "model_A": {
+      "decision": 0.6836,
+      "tool_selection": 0.5767,
+      "params": 0.5958,
+      "result": 0.5863,
+      "error_handling": 0.5,
+      "execution": 0.1,
+      "noise": 0.4889,
+      "adaptability": 0.1591,
+      "ambiguity": 0.6107,
+      "total_queries": 493,
+      "successful": 145,
+      "failed": 348,
+      "success_rate": 29.41,
+      "final_score": 60.35
+    },
+    "model_B": {
+      "decision": 0.6755,
+      "tool_selection": 0.5727,
+      "params": 0.5889,
+      "result": 0.5808,
+      "error_handling": 0.5,
+      "execution": 0.1333,
+      "noise": 0.5333,
+      "adaptability": 0.3409,
+      "ambiguity": 0.5802,
+      "total_queries": 493,
+      "successful": 144,
+      "failed": 349,
+      "success_rate": 29.21,
+      "final_score": 59.93
+    },
+    "model_C": {
+      "decision": 0.6836,
+      "tool_selection": 0.5767,
+      "params": 0.5686,
+      "result": 0.5727,
+      "error_handling": 0.4851,
+      "execution": 0.2,
+      "noise": 0.4222,
+      "adaptability": 0.2955,
+      "ambiguity": 0.5763,
+      "total_queries": 493,
+      "successful": 132,
+      "failed": 361,
+      "success_rate": 26.77,
+      "final_score": 59.68
+    }
+  },
+  "configs": {
+    "model_A": {
+      "model": "openai/gpt-oss-20b",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_prefix": "nvap***",
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 40,
+      "seed": 42
+    },
+    "model_B": {
+      "model": "openai/gpt-oss-120b",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_prefix": "nvap***",
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 40,
+      "seed": 42
+    },
+    "model_C": {
+      "model": "qwen/qwen3-next-80b-a3b-thinking",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_prefix": "nvap***",
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 40,
+      "seed": 42
+    }
+  }
+};
+    
+
+    function render(data) {
+      const averages = data?.averages || {};
+      const configs = data?.configs || {};
+      const allModels = new Set([...Object.keys(averages), ...Object.keys(configs)]);
+
+      cards.innerHTML = '';
+      ranking.innerHTML = '';
+      if (allModels.size === 0) {
+        emptyState.style.display = 'block';
+        ranking.classList.remove('show');
+        return;
+      }
+      emptyState.style.display = 'none';
+
+      const ranked = Array.from(allModels)
+        .map(name => ({
+          name,
+          score: averages[name]?.final_score ?? 0,
+          displayName: configs[name]?.model || name
+        }))
+        .sort((a, b) => b.score - a.score);
+
+      if (ranked.length > 0) {
+        ranking.classList.add('show');
+        ranked.forEach((r, i) => {
+          const scorePercent = toPercent(r.score);
+          const place = `${i + 1}-е место`;
+          ranking.innerHTML += `
+            <div class="rank-card glass">
+              <div class="rank-medal">${i + 1}</div>
+              <div class="rank-info">
+                <div class="rank-position">${place}</div>
+                <div class="rank-model" title="${r.displayName}">${r.displayName}</div>
+                <div class="rank-score">Score: ${scorePercent.label}</div>
+              </div>
+            </div>
+          `;
+        });
+      } else {
+        ranking.classList.remove('show');
+      }
+
+      allModels.forEach((name) => {
+        const metrics = { ...(averages[name] || {}) };
+        const config = configs[name] || {};
+        const displayName = config.model || name;
+        const finalScore = metrics.final_score;
+        delete metrics.final_score;
+
+        const card = document.createElement('article');
+        card.className = 'card glass';
+
+        const header = document.createElement('div');
+        header.className = 'card-header';
+        const scoreMarkup = finalScore !== undefined
+          ? (() => {
+              const scorePercent = toPercent(finalScore);
+              return `<span class="score-badge" title="${formatRaw(finalScore)}">Score ${scorePercent.label}</span>`;
+            })()
+          : '';
+
+        header.innerHTML = `<h3 class="card-title">${displayName}</h3>${scoreMarkup}`;
+
+        const metricsList = document.createElement('ul');
+        metricsList.className = 'metrics';
+        if (Object.keys(metrics).length === 0) {
+          metricsList.innerHTML = '<li class="metric"><label>Метрики</label><strong>Нет данных</strong></li>';
+        } else {
+          Object.entries(metrics).forEach(([key, value]) => {
+            const info = metricDisplay(key, value, metrics);
+            metricsList.innerHTML += `
+              <li class="metric" title="${info.title}">
+                <div class="metric-row">
+                  <span class="metric-name">${key}</span>
+                  <span class="metric-value ${info.className}">${info.label}</span>
+                </div>
+                <div class="bar">
+                  <div class="bar-fill ${info.className}" style="width:${info.width}%"></div>
+                </div>
+              </li>`;
+          });
+        }
+
+        const configList = document.createElement('ul');
+        configList.className = 'config';
+        if (Object.keys(config).length === 0) {
+          configList.innerHTML = '<li class="config-item"><label>Конфигурация</label><strong>Нет данных</strong></li>';
+        } else {
+          Object.entries(config).forEach(([key, value]) => {
+            if (hiddenConfigKeys.has(String(key).toLowerCase())) return;
+            configList.innerHTML += `<li class="config-item"><label>${key}</label><strong>${value}</strong></li>`;
+          });
+        }
+
+        card.appendChild(header);
+        card.appendChild(metricsList);
+        card.appendChild(configList);
+        cards.appendChild(card);
+      });
+    }
+
+    function toPercent(value, metricName = '') {
+      if (typeof value !== 'number' || !Number.isFinite(value)) {
+        return { width: 0, label: '—', className: 'low' };
+      }
+      const raw = value <= 1 ? value * 100 : value;
+      const width = Math.max(0, Math.min(raw, 100));
+      const label = `${width >= 10 ? width.toFixed(0) : width.toFixed(1)}%`;
+      const className = classifyMetric(metricName, width);
+      return { width, label, className };
+    }
+
+    function metricDisplay(key, value, metrics) {
+      const lower = String(key).toLowerCase();
+      if (lower === 'total_queries') {
+        return { width: 100, label: formatRaw(value), className: 'mid', title: `${formatRaw(value)} запросов` };
+      }
+
+      if (lower === 'successful' || lower === 'failed') {
+        const total = Number(metrics.total_queries) || (Number(metrics.successful) + Number(metrics.failed)) || 0;
+        const percent = total > 0 ? (Number(value) / total) * 100 : 0;
+        const info = toPercent(percent, lower.includes('fail') ? 'failed' : 'successful');
+        const label = `${formatRaw(value)} (${info.label})`;
+        return { width: info.width, label, className: info.className, title: `${label} из ${formatRaw(total)}` };
+      }
+
+      const info = toPercent(value, lower);
+      return { width: info.width, label: info.label, className: info.className, title: formatRaw(value) };
+    }
+
+    function classifyMetric(name, width) {
+      const lower = String(name || '').toLowerCase();
+      if (lower.includes('fail')) {
+        if (width >= 60) return 'low';
+        if (width >= 30) return 'mid';
+        return 'good';
+      }
+      return width < 40 ? 'low' : width < 70 ? 'mid' : 'good';
+    }
+
+    function formatRaw(value) {
+      if (typeof value === 'number') {
+        const isInt = Number.isInteger(value);
+        return isInt ? String(value) : value.toFixed(3).replace(/\.0+$/, '');
+      }
+      return String(value ?? '');
+    }
+
+    async function loadAndRender() {
+      try {
+        const res = await fetch(dataUrl, { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) throw new Error(`Bad status ${res.status}`);
+        const json = await res.json();
+        render(json);
+      } catch (err) {
+        console.warn('Falling back to defaultData', err);
+        emptyState.textContent = 'Не удалось загрузить данные из API, показаны встроенные данные.';
+        render(defaultData);
+      }
+    }
+
+    loadAndRender();
+  </script>
+</body>
+</html>

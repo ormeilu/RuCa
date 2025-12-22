@@ -36,7 +36,19 @@ class NullTools:
             # мои дополнительные "шумовые" null-инструменты
             "ping_T",
             "noop_T",
-            "faulty_gateway_T"
+            "faulty_gateway_T",
+            # авиа и смежное
+            "flight_status_T",
+            "baggage_service_T",
+            "rebooking_T",
+            "seat_map_T",
+            "refund_T",
+            "loyalty_T",
+            # доп. утилиты
+            "timezone_convert_T",
+            "wishlist_T",
+            "price_alert_T",
+            "parsing_error_T",
         ]
 
         metadata = []
@@ -157,6 +169,46 @@ class NullTools:
     def faulty_gateway_T(**kwargs) -> Dict[str, Any]:
         return NullTools._null_response("faulty_gateway_T", **kwargs)
 
+    @staticmethod
+    def flight_status_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("flight_status_T", **kwargs)
+
+    @staticmethod
+    def baggage_service_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("baggage_service_T", **kwargs)
+
+    @staticmethod
+    def rebooking_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("rebooking_T", **kwargs)
+
+    @staticmethod
+    def seat_map_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("seat_map_T", **kwargs)
+
+    @staticmethod
+    def refund_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("refund_T", **kwargs)
+
+    @staticmethod
+    def loyalty_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("loyalty_T", **kwargs)
+
+    @staticmethod
+    def timezone_convert_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("timezone_convert_T", **kwargs)
+
+    @staticmethod
+    def wishlist_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("wishlist_T", **kwargs)
+
+    @staticmethod
+    def price_alert_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("price_alert_T", **kwargs)
+
+    @staticmethod
+    def parsing_error_T(**kwargs) -> Dict[str, Any]:
+        return NullTools._null_response("parsing_error_T", **kwargs)
+
 
 def register_null_tools(tool_registry):
     """
@@ -189,7 +241,17 @@ def register_null_tools(tool_registry):
         "get_date_T": NullTools.get_date_T,
         "ping_T": NullTools.ping_T,
         "noop_T": NullTools.noop_T,
-        "faulty_gateway_T": NullTools.faulty_gateway_T
+        "faulty_gateway_T": NullTools.faulty_gateway_T,
+        "flight_status_T": NullTools.flight_status_T,
+        "baggage_service_T": NullTools.baggage_service_T,
+        "rebooking_T": NullTools.rebooking_T,
+        "seat_map_T": NullTools.seat_map_T,
+        "refund_T": NullTools.refund_T,
+        "loyalty_T": NullTools.loyalty_T,
+        "timezone_convert_T": NullTools.timezone_convert_T,
+        "wishlist_T": NullTools.wishlist_T,
+        "price_alert_T": NullTools.price_alert_T,
+        "parsing_error_T": NullTools.parsing_error_T,
     }
 
     for meta in metas:

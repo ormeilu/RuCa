@@ -1,0 +1,27 @@
+{
+  "config": {
+    "model": "openai/gpt-oss-20b",
+    "base_url": "https://integrate.api.nvidia.com/v1",
+    "api_key_prefix": "nvap***",
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 40,
+    "seed": 42
+  },
+  "total_queries": 493,
+  "successful": 145,
+  "failed": 348,
+  "success_rate": 29.41,
+  "final_score": 60.35,
+  "metrics_mean": {
+    "decision": 0.6836,
+    "tool_selection": 0.5767,
+    "params": 0.5958,
+    "result": 0.5863,
+    "error_handling": 0.5,
+    "execution": 0.1,
+    "noise": 0.4889,
+    "adaptability": 0.1591,
+    "ambiguity": 0.6107
+  }
+}
