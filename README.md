@@ -1,63 +1,64 @@
 # RuCa
-RuCa Benchmark (pronounced "roo-ka")  - Russian Tool Calling Benchmark for LLM
+RuCa Benchmark (pronounced "roo-ka") - Russian Tool Calling Benchmark for LLM
 
-Чтобы запустить бенчмарк:
+**Languages:** [English](README.md) | [Русский](README_ru.md)
+
+To run the benchmark:
 
 ```bash
 uv run main.py --runs 2 --concurrent 8 --json
 ```
 
-## Содержание
-1. [Введение](#введение)
-2. [Запуск бенчмарка](#запуск-бенчмарка)
-3. [Структура датасета](#структура-датасета)
-4. [Сценарии тестирования](#сценарии-тестирования)
-5. [Система метрик](#система-метрик)
-5. [Лидерборд](#лидерборд)
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Running the Benchmark](#running-the-benchmark)
+3. [Dataset Structure](#dataset-structure)
+4. [Testing Scenarios](#testing-scenarios)
+5. [Metrics System](#metrics-system)
+6. [Leaderboard](#leaderboard)
 
-## Введение
+## Introduction
 
-Ru-Ca Benchmark - бенчмарк для оценки способностей больших языковых моделей (LLM) к вызову инструментов (tool calling). Проект измеряет точность выбора инструментов, корректность передачи параметров и обработку различных типов запросов на русском языке.
+RuCa Benchmark is a benchmark for evaluating the tool calling capabilities of large language models (LLMs). The project measures the accuracy of tool selection, correctness of parameter passing, and handling of various types of queries in Russian.
 
-## Запуск бенчмарка
+## Running the Benchmark
 
-### Установка
+### Installation
 
 ```bash
-# Клонирование репозитория
+# Clone the repository
 git clone https://github.com/ormeilu/RuCa.git
 cd RuCa
 
-# Установка зависимостей
+# Install dependencies
 uv sync
 ```
 
-### Настройка окружения
+### Environment Configuration
 
-Создайте файл `.env` на основе `env.template`.
+Create a `.env` file based on `env.template`.
 
-Заполните `.env` вашими API_KEY и BASE_URL.
+Fill in the `.env` with your API_KEY and BASE_URL.
 
-Центральный скрипт (`main.py`) управляет прогоном бенчмарка для всех моделей, описанных в `config.yaml`, и последовательно запускает их с параметрами, заданными в конфиге.
+The central script (`main.py`) manages running the benchmark for all models described in `config.yaml`, and sequentially launches them with parameters specified in the config.
 
-### Запуск
+### Running
 
 ```bash
-
-# Запуск с кастомными параметрами
+# Run with custom parameters
 uv run main.py --runs 2 --concurrent 8 --json
 ```
 
-**Параметры:**
-- `--runs` — количество повторных прогонов датасета в модель для усреднения результатов
-- `--concurrent` — количество запросов для асинхронной подачи в модель
-- `--json` — вывод результатов в формате JSON
+**Parameters:**
+- `--runs` — number of repeated dataset runs through the model for averaging results
+- `--concurrent` — number of requests for asynchronous submission to the model
+- `--json` — output results in JSON format
 
-## Структура датасета
+## Dataset Structure
 
-Датасет представляет собой JSON-файлы с набором тестовых запросов, каждый из которых содержит ожидаемые данные, которые модель вернет.
+The dataset consists of JSON files with a set of test queries, each containing expected data that the model should return.
 
-### Формат записи
+### Record Format
 
 ```json
 {
@@ -67,7 +68,7 @@ uv run main.py --runs 2 --concurrent 8 --json
             "complexity": "easy",
             "category": "tool_basic",
             "type": "ordinary",
-            "query": "Сколько сейчас времени в Токио",
+            "query": "Сколько сейчас времени в Токио?",
             "expected_tool": "get_time",
             "expected_parameters": {
                 "format": "24h"
@@ -79,258 +80,256 @@ uv run main.py --runs 2 --concurrent 8 --json
 }
 ```
 
-### Описание полей
+### Field Descriptions
 
-| Поле | Тип | Описание |
+| Field | Type | Description |
 |------|-----|----------|
-| `id` | string | Уникальный идентификатор запроса |
-| `complexity` | enum | Сложность: `easy`, `medium`, `hard` |
-| `category` | string | Для какого домена запрос (например, `tool_basic`, `tool_airlines` и т.д.) |
-| `type` | string | Тип сценария для запроса: `ordinary`, `misprint`, `ambiguous` и т.д.  |
-| `query` | string | Текст запроса пользователя |
-| `expected_tool` | string | Ожидаемый инструмент для вызова |
-| `expected_parameters` | object | Ожидаемые параметры вызова |
-| `requires_clarification` | boolean | Требуется ли уточнение у пользователя |
-| `skills` | array | Список проверяемых метрик |
+| `id` | string | Unique query identifier |
+| `complexity` | enum | Complexity: `easy`, `medium`, `hard` |
+| `category` | string | Domain for the query (e.g., `tool_basic`, `tool_airlines`, etc.) |
+| `type` | string | Scenario type for the query: `ordinary`, `misprint`, `ambiguous`, etc. |
+| `query` | string | User query text |
+| `expected_tool` | string | Expected tool to call |
+| `expected_parameters` | object | Expected call parameters |
+| `requires_clarification` | boolean | Whether clarification from user is required |
+| `skills` | array | List of metrics being tested |
 
 ---
 
-## Сценарии тестирования
+## Testing Scenarios
 
-Бенчмарк включает 8 сценариев, проверяющих различные аспекты способности моделей к tool calling.
+The benchmark includes 8 scenarios that test different aspects of models' tool calling capabilities.
 
-### 1. Явные запросы
+### 1. Explicit Queries
 
-**Что проверяет:** Способность модели выполнять прямые инструкции по вызову конкретного инструмента.
+**What it tests:** The model's ability to execute direct instructions for calling a specific tool.
 
-**Пример:**
+**Example:**
 ```
 "query": "Вызови airbnb_search для Москвы на двоих взрослых"
 ```
 
 ---
 
-### 2. Неявные запросы
+### 2. Implicit Queries
 
-**Что проверяет:** Способность модели самостоятельно определить нужный инструмент из контекста запроса.
+**What it tests:** The model's ability to independently determine the needed tool from the query context.
 
-**Пример:**
+**Example:**
 ```
 "query": "Хочу забронировать билет из Москвы в Париж на 2025-06-10 эконом класс, меня зовут Иван Иванов"
 ```
 
 ---
 
-### 3. Запросы с опечатками
+### 3. Queries with Typos
 
-**Что проверяет:** Устойчивость модели к ошибкам и способность понимать запрос, несмотря на опечатки.
+**What it tests:** The model's robustness to errors and ability to understand the query despite typos.
 
-**Пример:**
+**Example:**
 ```
 "query": "Ищу жилье в Санкт-Питербурге на троих с 15 по 20 декабрья"
 ```
 
 ---
 
-### 4. Запросы с шумом
+### 4. Queries with Noise
 
-**Что проверяет:** Способность модели фильтровать нерелевантную информацию и фокусироваться на сути запроса.
+**What it tests:** The model's ability to filter irrelevant information and focus on the essence of the query.
 
-**Пример:**
+**Example:**
 ```
 "query": "Добавь в корзину кофеварку DeLonghi (ID 3125), кстати, мой e-mail — ivanov88@gmail.com"
 ```
 
 ---
 
-### 5. Адаптивные запросы
+### 5. Adaptive Queries
 
-**Что проверяет:** Способность модели адаптироваться к изменениям в инструкциях пользователя.
+**What it tests:** The model's ability to adapt to changes in user instructions.
 
-**Пример:**
+**Example:**
 ```
 "query": "Переведи 100 долларов в евро... нет, лучше в японские иены"
 ```
 
 ---
 
-### 6. Неоднозначные запросы
+### 6. Ambiguous Queries
 
-**Что проверяет:** Способность модели распознавать недостаток информации и запрашивать уточнения вместо угадывания.
+**What it tests:** The model's ability to recognize lack of information and request clarification instead of guessing.
 
-**Пример:**
+**Example:**
 ```
 "query": "Какая погода там, где сейчас полдень?"
 ```
 
 ---
 
-### 7. Запросы с последовательным вызовом
+### 7. Sequential Calling Queries
 
-**Что проверяет:** Способность модели выполнять инструменты в строгом порядке, когда результат одного вызова требуется для следующего.
+**What it tests:** The model's ability to execute tools in strict order when the result of one call is required for the next.
 
-**Пример:**
+**Example:**
 ```
 "query": "Найди мне недорогие беспроводные наушники и сразу переведи их цену в доллары."
 ```
 
 ---
 
-### 8. Запросы-проверка на обработку ошибок
+### 8. Error Handling Check Queries
 
-**Что проверяет:** Способность модели корректно обрабатывать ситуации, когда запрашивается несуществующий инструмент.
+**What it tests:** The model's ability to correctly handle situations when a non-existent tool is requested.
 
-**Характеристика:** Пользователь просит вызвать инструмент, которого нет в списке доступных.
+**Characteristic:** User asks to call a tool that is not in the list of available tools.
 
-**Пример:**
+**Example:**
 ```
 "query": "Используй ChekInn_Toooor чтобы сделать мне регистрацию на рейс LH900"
 ```
 
 ---
 
-## Система метрик
+## Metrics System
 
-Бенчмарк использует систему метрик для всесторонней оценки способностей моделей к tool calling.
+The benchmark uses a metrics system for comprehensive evaluation of models' tool calling capabilities.
 
-### Основные метрики
+#### Decision — Checking if Tools Were Called
 
-#### Decision — Проверка факта вызова инструментов
+**What it evaluates:** Whether the agent decided to use tools.
 
-**Что оценивает:** Принял ли агент решение использовать tools.
-
-**Значения:** `1/0` (бинарная метрика)
-- `1` — модель вызвала инструмент
-- `0` — модель не вызвала инструмент
+**Values:** `1/0` (binary metric)
+- `1` — model called a tool
+- `0` — model did not call a tool
 
 ---
 
-#### Tool Selection — Сопоставление ожидаемых и вызванных инструментов
+#### Tool Selection — Matching Expected and Called Tools
 
-**Что оценивает:** Правильность выбора конкретного инструмента из доступных.
+**What it evaluates:** Correctness of selecting a specific tool from available ones.
 
-**Значения:** `от 0 до 1`
-
----
-
-#### Param — Сопоставление ожидаемых и фактически использованных параметров
-
-**Что оценивает:** Корректность передачи параметров в инструменты.
-
-**Значения:** `от 0 до 1` (непрерывная метрика)
+**Values:** `from 0 to 1`
 
 ---
 
-#### Result — Комплексная метрика
+#### Param — Matching Expected and Actually Used Parameters
 
-**Что оценивает:** Общий результат выполнения, включающий оценку как Tool Selection, так и Param.
+**What it evaluates:** Correctness of parameter passing to tools.
 
-**Значения:** `от 0 до 1`
-
----
-
-#### Adaptability — Адаптация к изменениям в запросе
-
-**Что оценивает:** Способность модели вызвать только последний инструмент из тех, что запрашиваются в изменяющемся запросе.
-
-**Значения:** `1/0` (бинарная метрика)
+**Values:** `from 0 to 1` (continuous metric)
 
 ---
 
-#### Ambiguity — Оценка работы с неоднозначными запросами
+#### Result — Comprehensive Metric
 
-**Что оценивает:** Работу с запросами, содержащими опечатки, или с неоднозначными запросами, в которых не хватает параметров для выполнения.
+**What it evaluates:** Overall execution result, including evaluation of both Tool Selection and Param.
 
-**Значения:** `1/0.5/0`
-
-**Сценарии оценки:**
-
-**Сценарий 1: `requires_clarification = True`**
-- `1` — модель **не вызвала** инструмент И **не передала** параметры (запросила уточнение)
-- `0` — модель вызвала хоть что-то (неверное поведение)
-
-**Сценарий 2: `requires_clarification = False`**
-- `1` — точно совпало (tool + params)
-- `0.5` — совпал только tool или только params
-- `0` — ни tool, ни params не совпали
+**Values:** `from 0 to 1`
 
 ---
 
-#### Noise — Игнорирование шума
+#### Adaptability — Adaptation to Query Changes
 
-**Что оценивает:** Способность модели игнорировать шум в запросе: не обращать на него внимания, не включать его в output и не вызывать лишних инструментов.
+**What it evaluates:** The model's ability to call only the last tool from those requested in a changing query.
 
-**Значения:** `1/0` (бинарная метрика)
-
----
-
-#### Error Handling — Обработка ошибочных ситуаций
-
-**Что оценивает:** Способность агента не вызывать инструменты, если запрашивается несуществующий инструмент.
-
-**Значения:** `1/0` (бинарная метрика)
+**Values:** `1/0` (binary metric)
 
 ---
 
-#### Execution — Соблюдение строгого порядка вызова инструментов
+#### Ambiguity — Evaluation of Working with Ambiguous Queries
 
-**Что оценивает:** Способность агента выполнять последовательные операции в правильном порядке.
+**What it evaluates:** Working with queries containing typos, or ambiguous queries lacking parameters for execution.
 
-**Значения:** `1/0` (бинарная метрика)
+**Values:** `1/0.5/0`
+
+**Evaluation Scenarios:**
+
+**Scenario 1: `requires_clarification = True`**
+- `1` — model **did not call** a tool AND **did not pass** parameters (requested clarification)
+- `0` — model called anything (incorrect behavior)
+
+**Scenario 2: `requires_clarification = False`**
+- `1` — exact match (tool + params)
+- `0.5` — only tool or only params matched
+- `0` — neither tool nor params matched
 
 ---
 
-### Формула итоговой оценки
+#### Noise — Ignoring Noise
 
-Итоговая оценка рассчитывается по-разному в зависимости от количества применимых метрик для каждого запроса:
+**What it evaluates:** The model's ability to ignore noise in the query: not pay attention to it, not include it in output, and not call extra tools.
 
-#### Для запросов с 4 базовыми метриками
+**Values:** `1/0` (binary metric)
+
+---
+
+#### Error Handling — Handling Error Situations
+
+**What it evaluates:** The agent's ability not to call tools if a non-existent tool is requested.
+
+**Values:** `1/0` (binary metric)
+
+---
+
+#### Execution — Following Strict Order of Tool Calls
+
+**What it evaluates:** The agent's ability to perform sequential operations in the correct order.
+
+**Values:** `1/0` (binary metric)
+
+---
+
+### Final Score Formula
+
+The final score is calculated differently depending on the number of applicable metrics for each query:
+
+#### For Queries with 4 Basic Metrics
 
 ```
 Score = 0.30×Decision + 0.30×ToolSelection + 0.22×Param + 0.18×Result
 ```
 
-**Применяется к:** Явные и неявные запросы без дополнительных проверок
+**Applied to:** Explicit and implicit queries without additional checks
 
-#### Для запросов с 5 метриками (4 базовые + 1 специализированная)
+#### For Queries with 5 Metrics (4 basic + 1 specialized)
 
 ```
 Score = 0.28×Decision + 0.28×ToolSelection + 0.20×Param + 0.04×Result + 0.20×SpecificMetric
 ```
 
-где `SpecificMetric` — одна из: Ambiguity, Noise, Adaptability, ErrorHandling, Execution
+where `SpecificMetric` is one of: Ambiguity, Noise, Adaptability, ErrorHandling, Execution
 
-**Применяется к:** Запросы, проверяющие специфические навыки
+**Applied to:** Queries testing specific skills
 
-#### Финальная оценка модели
+#### Model Final Score
 
 ```python
 FinalScore = (Σ ScorePerQuery / TotalQueries) × 100
 ```
 
-**Пример расчёта:**
+**Calculation Example:**
 
-Модель прошла 360 запросов:
-- 270 запросов с 4 метриками (средний score: 0.65)
-- 90 запросов с 5 метриками (средний score: 0.55)
+Model completed 360 queries:
+- 270 queries with 4 metrics (average score: 0.65)
+- 90 queries with 5 metrics (average score: 0.55)
 
 ```
 FinalScore = ((270×0.65 + 90×0.55) / 360) × 100 = 62.5
 ```
 
-### Интерпретация результатов
+### Results Interpretation
 
-| Диапазон | Уровень | Интерпретация |
+| Range | Level | Interpretation |
 |----------|---------|---------------|
-| 90-100 | Отличный | Модель демонстрирует высокую точность во всех аспектах tool calling |
-| 70-89 | Хороший | Модель надёжно работает с большинством сценариев |
-| 50-69 | Средний | Модель справляется с базовыми задачами, но имеет проблемы в сложных сценариях |
-| 30-49 | Низкий | Модель испытывает значительные трудности с tool calling |
-| 0-29 | Критический | Модель не способна корректно работать с инструментами |
+| 90-100 | Excellent | Model demonstrates high accuracy in all aspects of tool calling |
+| 70-89 | Good | Model reliably works with most scenarios |
+| 50-69 | Average | Model handles basic tasks but has problems in complex scenarios |
+| 30-49 | Low | Model experiences significant difficulties with tool calling |
+| 0-29 | Critical | Model is unable to correctly work with tools |
 
 ---
 
-## Лидерборд
+## Leaderboard
 
-Актуальные результаты всех протестированных моделей доступны на публичном лидерборде:
+Current results of all tested models are available on the public leaderboard:
 https://de.kotyan.com
