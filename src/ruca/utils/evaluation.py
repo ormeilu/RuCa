@@ -9,8 +9,8 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich import box
-from RuCa.utils.metrics_enum import Metrics
-from RuCa.utils.json_parser import inputs_for_logging
+from ruca.utils.metrics_enum import Metrics
+from ruca.utils.json_parser import inputs_for_logging
 import argparse
 
 # Обработка аргументов командной строки для установки переменной окружения
@@ -20,7 +20,7 @@ args_temp, _ = parser_temp.parse_known_args()
 os.environ['BENCHMARK_FILE'] = args_temp.input
 
 # Теперь импортируем output_parser, который будет использовать установленную переменную окружения
-from RuCa.utils.output_parser import outputs_for_logging
+from ruca.utils.output_parser import outputs_for_logging
 console = Console()
 
 # Хранилище для детальных ошибок

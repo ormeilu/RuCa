@@ -11,7 +11,7 @@ from rich.panel import Panel
 from rich import box
 
 # from config_loader import get_all_models
-from RuCa.utils import get_all_models
+from ruca.utils import get_all_models
 console = Console()
 
 RESULTS_DIR = Path("results")
@@ -33,7 +33,7 @@ def run_model_benchmark(model_name: str, model_config: dict, concurrent: int, ru
     
     # Формируем аргументы для four_more_agent.py
     cmd = [
-        "uv", "run", "-m", "RuCa.agents.four_more_agent",
+        "uv", "run", "-m", "ruca.agents.four_more_agent",
         "--model", model_config["model_name"],
         "--concurrent", str(concurrent),
         "--temperature", str(model_config["temperature"]),
@@ -62,7 +62,7 @@ def run_model_benchmark(model_name: str, model_config: dict, concurrent: int, ru
     
     # Запускаем evaluation с указанием файла
     subprocess.run([
-        "uv", "run", "-m", "RuCa.utils.evaluation",
+        "uv", "run", "-m", "ruca.utils.evaluation",
         "--input", benchmark_output  
     ], check=True)
     

@@ -6,7 +6,7 @@ RuCa Benchmark (pronounced "roo-ka") - Russian Tool Calling Benchmark for LLM
 To run the benchmark:
 
 ```bash
-uv run main.py --runs 2 --concurrent 8 --json
+uv run ruca --runs 2 --concurrent 8 --json
 ```
 
 ## Table of Contents

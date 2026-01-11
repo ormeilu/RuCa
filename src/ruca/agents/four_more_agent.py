@@ -10,16 +10,16 @@ import dotenv
 import yaml
 from openai import OpenAI
 
-from RuCa.settings import OpenAISettings
+from ruca.settings import OpenAISettings
 # from config_loader import get_all_models, resolve_model_params
-from RuCa.utils import get_all_models, resolve_model_params
+from ruca.utils import get_all_models, resolve_model_params
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "tools"))
 
 dotenv.load_dotenv(dotenv.find_dotenv())
 
 try:
     # from json_parser import process_all_queries, system_prompt as default_system_prompt
-    from RuCa.utils import process_all_queries, system_prompt as default_system_prompt
+    from ruca.utils import process_all_queries, system_prompt as default_system_prompt
 except ImportError:
     process_all_queries = None
     default_system_prompt = "Ты — ассистент, вызывающий инструменты."
@@ -64,43 +64,43 @@ class BenchmarkAgent:
         instance.mcp_clients = {}
 
         if use_retail:
-            from RuCa.tools import EcommerceTools
+            from ruca.tools import EcommerceTools
             retail_tools = EcommerceTools.get_tools_metadata()
             instance.openai_tools.extend(instance._convert_tools(retail_tools))
             instance.executors.update(instance._get_retail_executors())
 
         if use_weather:
-            from RuCa.tools import MiscTools
+            from ruca.tools import MiscTools
             weather_tools = MiscTools.get_tools_metadata()
             instance.openai_tools.extend(instance._convert_tools(weather_tools))
             instance.executors.update(instance._get_weather_executors())
 
         if use_translate:
-            from RuCa.tools import TranslateTools
+            from ruca.tools import TranslateTools
             translate_tools = TranslateTools.get_tools_metadata()
             instance.openai_tools.extend(instance._convert_tools(translate_tools))
             instance.executors.update(instance._get_translate_executors())
 
         if use_calculator:
-            from RuCa.tools import CalculatorTool
+            from ruca.tools import CalculatorTool
             calculator_tools = CalculatorTool.get_tools_metadata()
             instance.openai_tools.extend(instance._convert_tools(calculator_tools))
             instance.executors.update(instance._get_calculator_executors())
 
         if use_trash:
-            from RuCa.tools import NullTools
+            from ruca.tools import NullTools
             trash_tools = NullTools.get_tools_metadata()
             instance.openai_tools.extend(instance._convert_tools(trash_tools))
             instance.executors.update(instance._get_trash_executors())
             
         if use_aviation:
-            from RuCa.tools import AviationTools
+            from ruca.tools import AviationTools
             aviation_tools = AviationTools.get_tools_metadata()
             instance.openai_tools.extend(instance._convert_tools(aviation_tools))
             instance.executors.update(instance._get_aviation_executors())
             
         if use_datetime:
-            from RuCa.tools import DateTimeTools
+            from ruca.tools import DateTimeTools
             datetime_tools = DateTimeTools.get_tools_metadata()
             instance.openai_tools.extend(instance._convert_tools(datetime_tools))
             instance.executors.update(instance._get_datetime_executors())
@@ -147,7 +147,7 @@ class BenchmarkAgent:
         return converted
 
     def _get_retail_executors(self) -> Dict[str, Any]:
-        from RuCa.tools import EcommerceTools
+        from ruca.tools import EcommerceTools
         method_names = [
             "cancel_order", "search_products", "return_order", "place_order",
             "track_order", "update_address", "add_to_cart", "remove_from_cart",
@@ -161,7 +161,7 @@ class BenchmarkAgent:
         }
 
     def _get_aviation_executors(self) -> Dict[str, Any]:
-        from RuCa.tools import AviationTools
+        from ruca.tools import AviationTools
         method_names = [
             "BookingService", "FlightStatusService", "CheckInService",
             "UpgradeService", "PaymentService", "LoyaltyService",
@@ -177,29 +177,29 @@ class BenchmarkAgent:
         }
 
     def _get_datetime_executors(self) -> Dict[str, Any]:
-        from RuCa.tools import DateTimeTools
+        from ruca.tools import DateTimeTools
         return {
             "get_date": DateTimeTools.get_date,
             "get_time": DateTimeTools.get_time,
         }
 
     def _get_weather_executors(self) -> Dict[str, Any]:
-        from RuCa.tools import MiscTools
+        from ruca.tools import MiscTools
         return {
             "get_weather": MiscTools.get_weather,
             "currency_converter": MiscTools.currency_converter,
         }
 
     def _get_translate_executors(self) -> Dict[str, Any]:
-        from RuCa.tools import TranslateTools
+        from ruca.tools import TranslateTools
         return {"translate": TranslateTools.translate}
 
     def _get_calculator_executors(self) -> Dict[str, Any]:
-        from RuCa.tools import CalculatorTool
+        from ruca.tools import CalculatorTool
         return {"calculator": CalculatorTool.calculate}
 
     def _get_trash_executors(self) -> Dict[str, Any]:
-        from RuCa.tools import NullTools
+        from ruca.tools import NullTools
         return {
             name: getattr(NullTools, name)
             for name in dir(NullTools)

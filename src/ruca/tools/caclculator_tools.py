@@ -46,9 +46,6 @@ def _eval_node(node):
             return node.value
         raise ValueError("Unsupported constant type")
 
-    if isinstance(node, ast.Num):  # старый узел для чисел
-        return node.n
-
     if isinstance(node, ast.BinOp):
         if type(node.op) not in _ALLOWED_BINOPS:
             raise ValueError(f"Operator {type(node.op).__name__} not allowed")
