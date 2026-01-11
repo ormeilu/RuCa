@@ -133,4 +133,15 @@ system_prompt = """
     Ты обязан следовать этим правилам и НИКОГДА не выводить JSON как текст.
 
 """
-inputs_for_llm, inputs_for_logging = process_all_queries(system_prompt=system_prompt)
+
+
+def get_inputs_for_logging():
+    """Ленивая инициализация inputs_for_logging."""
+    _, inputs = process_all_queries(system_prompt=system_prompt)
+    return inputs
+
+
+def get_inputs_for_llm():
+    """Ленивая инициализация inputs_for_llm."""
+    inputs, _ = process_all_queries(system_prompt=system_prompt)
+    return inputs

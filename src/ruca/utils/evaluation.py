@@ -9,9 +9,9 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from ruca.utils.json_parser import inputs_for_logging
+from ruca.utils.json_parser import get_inputs_for_logging
 from ruca.utils.metrics_enum import Metrics
-from ruca.utils.output_parser import outputs_for_logging
+from ruca.utils.output_parser import get_outputs_for_logging
 
 # Обработка аргументов командной строки для установки переменной окружения
 parser_temp = argparse.ArgumentParser(add_help=False)
@@ -707,6 +707,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # Переменная окружения уже установлена выше, но обновляем на случай явного запуска этого скрипта
     os.environ["BENCHMARK_FILE"] = args.input
+    
+    # Теперь вызываем ленивые функции после установки переменной окружения
+    inputs_for_logging = get_inputs_for_logging()
+    outputs_for_logging = get_outputs_for_logging()
+    
     # Проверяем совместимость ID
     validate_ids(inputs_for_logging, outputs_for_logging)
 

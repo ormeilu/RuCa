@@ -6,18 +6,54 @@ import yaml
 
 
 def load_config(config_path: str = "config.yaml") -> dict[str, Any]:
-    """Загружает конфигурацию из YAML файла."""
-    # Если это относительный путь по умолчанию, ищем рядом с модулем
-    if config_path == "config.yaml":
-        module_dir = Path(__file__).parent
-        config_path = str(module_dir / config_path)
+    """Загружает конфигурацию из YAML файла.
 
-    try:
-        with open(config_path, encoding="utf-8") as f:
-            config = yaml.safe_load(f)
-        return config or {"models": {}}
-    except FileNotFoundError:
+    Пытается найти файл в нескольких местах (в порядке приоритета):
+    1. если указан абсолютный путь — используем его;
+    2. относительный к текущей рабочей директории;
+    3. рядом с модулем `ruca.utils` (как раньше);
+    4. в каталоге `<project_root>/configs/config.yaml`;
+    5. в корне проекта.
+
+    Если файл не найден — возвращаем пустую структуру с ключом `models`.
+    """
+    candidates: list[Path] = []
+    provided = Path(config_path)
+
+    # Если указан абсолютный путь, используем как есть
+    if provided.is_absolute():
+        candidates.append(provided)
+    else:
+        # Как указано относительно текущей директории
+        candidates.append(Path.cwd() / provided)
+
+        # Рядом с модулем
+        module_dir = Path(__file__).parent
+        candidates.append(module_dir / provided)
+
+        # Попробуем найти в корне проекта в папке configs/ и в корне
+        try:
+            project_root = Path(__file__).resolve().parents[3]
+            candidates.append(project_root / "configs" / provided)
+            candidates.append(project_root / provided)
+        except IndexError:
+            # на всякий случай, если структура директорий нестандартная
+            pass
+
+    # Найдём первый существующий путь
+    config_file: Path | None = None
+    for cand in candidates:
+        if cand.exists():
+            config_file = cand
+            break
+
+    if config_file is None:
         return {"models": {}}
+
+    with open(config_file, encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+
+    return config or {"models": {}}
 
 
 def get_model_config(model_name: str, config_path: str = "config.yaml") -> dict[str, Any] | None:

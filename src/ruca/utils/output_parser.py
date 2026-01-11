@@ -70,7 +70,18 @@ def extract_output(query_id, item):
 
 
 # прогоняем все и заносим в список
-def process_benchmark_results(filepath=RESULTS_FILE):
+def process_benchmark_results(filepath=None):
+    """Обрабатывает результаты бенчмарка из JSON файла.
+    
+    Args:
+        filepath: Путь к файлу бенчмарка. Если None, использует переменную окружения BENCHMARK_FILE.
+    
+    Returns:
+        Список объектов с обработанными выводами агента.
+    """
+    if filepath is None:
+        filepath = os.environ.get("BENCHMARK_FILE", "benchmark_results.json")
+    
     data = read_benchmark_results(filepath)
 
     outputs_for_logging = []
@@ -82,4 +93,7 @@ def process_benchmark_results(filepath=RESULTS_FILE):
     return outputs_for_logging
 
 
-outputs_for_logging = process_benchmark_results(RESULTS_FILE)
+# Инициализируем как функцию, чтобы избежать ошибок при импорте
+def get_outputs_for_logging():
+    """Ленивая инициализация outputs_for_logging."""
+    return process_benchmark_results()
