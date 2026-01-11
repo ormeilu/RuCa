@@ -4,12 +4,12 @@
 Используется для тестирования устойчивости LLM-агентов к мусорным / неработающим интерфейсам.
 """
 
-from typing import Dict, Any, List
+from typing import Any
 
 
 class NullTools:
     @staticmethod
-    def get_tools_metadata() -> List[Dict[str, Any]]:
+    def get_tools_metadata() -> list[dict[str, Any]]:
         """Метаданные всех null-инструментов (идентично именам, но с суффиксом _T)."""
         tool_names = [
             "cancel_order_T",
@@ -36,125 +36,122 @@ class NullTools:
             # мои дополнительные "шумовые" null-инструменты
             "ping_T",
             "noop_T",
-            "faulty_gateway_T"
+            "faulty_gateway_T",
         ]
 
         metadata = []
         for name in tool_names:
-            metadata.append({
-                "name": name,
-                "description": f"NON-WORKING mock tool — always returns Null response ({name}).",
-                # Параметры можно задать пустыми — это намеренно неработающие моки.
-                "parameters": {
-                    "type": "object",
-                    "properties": {},
+            metadata.append(
+                {
+                    "name": name,
+                    "description": f"NON-WORKING mock tool — always returns Null response ({name}).",
+                    # Параметры можно задать пустыми — это намеренно неработающие моки.
+                    "parameters": {
+                        "type": "object",
+                        "properties": {},
+                    },
                 }
-            })
+            )
         return metadata
 
     # ========== Нерабочие исполнители (все ведут себя одинаково) ==========
     @staticmethod
-    def _null_response(tool_name: str, **_kwargs) -> Dict[str, Any]:
+    def _null_response(tool_name: str, **_kwargs) -> dict[str, Any]:
         """Единый ответ для всех нерабочих инструментов."""
-        return {
-            "success": False,
-            "error": "null_response",
-            "message": "Null",
-            "tool": tool_name
-        }
+        return {"success": False, "error": "null_response", "message": "Null", "tool": tool_name}
 
     # Для удобства — явные обёртки (они просто вызывают _null_response)
     @staticmethod
-    def cancel_order_T(**kwargs) -> Dict[str, Any]:
+    def cancel_order_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("cancel_order_T", **kwargs)
 
     @staticmethod
-    def search_products_T(**kwargs) -> Dict[str, Any]:
+    def search_products_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("search_products_T", **kwargs)
 
     @staticmethod
-    def return_order_T(**kwargs) -> Dict[str, Any]:
+    def return_order_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("return_order_T", **kwargs)
 
     @staticmethod
-    def place_order_T(**kwargs) -> Dict[str, Any]:
+    def place_order_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("place_order_T", **kwargs)
 
     @staticmethod
-    def track_order_T(**kwargs) -> Dict[str, Any]:
+    def track_order_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("track_order_T", **kwargs)
 
     @staticmethod
-    def update_address_T(**kwargs) -> Dict[str, Any]:
+    def update_address_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("update_address_T", **kwargs)
 
     @staticmethod
-    def add_to_cart_T(**kwargs) -> Dict[str, Any]:
+    def add_to_cart_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("add_to_cart_T", **kwargs)
 
     @staticmethod
-    def remove_from_cart_T(**kwargs) -> Dict[str, Any]:
+    def remove_from_cart_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("remove_from_cart_T", **kwargs)
 
     @staticmethod
-    def update_payment_method_T(**kwargs) -> Dict[str, Any]:
+    def update_payment_method_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("update_payment_method_T", **kwargs)
 
     @staticmethod
-    def apply_discount_code_T(**kwargs) -> Dict[str, Any]:
+    def apply_discount_code_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("apply_discount_code_T", **kwargs)
 
     @staticmethod
-    def get_order_history_T(**kwargs) -> Dict[str, Any]:
+    def get_order_history_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("get_order_history_T", **kwargs)
 
     @staticmethod
-    def schedule_delivery_T(**kwargs) -> Dict[str, Any]:
+    def schedule_delivery_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("schedule_delivery_T", **kwargs)
 
     @staticmethod
-    def update_profile_T(**kwargs) -> Dict[str, Any]:
+    def update_profile_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("update_profile_T", **kwargs)
 
     @staticmethod
-    def contact_support_T(**kwargs) -> Dict[str, Any]:
+    def contact_support_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("contact_support_T", **kwargs)
 
     @staticmethod
-    def calculator_T(**kwargs) -> Dict[str, Any]:
+    def calculator_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("calculator_T", **kwargs)
 
     @staticmethod
-    def get_weather_T(**kwargs) -> Dict[str, Any]:
+    def get_weather_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("get_weather_T", **kwargs)
 
     @staticmethod
-    def translate_T(**kwargs) -> Dict[str, Any]:
+    def translate_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("translate_T", **kwargs)
 
     @staticmethod
-    def currency_converter_T(**kwargs) -> Dict[str, Any]:
+    def currency_converter_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("currency_converter_T", **kwargs)
 
     @staticmethod
-    def get_time_T(**kwargs) -> Dict[str, Any]:
+    def get_time_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("get_time_T", **kwargs)
 
     @staticmethod
-    def get_date_T(**kwargs) -> Dict[str, Any]:
+    def get_date_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("get_date_T", **kwargs)
 
     # Дополнительные шумовые null-инструменты
     @staticmethod
-    def ping_T(**kwargs) -> Dict[str, Any]:
+    def ping_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("ping_T", **kwargs)
 
     @staticmethod
-    def noop_T(**kwargs) -> Dict[str, Any]:
+    def noop_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("noop_T", **kwargs)
 
     @staticmethod
-    def faulty_gateway_T(**kwargs) -> Dict[str, Any]:
+    def faulty_gateway_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("faulty_gateway_T", **kwargs)
 
 
@@ -189,7 +186,7 @@ def register_null_tools(tool_registry):
         "get_date_T": NullTools.get_date_T,
         "ping_T": NullTools.ping_T,
         "noop_T": NullTools.noop_T,
-        "faulty_gateway_T": NullTools.faulty_gateway_T
+        "faulty_gateway_T": NullTools.faulty_gateway_T,
     }
 
     for meta in metas:

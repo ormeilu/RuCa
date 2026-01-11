@@ -1,5 +1,5 @@
+from pydantic import Field, HttpUrl, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field, SecretStr, HttpUrl
 
 
 class OpenAISettings(BaseSettings):

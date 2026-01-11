@@ -3,16 +3,16 @@
 Все ответы детерминированные / предопределённые — без реальных API вызовов.
 """
 
-from typing import Dict, Any, List
 import random
 from datetime import datetime, timedelta
+from typing import Any
 
 
 class MiscTools:
     """Мок-набор инструментов: weather и currency."""
 
     @staticmethod
-    def get_tools_metadata() -> List[Dict[str, Any]]:
+    def get_tools_metadata() -> list[dict[str, Any]]:
         """Метаданные всех инструментов в пакете."""
         return [
             {
@@ -22,10 +22,10 @@ class MiscTools:
                     "type": "object",
                     "properties": {
                         "location": {"type": "string", "description": "Город или геолокация"},
-                        "date": {"type": "string", "description": "Дата в формате YYYY-MM-DD (опционально)"}
+                        "date": {"type": "string", "description": "Дата в формате YYYY-MM-DD (опционально)"},
                     },
-                    "required": ["location"]
-                }
+                    "required": ["location"],
+                },
             },
             {
                 "name": "currency_converter",
@@ -35,25 +35,22 @@ class MiscTools:
                     "properties": {
                         "from_currency": {"type": "string", "description": "Исходная валюта (USD, EUR, RUB, etc.)"},
                         "to_currency": {"type": "string", "description": "Целевая валюта"},
-                        "amount": {"type": "number", "description": "Сумма для конвертации"}
+                        "amount": {"type": "number", "description": "Сумма для конвертации"},
                     },
-                    "required": ["from_currency", "to_currency", "amount"]
-                }
-            }
+                    "required": ["from_currency", "to_currency", "amount"],
+                },
+            },
         ]
 
     # ============= MOCK ИСПОЛНИТЕЛИ =============
 
     @staticmethod
-    def get_weather(location: str, date: str = None) -> Dict[str, Any]:
+    def get_weather(location: str, date: str = None) -> dict[str, Any]:
         """Mock: возвращает прогноз на указанную дату (или на ближайшие 3 дня)."""
         # Проверка формата даты (если передана)
         try:
-            if date:
-                target = datetime.strptime(date, "%Y-%m-%d").date()
-            else:
-                target = None
-        except Exception:
+            target = datetime.strptime(date, "%Y-%m-%d").date() if date else None
+        except (TypeError, ValueError):
             return {"success": False, "error": "invalid_date_format", "expected": "YYYY-MM-DD"}
 
         base_conditions = [
@@ -61,10 +58,10 @@ class MiscTools:
             {"cond": "partly_cloudy", "desc": "Переменная облачность", "temp_avg": 17},
             {"cond": "rain", "desc": "Дождь", "temp_avg": 14},
             {"cond": "storm", "desc": "Гроза", "temp_avg": 13},
-            {"cond": "snow", "desc": "Снег", "temp_avg": -2}
+            {"cond": "snow", "desc": "Снег", "temp_avg": -2},
         ]
 
-        def make_day(cond_template: Dict[str, Any], day_offset: int, use_date=None) -> Dict[str, Any]:
+        def make_day(cond_template: dict[str, Any], day_offset: int, use_date=None) -> dict[str, Any]:
             temp = cond_template["temp_avg"] + random.randint(-4, 4)
             d = use_date if use_date is not None else (datetime.now().date() + timedelta(days=day_offset))
             return {
@@ -73,12 +70,12 @@ class MiscTools:
                 "description": cond_template["desc"],
                 "temp_c": temp,
                 "wind_kph": random.randint(5, 25),
-                "precip_mm": random.choice([0, 0, 0.5, 2, 5])
+                "precip_mm": random.choice([0, 0, 0.5, 2, 5]),
             }
 
         # если указана конкретная дата — вернуть один день с детерминированной логикой
         if target:
-            idx = (target.toordinal() % len(base_conditions))
+            idx = target.toordinal() % len(base_conditions)
             cond = base_conditions[idx]
             forecast = make_day(cond, 0, use_date=target)
             return {"success": True, "location": location, "forecast": forecast, "source": "mock"}
@@ -92,17 +89,10 @@ class MiscTools:
         return {"success": True, "location": location, "forecast_3days": forecast_list, "source": "mock"}
 
     @staticmethod
-    def currency_converter(from_currency: str, to_currency: str, amount: float) -> Dict[str, Any]:
+    def currency_converter(from_currency: str, to_currency: str, amount: float) -> dict[str, Any]:
         """Mock: простой конвертер с фиксированными курсами."""
         # локальная таблица курсов по отношению к USD
-        rates_to_usd = {
-            "USD": 1.0,
-            "EUR": 1.08,
-            "RUB": 0.012,
-            "GBP": 1.25,
-            "JPY": 0.0067,
-            "CNY": 0.14
-        }
+        rates_to_usd = {"USD": 1.0, "EUR": 1.08, "RUB": 0.012, "GBP": 1.25, "JPY": 0.0067, "CNY": 0.14}
 
         fc = from_currency.upper()
         tc = to_currency.upper()
@@ -121,11 +111,8 @@ class MiscTools:
             "to_currency": tc,
             "original_amount": amount,
             "converted_amount": round(target_amount, 4),
-            "rate_via_usd": {
-                "from_to_usd": rates_to_usd[fc],
-                "to_to_usd": rates_to_usd[tc]
-            },
-            "source": "mock_rates_2025"
+            "rate_via_usd": {"from_to_usd": rates_to_usd[fc], "to_to_usd": rates_to_usd[tc]},
+            "source": "mock_rates_2025",
         }
 
 
@@ -135,10 +122,7 @@ def register_misc_tools(tool_registry):
     """
     tools_metadata = MiscTools.get_tools_metadata()
 
-    executors = {
-        "get_weather": MiscTools.get_weather,
-        "currency_converter": MiscTools.currency_converter
-    }
+    executors = {"get_weather": MiscTools.get_weather, "currency_converter": MiscTools.currency_converter}
 
     for tool_meta in tools_metadata:
         name = tool_meta["name"]

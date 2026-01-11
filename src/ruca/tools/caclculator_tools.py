@@ -3,10 +3,10 @@
 Безопасно вычисляет математические выражения, используя ast-парсинг и белый список операций/функций.
 """
 
-from typing import Dict, Any, List
 import ast
-import operator as op
 import math
+import operator as op
+from typing import Any
 
 # Допустимые бинарные операции
 _ALLOWED_BINOPS = {
@@ -28,12 +28,7 @@ _ALLOWED_UNARYOPS = {
 # Разрешённые функции и константы (включая те, что в math)
 _ALLOWED_NAMES = {name: getattr(math, name) for name in dir(math) if not name.startswith("_")}
 # Добавим пару удобных алиасов
-_ALLOWED_NAMES.update({
-    "abs": abs,
-    "round": round,
-    "pi": math.pi,
-    "e": math.e
-})
+_ALLOWED_NAMES.update({"abs": abs, "round": round, "pi": math.pi, "e": math.e})
 
 
 def _eval_node(node):
@@ -85,7 +80,7 @@ def _eval_node(node):
 
 class CalculatorTool:
     @staticmethod
-    def get_tools_metadata() -> List[Dict[str, Any]]:
+    def get_tools_metadata() -> list[dict[str, Any]]:
         return [
             {
                 "name": "calculator",
@@ -93,16 +88,22 @@ class CalculatorTool:
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "expression": {"type": "string", "description": "Математическое выражение, например '2*(3+sin(pi/2))'"},
-                        "precision": {"type": "integer", "description": "Опционально: число знаков после запятой в результате"}
+                        "expression": {
+                            "type": "string",
+                            "description": "Математическое выражение, например '2*(3+sin(pi/2))'",
+                        },
+                        "precision": {
+                            "type": "integer",
+                            "description": "Опционально: число знаков после запятой в результате",
+                        },
                     },
-                    "required": ["expression"]
-                }
+                    "required": ["expression"],
+                },
             }
         ]
 
     @staticmethod
-    def calculate(expression: str, precision: int = None) -> Dict[str, Any]:
+    def calculate(expression: str, precision: int = None) -> dict[str, Any]:
         """Безопасно вычисляет expression и возвращает результат или ошибку."""
         if not isinstance(expression, str) or not expression.strip():
             return {"success": False, "error": "invalid_input", "message": "Empty or non-string expression"}
@@ -125,6 +126,7 @@ class CalculatorTool:
             return {"success": False, "error": "zero_division", "message": "Division by zero"}
         except Exception as e:
             return {"success": False, "error": "eval_error", "message": str(e)}
+
 
 def register_calculator(tool_registry):
     """

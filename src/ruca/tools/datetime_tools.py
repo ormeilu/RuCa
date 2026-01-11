@@ -1,5 +1,5 @@
-from typing import Dict, Any
 from datetime import datetime, timedelta
+from typing import Any
 
 
 class DateTimeTools:
@@ -16,10 +16,10 @@ class DateTimeTools:
                     "type": "object",
                     "properties": {
                         "format": {"type": "string", "enum": ["iso", "us", "eu", "long", "short"]},
-                        "offset_days": {"type": "integer"}
+                        "offset_days": {"type": "integer"},
                     },
-                    "required": []
-                }
+                    "required": [],
+                },
             },
             {
                 "name": "get_time",
@@ -28,17 +28,17 @@ class DateTimeTools:
                     "type": "object",
                     "properties": {
                         "format": {"type": "string", "enum": ["24h", "12h", "short", "timestamp"]},
-                        "offset_hours": {"type": "integer"}
+                        "offset_hours": {"type": "integer"},
                     },
-                    "required": []
-                }
-            }
+                    "required": [],
+                },
+            },
         ]
 
     # Исполняющие методы
 
     @staticmethod
-    def get_date(format: str = "iso", offset_days: int = 0) -> Dict[str, Any]:
+    def get_date(format: str = "iso", offset_days: int = 0) -> dict[str, Any]:
         """Возвращает дату в указанном формате с указанным смещением"""
         base_date = datetime.now() + timedelta(days=offset_days)
 
@@ -52,13 +52,20 @@ class DateTimeTools:
             formatted_date = base_date.strftime("%d.%m.%y")
         elif format == "long":
             months_ru = [
-                "января", "февраля", "марта", "апреля", "мая", "июня",
-                "июля", "августа", "сентября", "октября", "ноября", "декабря"
+                "января",
+                "февраля",
+                "марта",
+                "апреля",
+                "мая",
+                "июня",
+                "июля",
+                "августа",
+                "сентября",
+                "октября",
+                "ноября",
+                "декабря",
             ]
-            weekdays_ru = [
-                "понедельник", "вторник", "среда", "четверг",
-                "пятница", "суббота", "воскресенье"
-            ]
+            weekdays_ru = ["понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье"]
             formatted_date = f"{weekdays_ru[base_date.weekday()]}, {base_date.day} {months_ru[base_date.month - 1]} {base_date.year} года"
 
         return {
@@ -70,11 +77,11 @@ class DateTimeTools:
             "day_of_year": base_date.timetuple().tm_yday,
             "week_number": base_date.isocalendar()[1],
             "is_weekend": base_date.weekday() >= 5,
-            "iso_format": base_date.strftime("%Y-%m-%d")
+            "iso_format": base_date.strftime("%Y-%m-%d"),
         }
 
     @staticmethod
-    def get_time(format: str = "24h", offset_hours: int = 0) -> Dict[str, Any]:
+    def get_time(format: str = "24h", offset_hours: int = 0) -> dict[str, Any]:
         """Возвращает время в указанном формате с указанным смещением"""
         base_time = datetime.now() + timedelta(hours=offset_hours)
 
@@ -90,10 +97,13 @@ class DateTimeTools:
         # Определяем период дня
         hour = base_time.hour
         period = (
-            "morning" if 5 <= hour < 12 else
-            "afternoon" if 12 <= hour < 17 else
-            "evening" if 17 <= hour < 22 else
-            "night"
+            "morning"
+            if 5 <= hour < 12
+            else "afternoon"
+            if 12 <= hour < 17
+            else "evening"
+            if 17 <= hour < 22
+            else "night"
         )
 
         return {
@@ -107,7 +117,7 @@ class DateTimeTools:
             "period": period,
             "is_business_hours": 9 <= base_time.hour < 18 and base_time.weekday() < 5,
             "timestamp": int(base_time.timestamp()),
-            "iso_format": base_time.strftime("%H:%M:%S")
+            "iso_format": base_time.strftime("%H:%M:%S"),
         }
 
 

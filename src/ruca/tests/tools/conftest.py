@@ -1,6 +1,7 @@
 """
 Shared fixtures and configuration for tools tests
 """
+
 import pytest
 
 

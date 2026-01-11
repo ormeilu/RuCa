@@ -2418,7 +2418,8 @@ dependencies = [
     { name = "openai" },
     { name = "pandas" },
     { name = "pydantic-settings" },
-    { name = "pytest" },
+    { name = "pyyaml" },
+    { name = "rich" },
     { name = "sqlalchemy" },
 ]
 
@@ -2437,6 +2438,7 @@ test = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
+    { name = "pytest-timeout" },
 ]
 
 [package.metadata]
@@ -2452,7 +2454,8 @@ requires-dist = [
     { name = "openai", specifier = ">=2.6.1" },
     { name = "pandas", specifier = ">=2.3.3" },
     { name = "pydantic-settings", specifier = ">=2.11.0" },
-    { name = "pytest", specifier = ">=9.0.2" },
+    { name = "pyyaml", specifier = ">=6.0" },
+    { name = "rich", specifier = ">=13.0.0" },
     { name = "sqlalchemy", specifier = ">=2.0.44" },
 ]
 
@@ -2471,6 +2474,7 @@ test = [
     { name = "pytest", specifier = ">=8.3.4" },
     { name = "pytest-asyncio", specifier = ">=0.24.0" },
     { name = "pytest-cov", specifier = ">=6.0.0" },
+    { name = "pytest-timeout", specifier = ">=2.3.1" },
 ]
 
 [[package]]

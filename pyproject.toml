@@ -87,6 +87,7 @@ extend-select = [
     # TODOs
     "FIX",
 ]
+ignore = ["E501"]  # Ignore line too long - handled by ruff format
 
 
 [tool.pytest.ini_options]
