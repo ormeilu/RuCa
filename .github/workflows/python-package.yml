@@ -1,6 +1,5 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
 name: CI
 
 on:
@@ -26,13 +25,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install uv
 
-      - name: Install dependencies
+      - name: Install dependencies with test group
         run: |
-          uv pip install -e . --group test
+          uv sync --group test
 
       - name: Run tests
         run: |
-          pytest
+          uv run pytest
 
   lint:
     runs-on: ubuntu-latest
@@ -50,11 +49,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install uv
 
-      - name: Install dependencies
+      - name: Install dependencies with dev group
         run: |
-          uv pip install -e . --group dev
+          uv sync --group dev
 
       - name: Lint with ruff
         run: |
-          ruff check .
-          ruff format --check .
+          uv run ruff check .
+          uv run ruff format --check .
