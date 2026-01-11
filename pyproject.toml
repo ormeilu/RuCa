@@ -1,0 +1,115 @@
+[project]
+name = "RuCa"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Ilya Lubenets", email = "xfilinxcl@gmail.com"}
+]
+requires-python = ">=3.13"
+dependencies = [
+    "aiohttp>=3.13.2",
+    "ddgs>=9.6.1",
+    "dotenv>=0.9.9",
+    "fastapi>=0.121.2",
+    "fastmcp>=2.4.0",
+    "ipykernel>=7.0.1",
+    "mcp>=1.20.0",
+    "numpy>=2.3.4",
+    "openai>=2.6.1",
+    "pandas>=2.3.3",
+    "pydantic-settings>=2.11.0",
+    "sqlalchemy>=2.0.44",
+    "typing>=3.10.0.0",
+]
+
+
+[tool.uv]
+package = true
+
+[project.scripts]
+ruca = "RuCa.main:main"
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+
+
+[tool.ruff.format]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint]
+extend-select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # TODOs
+    "FIX",
+]
+
+
+[tool.pytest.ini_options]
+addopts = "-vra -s --cov=ruca --cov-report=term-missing"
+markers = [
+    "component: Testing copmonents for integrations test",
+    "integration: Integraion test with S3 and/or Kafka",
+    "unit: Simple unit testing",
+]
+log_cli = 1
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "dist"]
+
+[dependency-groups]
+dev = [
+    "bandit>=1.8.0",
+    "docker>=7.1.0",
+    "pyright>=1.1.391",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pytest-timeout>=2.3.1",
+    "ruff>=0.8.4",
+]

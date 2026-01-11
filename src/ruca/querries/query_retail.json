@@ -1,0 +1,16 @@
+{
+    "queries_retail": [
+        {
+            "id": "000200",
+            "complexity": "easy",
+            "category": "tool_retail",
+            "type": "ordinary",
+            "query": "Используя cancel_order, отмени заказ ORD1023 на наушники.",
+            "expected_tool": "cancel_order",
+            "expected_parameters": { "order_id": "ORD1023" },
+            "requires_clarification": false,
+            "skills": ["Decision", "Tool selection", "Params", "Result"]
+        }
+        
+    ]
+}
