@@ -707,11 +707,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # Переменная окружения уже установлена выше, но обновляем на случай явного запуска этого скрипта
     os.environ["BENCHMARK_FILE"] = args.input
-    
+
     # Теперь вызываем ленивые функции после установки переменной окружения
     inputs_for_logging = get_inputs_for_logging()
     outputs_for_logging = get_outputs_for_logging()
-    
+
     # Проверяем совместимость ID
     validate_ids(inputs_for_logging, outputs_for_logging)
 

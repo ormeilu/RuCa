@@ -1,2 +1,1 @@
-"""Package marker for project configuration files.
-"""
+"""Package marker for project configuration files."""
