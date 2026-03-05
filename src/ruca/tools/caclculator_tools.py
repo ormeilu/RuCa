@@ -1,6 +1,7 @@
-"""
-Рабочий инструмент: calculator
-Безопасно вычисляет математические выражения, используя ast-парсинг и белый список операций/функций.
+"""Calculator tool for the LLM agent benchmark.
+
+Safely evaluates mathematical expressions via AST parsing and a whitelist
+of allowed operations and functions.
 """
 
 import ast
@@ -8,7 +9,7 @@ import math
 import operator as op
 from typing import Any
 
-# Допустимые бинарные операции
+# Allowed binary operations
 _ALLOWED_BINOPS = {
     ast.Add: op.add,
     ast.Sub: op.sub,
@@ -19,24 +20,24 @@ _ALLOWED_BINOPS = {
     ast.Pow: op.pow,
 }
 
-# Допустимые унарные операции
+# Allowed unary operations
 _ALLOWED_UNARYOPS = {
     ast.UAdd: lambda x: x,
     ast.USub: lambda x: -x,
 }
 
-# Разрешённые функции и константы (включая те, что в math)
+# Allowed functions and constants (including those in math)
 _ALLOWED_NAMES = {name: getattr(math, name) for name in dir(math) if not name.startswith("_")}
-# Добавим пару удобных алиасов
+# Add a few convenience aliases
 _ALLOWED_NAMES.update({"abs": abs, "round": round, "pi": math.pi, "e": math.e})
 
 
-def _eval_node(node):
-    """Рекурсивно вычисляет AST-узел в безопасном окружении."""
+def _eval_node(node) -> Any:
+    """Recursively evaluate an AST node in a safe sandbox."""
     if isinstance(node, ast.Expression):
         return _eval_node(node.body)
 
-    if isinstance(node, ast.Constant):  # Python 3.8+: числа и константы
+    if isinstance(node, ast.Constant):  # Python 3.8+: numbers and constants
         if isinstance(node.value, (int, float)):
             return node.value
         raise ValueError("Unsupported constant type")
@@ -55,14 +56,14 @@ def _eval_node(node):
         return _ALLOWED_UNARYOPS[type(node.op)](operand)
 
     if isinstance(node, ast.Call):
-        # вызов функции: имя должен быть простым идентификатором
+        # Function call: the name must be a plain identifier
         if isinstance(node.func, ast.Name):
             func_name = node.func.id
             if func_name not in _ALLOWED_NAMES:
                 raise ValueError(f"Function '{func_name}' is not allowed")
             func = _ALLOWED_NAMES[func_name]
             args = [_eval_node(a) for a in node.args]
-            # не поддерживаем kwargs, *args, comprehension и т.д.
+            # kwargs, *args, comprehensions, etc. are not supported
             return func(*args)
         else:
             raise ValueError("Only direct function names are allowed in calls")
@@ -79,8 +80,11 @@ def _eval_node(node):
 
 
 class CalculatorTool:
+    """Safe mathematical-expression evaluator."""
+
     @staticmethod
     def get_tools_metadata() -> list[dict[str, Any]]:
+        """Return OpenAI-compatible metadata for the calculator tool."""
         return [
             {
                 "name": "calculator",
@@ -104,21 +108,21 @@ class CalculatorTool:
 
     @staticmethod
     def calculate(expression: str, precision: int = None) -> dict[str, Any]:
-        """Безопасно вычисляет expression и возвращает результат или ошибку."""
+        """Safely evaluate *expression* and return the result or an error."""
         if not isinstance(expression, str) or not expression.strip():
             return {"success": False, "error": "invalid_input", "message": "Empty or non-string expression"}
 
         try:
-            # Парсим выражение в AST (режим 'eval' — только выражения)
+            # Parse the expression into an AST ('eval' mode — expressions only)
             parsed = ast.parse(expression, mode="eval")
-            # Пройдём по дереву и вычислим
+            # Walk the tree and compute the result
             result = _eval_node(parsed)
             if isinstance(result, float) and precision is not None:
                 try:
                     precision = int(precision)
                     result = round(result, precision)
                 except Exception:
-                    # если precision неверный — игнорируем округление
+                    # If precision is invalid — skip rounding
                     pass
 
             return {"success": True, "expression": expression, "result": result}
@@ -128,13 +132,14 @@ class CalculatorTool:
             return {"success": False, "error": "eval_error", "message": str(e)}
 
 
-def register_calculator(tool_registry):
-    """
-    Регистрирует инструмент calculator в tool_registry.
+def register_calculator(tool_registry) -> None:
+    """Register the calculator tool in the given tool registry.
+
+    Args:
+        tool_registry: Registry instance exposing a ``register_tool`` method.
     """
     metas = CalculatorTool.get_tools_metadata()
-    # единственный исполнитель
-    executors = {"calculator": CalculatorTool.calculate}
+    executors: dict[str, Any] = {"calculator": CalculatorTool.calculate}
     for meta in metas:
         name = meta["name"]
         tool_registry.register_tool(name, meta, executors[name])

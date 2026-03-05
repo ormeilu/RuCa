@@ -1,3 +1,5 @@
+"""CLI entry point for running multi-model benchmarks and comparing results."""
+
 import argparse
 import json
 import math
@@ -5,36 +7,45 @@ import shutil
 import subprocess
 from pathlib import Path
 from statistics import mean
+from typing import Any
 
 from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-# from config_loader import get_all_models
 from ruca.utils import get_all_models
 
 console = Console()
 
-RESULTS_DIR = Path("results")
+RESULTS_DIR: Path = Path("results")
 RESULTS_DIR.mkdir(exist_ok=True)
 
-EVAL_OUTPUT = Path("evaluate_results.json")
+EVAL_OUTPUT: Path = Path("evaluate_results.json")
 
 
-def run_model_benchmark(model_name: str, model_config: dict, concurrent: int, run_id: int):
-    """Запускает бенчмарк для одной модели."""
+def run_model_benchmark(model_name: str, model_config: dict[str, Any], concurrent: int, run_id: int) -> None:
+    """Run the benchmark pipeline for a single model.
+
+    Spawns ``four_more_agent`` as a subprocess, then runs evaluation and
+    copies the result into :data:`RESULTS_DIR`.
+
+    Args:
+        model_name: Human-readable model identifier (config key).
+        model_config: Resolved model parameters dict.
+        concurrent: Maximum number of concurrent requests.
+        run_id: Ordinal index of the current benchmark run.
+    """
     print(f"\n{'=' * 70}")
     print(f"Запуск модели: {model_name}")
     print(f"Model: {model_config['model_name']}")
     print(f"Temperature: {model_config['temperature']}, Top-P: {model_config['top_p']}, Top-K: {model_config['top_k']}")
     print(f"{'=' * 70}\n")
 
-    # Имя файла с результатами бенчмарка
-    benchmark_output = f"benchmark_results_{model_name}_run{run_id}.json"
+    benchmark_output: str = f"benchmark_results_{model_name}_run{run_id}.json"
 
-    # Формируем аргументы для four_more_agent.py
-    cmd = [
+    # Build the CLI command for the benchmark agent
+    cmd: list[str] = [
         "uv",
         "run",
         "-m",
@@ -46,10 +57,10 @@ def run_model_benchmark(model_name: str, model_config: dict, concurrent: int, ru
         "--temperature",
         str(model_config["temperature"]),
         "--output",
-        benchmark_output,  # ← используем переменную
+        benchmark_output,
     ]
 
-    # Добавляем опциональные параметры, если они заданы
+    # Append optional sampling parameters when provided
     if model_config.get("top_p") is not None:
         cmd.extend(["--top_p", str(model_config["top_p"])])
 
@@ -59,10 +70,10 @@ def run_model_benchmark(model_name: str, model_config: dict, concurrent: int, ru
     if model_config.get("seed") is not None:
         cmd.extend(["--seed", str(model_config["seed"])])
 
-    # Добавляем API ключ и base_url через переменные окружения если нужно
+    # Forward API credentials via environment variables if specified
     import os
 
-    env = os.environ.copy()
+    env: dict[str, str] = os.environ.copy()
     if model_config.get("api_key"):
         env["OPENAI_API_KEY"] = model_config["api_key"]
     if model_config.get("base_url"):
@@ -70,20 +81,28 @@ def run_model_benchmark(model_name: str, model_config: dict, concurrent: int, ru
 
     subprocess.run(cmd, check=True, env=env)
 
-    # Запускаем evaluation с указанием файла
+    # Run evaluation on the freshly produced benchmark output
     subprocess.run(["uv", "run", "-m", "ruca.utils.evaluation", "--input", benchmark_output], check=True)
 
-    # Копируем результат evaluation
-    target = RESULTS_DIR / f"run_{model_name}_{run_id}.json"
+    # Persist the evaluation result under the model-specific run file
+    target: Path = RESULTS_DIR / f"run_{model_name}_{run_id}.json"
     shutil.copy(EVAL_OUTPUT, target)
 
     print(f"✅ Модель {model_name} (запуск {run_id}) завершена → {target}\n")
 
 
-def compute_model_averages(model_names: list[str], runs: int) -> dict:
-    """Вычисляет средние результаты для каждой модели."""
-    all_averages = {}
-    all_configs = {}
+def compute_model_averages(model_names: list[str], runs: int) -> dict[str, Any]:
+    """Compute mean metric values for each model across all runs.
+
+    Args:
+        model_names: List of model identifier strings.
+        runs: Total number of benchmark runs performed.
+
+    Returns:
+        Dict with ``averages`` and ``configs`` sub-dicts keyed by model name.
+    """
+    all_averages: dict[str, dict[str, float]] = {}
+    all_configs: dict[str, dict[str, Any]] = {}
 
     for model_name in model_names:
         collected = {}
@@ -120,13 +139,13 @@ def compute_model_averages(model_names: list[str], runs: int) -> dict:
     return {"averages": all_averages, "configs": all_configs}
 
 
-def print_comparison_table(model_averages: dict, configs: dict):
-    """Выводит сравнительную таблицу по всем моделям."""
+def print_comparison_table(model_averages: dict[str, Any], configs: dict[str, Any]) -> None:
+    """Print a rich-formatted comparison table of all model metrics."""
     console.print()
     console.print(Panel.fit("[bold cyan]СРАВНЕНИЕ МОДЕЛЕЙ[/bold cyan]", border_style="cyan"))
     console.print()
 
-    metric_cols = [
+    metric_cols: list[str] = [
         "decision",
         "tool_selection",
         "params",
@@ -138,7 +157,6 @@ def print_comparison_table(model_averages: dict, configs: dict):
         "execution",
     ]
 
-    # Основная таблица сравнения метрик
     comparison_table = Table(
         title="[bold white]МЕТРИКИ ПО МОДЕЛЯМ[/bold white]", box=box.ROUNDED, show_header=True, header_style="bold cyan"
     )
@@ -169,7 +187,6 @@ def print_comparison_table(model_averages: dict, configs: dict):
     console.print(comparison_table)
     console.print()
 
-    # Таблица финальных оценок
     final_scores_table = Table(
         title="[bold white]ФИНАЛЬНЫЕ ОЦЕНКИ[/bold white]", box=box.ROUNDED, show_header=True, header_style="bold cyan"
     )
@@ -196,7 +213,6 @@ def print_comparison_table(model_averages: dict, configs: dict):
     console.print(final_scores_table)
     console.print()
 
-    # Информация о конфигурациях
     config_table = Table(
         title="[bold white]КОНФИГУРАЦИЯ МОДЕЛЕЙ[/bold white]",
         box=box.ROUNDED,
@@ -223,9 +239,11 @@ def print_comparison_table(model_averages: dict, configs: dict):
     console.print()
 
 
-def save_all_results_json(model_averages: dict, configs: dict, filename: str = "comparison_results.json"):
-    """Сохраняет результаты всех моделей в один JSON файл."""
-    output = {
+def save_all_results_json(
+    model_averages: dict[str, Any], configs: dict[str, Any], filename: str = "comparison_results.json"
+) -> None:
+    """Persist aggregated comparison results for all models to a JSON file."""
+    output: dict[str, Any] = {
         "averages": model_averages,
         "configs": configs,
     }
@@ -236,7 +254,8 @@ def save_all_results_json(model_averages: dict, configs: dict, filename: str = "
     print(f"✓ Результаты сравнения сохранены в: {filename}")
 
 
-def main():
+def main() -> None:
+    """CLI entry point: parse arguments, run benchmarks for every configured model, and display results."""
     parser = argparse.ArgumentParser(description="Run benchmark for multiple models from config.yaml")
     parser.add_argument("--runs", type=int, default=1, help="Number of benchmark runs")
     parser.add_argument("--concurrent", type=int, default=8, help="Concurrent requests")
@@ -245,8 +264,7 @@ def main():
 
     args = parser.parse_args()
 
-    # Загружаем конфиги всех моделей
-    models = get_all_models(args.config)
+    models: dict[str, dict[str, Any]] = get_all_models(args.config)
 
     if not models:
         console.print("[red]❌ Не найдены модели в config.yaml[/red]")
@@ -255,17 +273,14 @@ def main():
     console.print(f"[cyan]Найдены модели: {', '.join(models.keys())}[/cyan]")
     console.print(f"[cyan]Количество запусков: {args.runs}[/cyan]\n")
 
-    # Запускаем бенчмарк для каждой модели
     for run_id in range(1, args.runs + 1):
         for model_name, model_config in models.items():
             run_model_benchmark(model_name, model_config, args.concurrent, run_id)
 
-    # Вычисляем средние для каждой модели
-    results = compute_model_averages(list(models.keys()), args.runs)
-    model_averages = results["averages"]
-    configs = results["configs"]
+    results: dict[str, Any] = compute_model_averages(list(models.keys()), args.runs)
+    model_averages: dict[str, Any] = results["averages"]
+    configs: dict[str, Any] = results["configs"]
 
-    # Выводим результаты
     if args.json:
         save_all_results_json(model_averages, configs)
     else:

@@ -1,6 +1,6 @@
-"""
-Моковые инструменты: погода и конвертер валют.
-Все ответы детерминированные / предопределённые — без реальных API вызовов.
+"""Mock tools: weather forecast and currency converter.
+
+All responses are deterministic / predetermined — no real API calls.
 """
 
 import random
@@ -9,11 +9,11 @@ from typing import Any
 
 
 class MiscTools:
-    """Мок-набор инструментов: weather и currency."""
+    """Mock toolkit: weather and currency conversion."""
 
     @staticmethod
     def get_tools_metadata() -> list[dict[str, Any]]:
-        """Метаданные всех инструментов в пакете."""
+        """Return OpenAI-compatible metadata for every misc tool."""
         return [
             {
                 "name": "get_weather",
@@ -42,12 +42,10 @@ class MiscTools:
             },
         ]
 
-    # ============= MOCK ИСПОЛНИТЕЛИ =============
-
     @staticmethod
     def get_weather(location: str, date: str = None) -> dict[str, Any]:
-        """Mock: возвращает прогноз на указанную дату (или на ближайшие 3 дня)."""
-        # Проверка формата даты (если передана)
+        """Mock: return a weather forecast for the given date (or the next 3 days)."""
+        # Validate date format if provided
         try:
             target = datetime.strptime(date, "%Y-%m-%d").date() if date else None
         except (TypeError, ValueError):
@@ -73,14 +71,14 @@ class MiscTools:
                 "precip_mm": random.choice([0, 0, 0.5, 2, 5]),
             }
 
-        # если указана конкретная дата — вернуть один день с детерминированной логикой
+        # If a specific date is provided — return a single day with deterministic logic
         if target:
             idx = target.toordinal() % len(base_conditions)
             cond = base_conditions[idx]
             forecast = make_day(cond, 0, use_date=target)
             return {"success": True, "location": location, "forecast": forecast, "source": "mock"}
 
-        # иначе — вернуть краткий 3-дневный прогноз
+        # Otherwise — return a short 3-day forecast
         forecast_list = []
         for i in range(3):
             cond = base_conditions[(i + len(location)) % len(base_conditions)]
@@ -90,8 +88,8 @@ class MiscTools:
 
     @staticmethod
     def currency_converter(from_currency: str, to_currency: str, amount: float) -> dict[str, Any]:
-        """Mock: простой конвертер с фиксированными курсами."""
-        # локальная таблица курсов по отношению к USD
+        """Mock: simple converter with fixed exchange rates."""
+        # Local exchange-rate table relative to USD
         rates_to_usd = {"USD": 1.0, "EUR": 1.08, "RUB": 0.012, "GBP": 1.25, "JPY": 0.0067, "CNY": 0.14}
 
         fc = from_currency.upper()
@@ -100,8 +98,8 @@ class MiscTools:
         if fc not in rates_to_usd or tc not in rates_to_usd:
             return {"success": False, "error": "unsupported_currency", "supported": list(rates_to_usd.keys())}
 
-        # конвертируем через USD
-        # интерпретация: rates_to_usd[x] = 1 unit of x -> USD value
+        # Convert via USD
+        # Interpretation: rates_to_usd[x] = 1 unit of x -> USD value
         usd_amount = amount * rates_to_usd[fc]
         target_amount = usd_amount / rates_to_usd[tc]
 
@@ -116,9 +114,11 @@ class MiscTools:
         }
 
 
-def register_misc_tools(tool_registry):
-    """
-    Регистрирует инструменты в переданном registry (модель реестра как в основном бенчмарке).
+def register_misc_tools(tool_registry) -> None:
+    """Register misc tools (weather & currency) in the given tool registry.
+
+    Args:
+        tool_registry: Registry instance exposing a ``register_tool`` method.
     """
     tools_metadata = MiscTools.get_tools_metadata()
 

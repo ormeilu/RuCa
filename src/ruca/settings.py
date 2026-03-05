@@ -1,8 +1,12 @@
+"""Application settings loaded from environment variables / ``.env`` file."""
+
 from pydantic import Field, HttpUrl, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class OpenAISettings(BaseSettings):
+    """OpenAI-compatible API credentials and endpoint configuration."""
+
     openai_api_key: SecretStr = Field()
     openai_base_url: HttpUrl = Field()
 

@@ -1,3 +1,9 @@
+"""Benchmark agent module for evaluating LLM tool-calling capabilities.
+
+Provides :class:`BenchmarkAgent` that orchestrates tool registration, execution,
+and chained tool-call evaluation against a ground-truth dataset.
+"""
+
 import argparse
 import asyncio
 import json
@@ -11,32 +17,28 @@ from openai import OpenAI
 
 from ruca.settings import OpenAISettings
 
-# from config_loader import get_all_models, resolve_model_params
-
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "tools"))
 
 dotenv.load_dotenv(dotenv.find_dotenv())
 
 try:
-    # from json_parser import process_all_queries, system_prompt as default_system_prompt
     from ruca.utils import process_all_queries
     from ruca.utils import system_prompt as default_system_prompt
 except ImportError:
     process_all_queries = None
     default_system_prompt = "Ты — ассистент, вызывающий инструменты."
-# Выбор модели wwwwwwww
-# ========================================================================
-# DEFAULT_MODEL = "minimaxai/minimax-m2"
-DEFAULT_MODEL = "openai/gpt-oss-20b"
-# DEFAULT_MODEL = "nvidia/llama-3.1-nemotron-safety-guard-8b-v3"
-# DEFAULT_MODEL = "qwen/qwen3-next-80b-a3b-instruct"
-# DEFAULT_MODEL = "openai/gpt-oss-120b"
-# ========================================================================
+
+DEFAULT_MODEL: str = "openai/gpt-oss-20b"
 
 
 class BenchmarkAgent:
-    def __init__(self):
-        """Базовый конструктор - не используйте напрямую, используйте create()"""
+    """Agent that registers tool sets, calls an LLM, and executes tool invocations.
+
+    Use the async factory :meth:`create` instead of the constructor directly.
+    """
+
+    def __init__(self) -> None:
+        """Base constructor — do not use directly, use :meth:`create` instead."""
         pass
 
     @classmethod
@@ -53,8 +55,24 @@ class BenchmarkAgent:
         use_datetime: bool = True,
         use_airbnb: bool = False,
         verbose: bool = True,
-    ):
-        """Асинхронный конструктор для BenchmarkAgent."""
+    ) -> "BenchmarkAgent":
+        """Async factory that creates and fully initialises a BenchmarkAgent.
+
+        Args:
+            model: Model identifier string.
+            use_retail: Register e-commerce tools.
+            use_weather: Register weather / currency tools.
+            use_translate: Register translation tools.
+            use_calculator: Register calculator tools.
+            use_trash: Register null / distractor tools.
+            use_aviation: Register aviation tools.
+            use_datetime: Register date-time tools.
+            use_airbnb: Connect to the Airbnb MCP server.
+            verbose: Print initialisation diagnostics.
+
+        Returns:
+            Fully initialised :class:`BenchmarkAgent` instance.
+        """
         instance = cls()
 
         instance.model = model
@@ -124,7 +142,7 @@ class BenchmarkAgent:
 
     @staticmethod
     def _build_client() -> OpenAI:
-        """Создаёт аутентифицированный клиент OpenAI."""
+        """Build an authenticated OpenAI client from application settings."""
         settings = OpenAISettings()
         return OpenAI(
             api_key=settings.openai_api_key.get_secret_value(),
@@ -132,7 +150,15 @@ class BenchmarkAgent:
         )
 
     def _convert_tools(self, tools_meta: list[Any], *, strict: bool = False) -> list[dict[str, Any]]:
-        """Преобразует произвольные описания тулзов в формат OpenAI."""
+        """Convert arbitrary tool metadata dicts into OpenAI function-calling format.
+
+        Args:
+            tools_meta: List of tool description dicts.
+            strict: If ``True``, enable strict mode (no additional properties).
+
+        Returns:
+            List of OpenAI-compatible tool definitions.
+        """
         converted: list[dict[str, Any]] = []
         for tool in tools_meta:
             params = tool.get("parameters") or tool.get("inputSchema") or {}
@@ -155,9 +181,10 @@ class BenchmarkAgent:
         return converted
 
     def _get_retail_executors(self) -> dict[str, Any]:
+        """Return a name -> callable mapping for e-commerce tool methods."""
         from ruca.tools import EcommerceTools
 
-        method_names = [
+        method_names: list[str] = [
             "cancel_order",
             "search_products",
             "return_order",
@@ -176,9 +203,10 @@ class BenchmarkAgent:
         return {name: getattr(EcommerceTools, name) for name in method_names if hasattr(EcommerceTools, name)}
 
     def _get_aviation_executors(self) -> dict[str, Any]:
+        """Return a name -> callable mapping for aviation tool methods."""
         from ruca.tools import AviationTools
 
-        method_names = [
+        method_names: list[str] = [
             "BookingService",
             "FlightStatusService",
             "CheckInService",
@@ -201,6 +229,7 @@ class BenchmarkAgent:
         return {name: getattr(AviationTools, name) for name in method_names if hasattr(AviationTools, name)}
 
     def _get_datetime_executors(self) -> dict[str, Any]:
+        """Return a name -> callable mapping for date/time tool methods."""
         from ruca.tools import DateTimeTools
 
         return {
@@ -209,6 +238,7 @@ class BenchmarkAgent:
         }
 
     def _get_weather_executors(self) -> dict[str, Any]:
+        """Return a name -> callable mapping for weather / currency tool methods."""
         from ruca.tools import MiscTools
 
         return {
@@ -217,21 +247,29 @@ class BenchmarkAgent:
         }
 
     def _get_translate_executors(self) -> dict[str, Any]:
+        """Return a name -> callable mapping for translation tool methods."""
         from ruca.tools import TranslateTools
 
         return {"translate": TranslateTools.translate}
 
     def _get_calculator_executors(self) -> dict[str, Any]:
+        """Return a name -> callable mapping for calculator tool methods."""
         from ruca.tools import CalculatorTool
 
         return {"calculator": CalculatorTool.calculate}
 
     def _get_trash_executors(self) -> dict[str, Any]:
+        """Return a name -> callable mapping for null / distractor tool methods."""
         from ruca.tools import NullTools
 
         return {name: getattr(NullTools, name) for name in dir(NullTools) if not name.startswith("_")}
 
     async def _setup_mcp_clients(self, *, use_airbnb: bool) -> None:
+        """Initialise and connect MCP (Model Context Protocol) clients.
+
+        Args:
+            use_airbnb: If ``True``, start and connect to the Airbnb MCP server.
+        """
         from fastmcp import Client
 
         if use_airbnb:
@@ -248,6 +286,7 @@ class BenchmarkAgent:
             self.mcp_clients["airbnb"] = airbnb_client
 
     async def _register_mcp_tools(self) -> None:
+        """Fetch tool definitions from all connected MCP clients and register them."""
         if not self.mcp_clients:
             return
         for name, client in self.mcp_clients.items():
@@ -271,13 +310,17 @@ class BenchmarkAgent:
 
     @staticmethod
     def _safe_attr(tool: Any, key: str) -> str:
+        """Safely retrieve a string attribute from a tool (dict or object)."""
         if isinstance(tool, dict):
             return str(tool.get(key, ""))
         return str(getattr(tool, key, ""))
 
     @staticmethod
     def _extract_schema(tool: Any) -> dict[str, Any]:
+        """Extract and normalise the JSON-Schema parameters block from a tool."""
+
         def _normalize(schema: Any) -> dict[str, Any]:
+            """Ensure *schema* is a valid ``object``-type JSON Schema dict."""
             if schema is None:
                 return {"type": "object", "properties": {}, "required": []}
             if isinstance(schema, dict):
@@ -301,6 +344,7 @@ class BenchmarkAgent:
         return _normalize(schema)
 
     def get_tools_info(self) -> list[dict[str, str]]:
+        """Return a lightweight summary (name + description) for every registered tool."""
         return [
             {
                 "name": tool["function"].get("name", ""),
@@ -309,8 +353,16 @@ class BenchmarkAgent:
             for tool in self.openai_tools
         ]
 
-    async def _execute_tool_call(self, tool_name: str, arguments: dict[str, Any]):
-        """Выполняет единичный вызов тула локально или через MCP."""
+    async def _execute_tool_call(self, tool_name: str, arguments: dict[str, Any]) -> dict[str, Any]:
+        """Execute a single tool call locally or via an MCP client.
+
+        Args:
+            tool_name: Registered name of the tool to invoke.
+            arguments: Keyword arguments to forward to the tool.
+
+        Returns:
+            Dict with ``tool_call`` (name + parameters) and ``result``.
+        """
         try:
             if tool_name in self.executors:
                 result = self.executors[tool_name](**arguments)
@@ -357,30 +409,37 @@ class BenchmarkAgent:
         query_id: str,
         max_chain_length: int = 5,
         temperature: float = 0.5,
-        top_p: float = None,
-        top_k: int = None,
-        seed: int = None,
+        top_p: float | None = None,
+        top_k: int | None = None,
+        seed: int | None = None,
     ) -> dict[str, Any]:
-        """
-        Асинхронный вызов модели с поддержкой цепочек инструментов.
+        """Send a user query to the model and handle chained tool calls.
+
+        The method iterates up to *max_chain_length* times, forwarding tool
+        results back into the conversation until the model stops requesting
+        tools or signals chain completion.
 
         Args:
-            user_query: Запрос пользователя
-            system_prompt: Системный промпт
-            query_id: ID запроса
-            max_chain_length: Максимальная длина цепочки вызовов
+            user_query: The end-user query text.
+            system_prompt: System-level instruction for the model.
+            query_id: Unique identifier of the query (used for logging).
+            max_chain_length: Maximum number of tool-call iterations.
+            temperature: Sampling temperature.
+            top_p: Nucleus-sampling probability mass.
+            top_k: Top-k sampling parameter.
+            seed: Random seed for reproducibility.
 
         Returns:
-            Dict с полями:
-                - tool_calls: List[Dict] - список вызовов (для цепочек) ИЛИ None
-                - tool_call: Dict - один вызов (для обратной совместимости)
-                - tool_results: List - результаты всех вызовов
-                - tool_result: Any - результат последнего вызова
-                - is_chain: bool - флаг цепочки
-                - user_message: str|None
-                - clarification_question: str|None
-                - assistant_response: str
-                - internal: Dict
+            A dict containing:
+                - **tool_calls** – list of tool-call dicts (chained) or ``None``.
+                - **tool_call** – last single tool-call dict (backward compat) or ``None``.
+                - **tool_results** – list of all tool results or ``None``.
+                - **tool_result** – result of the last tool call or ``None``.
+                - **is_chain** – ``True`` when more than one tool was called.
+                - **user_message** – plain-text response when no tool was called.
+                - **clarification_question** – follow-up question from the model.
+                - **assistant_response** – raw assistant content string.
+                - **internal** – diagnostics (reasoning, token counts, history).
         """
         settings = OpenAISettings()
         headers = {
@@ -388,20 +447,20 @@ class BenchmarkAgent:
             "Content-Type": "application/json",
         }
 
-        messages = [
+        messages: list[dict[str, str]] = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_query},
         ]
 
-        all_tool_calls = []
-        all_tool_results = []
-        conversation_history = []
-        total_prompt_tokens = 0
-        total_completion_tokens = 0
-        total_tokens_used = 0
-        prompt_tokens = 0
-        completion_tokens = 0
-        total_tokens = 0
+        all_tool_calls: list[dict[str, Any]] = []
+        all_tool_results: list[Any] = []
+        conversation_history: list[dict[str, Any]] = []
+        total_prompt_tokens: int = 0
+        total_completion_tokens: int = 0
+        total_tokens_used: int = 0
+        prompt_tokens: int = 0
+        completion_tokens: int = 0
+        total_tokens: int = 0
 
         import aiohttp
 
@@ -433,21 +492,21 @@ class BenchmarkAgent:
             ):
                 data = await resp.json()
 
-            # Извлекаем информацию о токенах
-            usage = data.get("usage", {})
+            # Extract per-request token usage
+            usage: dict[str, int] = data.get("usage", {})
             prompt_tokens = usage.get("prompt_tokens", 0)
             completion_tokens = usage.get("completion_tokens", 0)
             total_tokens = usage.get("total_tokens", 0)
 
-            # Суммируем токены
+            # Accumulate token counts across chain iterations
             total_prompt_tokens += prompt_tokens
             total_completion_tokens += completion_tokens
             total_tokens_used += total_tokens
 
-            message = data["choices"][0]["message"]
-            content = message.get("content") or message.get("reasoning_content") or ""
+            message: dict[str, Any] = data["choices"][0]["message"]
+            content: str = message.get("content") or message.get("reasoning_content") or ""
 
-            # Сохраняем историю
+            # Persist iteration details for diagnostics
             conversation_history.append(
                 {
                     "iteration": iteration,
@@ -460,27 +519,27 @@ class BenchmarkAgent:
                 }
             )
 
-            # Парсим JSON из ответа
+            # Attempt to parse a structured JSON response from the model
             try:
-                parsed = json.loads(content)
+                parsed: dict[str, Any] = json.loads(content)
             except Exception:
                 parsed = {}
 
-            tool_call_data = parsed.get("tool_call")
+            tool_call_data: dict[str, Any] | None = parsed.get("tool_call")
 
-            # Если нет вызова инструмента - заканчиваем цепочку
+            # Stop the chain if the model did not request a tool
             if not tool_call_data or not tool_call_data.get("called"):
                 break
 
-            # Выполняем инструмент
-            tool_name = tool_call_data["tool_name"]
-            params = tool_call_data.get("parameters", {})
-            tool_result = await self._execute_tool_call(tool_name, params)
+            # Execute the requested tool
+            tool_name: str = tool_call_data["tool_name"]
+            params: dict[str, Any] = tool_call_data.get("parameters", {})
+            tool_result: dict[str, Any] = await self._execute_tool_call(tool_name, params)
 
             all_tool_calls.append(tool_result["tool_call"])
             all_tool_results.append(tool_result["result"])
 
-            # Добавляем результат в историю для следующей итерации
+            # Feed the tool result back into the conversation for the next iteration
             messages.append({"role": "assistant", "content": content})
             messages.append(
                 {
@@ -489,15 +548,15 @@ class BenchmarkAgent:
                 }
             )
 
-            # Если в parsed есть признак завершения цепочки
+            # Honour explicit chain-completion signal from the model
             if parsed.get("chain_complete", False):
                 break
 
-        # Формируем итоговый ответ
-        is_chain = len(all_tool_calls) > 1
+        # Build the final response payload
+        is_chain: bool = len(all_tool_calls) > 1
 
-        # Сокращаем reasoning
-        internal = parsed.get("internal", {})
+        # Truncate reasoning to the first sentence for brevity
+        internal: dict[str, Any] = parsed.get("internal", {})
         if "reasoning" in internal:
             internal["reasoning"] = internal["reasoning"].split(".")[0]
 
@@ -509,15 +568,15 @@ class BenchmarkAgent:
             "total_tokens": total_tokens_used,
         }
 
-        result = {
-            # Новые поля для цепочек
+        result: dict[str, Any] = {
+            # Chain-level fields
             "tool_calls": all_tool_calls if all_tool_calls else None,
             "tool_results": all_tool_results if all_tool_results else None,
             "is_chain": is_chain,
-            # Старые поля для обратной совместимости
+            # Backward-compatible single-call fields
             "tool_call": all_tool_calls[-1] if all_tool_calls else None,
             "tool_result": all_tool_results[-1] if all_tool_results else None,
-            # Остальные поля
+            # Miscellaneous fields
             "user_message": None if all_tool_calls else parsed.get("user_message"),
             "clarification_question": parsed.get("clarification_question"),
             "assistant_response": content,
@@ -533,7 +592,7 @@ class BenchmarkAgent:
         system_prompt: str,
         query_id: str,
     ) -> dict[str, Any]:
-        """Синхронная обёртка для run_single_query_async"""
+        """Synchronous wrapper around :meth:`run_single_query_async`."""
         loop = asyncio.get_event_loop()
         return loop.run_until_complete(
             self.run_single_query_async(user_query=user_query, system_prompt=system_prompt, query_id=query_id)
@@ -557,10 +616,38 @@ async def run_benchmark_async(
     verbose: bool = True,
     max_concurrent: int = 8,
     temperature: float = 0.5,
-    top_p: float = None,
-    top_k: int = None,
-    seed: int = None,
+    top_p: float | None = None,
+    top_k: int | None = None,
+    seed: int | None = None,
 ) -> dict[str, Any]:
+    """Run the full benchmark suite asynchronously.
+
+    Initialises a :class:`BenchmarkAgent`, fans out queries with a concurrency
+    semaphore, and collects results together with run configuration metadata.
+
+    Args:
+        system_prompt: System-level prompt prepended to every query.
+        inputs_for_llm: Per-query dicts sent to the model.
+        inputs_for_logging: Matching ground-truth dicts used for evaluation.
+        model: Model identifier string.
+        use_retail: Register e-commerce tools.
+        use_weather: Register weather / currency tools.
+        use_translate: Register translation tools.
+        use_calculator: Register calculator tools.
+        use_trash: Register null / distractor tools.
+        use_aviation: Register aviation tools.
+        use_datetime: Register date-time tools.
+        use_airbnb: Connect to the Airbnb MCP server.
+        verbose: Print progress diagnostics.
+        max_concurrent: Maximum number of simultaneous requests.
+        temperature: Sampling temperature.
+        top_p: Nucleus-sampling probability mass.
+        top_k: Top-k sampling parameter.
+        seed: Random seed for reproducibility.
+
+    Returns:
+        Dict with ``config`` (run parameters) and ``results`` (per-query outcomes).
+    """
     if verbose:
         print(f"\n{'=' * 70}")
         print("RUSSIAN TOOL ВЫЗОВ БЕНЧМАРКА (ASYNC WITH CHAINS)")
@@ -589,11 +676,14 @@ async def run_benchmark_async(
         print(f"Агент инициализирован с {len(agent.get_tools_info())} инструментами\n")
 
     results: dict[str, Any] = {}
-    started = time.time()
+    started: float = time.time()
 
     semaphore = asyncio.Semaphore(max_concurrent)
 
-    async def process_single_query(idx: int, request_data: dict[str, Any], ground_truth: dict[str, Any]):
+    async def process_single_query(
+        idx: int, request_data: dict[str, Any], ground_truth: dict[str, Any]
+    ) -> tuple[str, dict[str, Any]]:
+        """Process one benchmark query under the concurrency semaphore."""
         async with semaphore:
             query_id = request_data["id"]
 
@@ -674,18 +764,18 @@ async def run_benchmark_async(
         if verbose:
             print()
 
-    elapsed = time.time() - started
+    elapsed: float = time.time() - started
     if verbose and inputs_for_llm:
         print(f"{'=' * 70}")
         print(f"Бенчмарк завершен за {elapsed:.2f} секунд")
         print(f"Среднее время на запрос: {elapsed / len(inputs_for_llm):.2f}s")
         print(f"{'=' * 70}\n")
 
-    # Добавляем метаинформацию о конфигурации
-    api_key = settings.openai_api_key.get_secret_value()
-    api_key_masked = api_key[:4] + "***" if len(api_key) > 4 else "***"
+    # Attach run configuration metadata to the results
+    api_key: str = settings.openai_api_key.get_secret_value()
+    api_key_masked: str = api_key[:4] + "***" if len(api_key) > 4 else "***"
 
-    results_with_config = {
+    results_with_config: dict[str, Any] = {
         "config": {
             "model": model,
             "base_url": str(settings.openai_base_url),
@@ -702,11 +792,18 @@ async def run_benchmark_async(
 
 
 def save_results(results: dict[str, Any], filename: str = "benchmark_results.json") -> None:
-    # Если results содержит 'config' и 'results', сохраняем оба
+    """Persist benchmark results to a JSON file.
+
+    If *results* already contains ``config`` and ``results`` keys the dict is
+    written as-is; otherwise it is wrapped in a default config envelope.
+
+    Args:
+        results: Benchmark output dict.
+        filename: Destination file path.
+    """
     if "config" in results and "results" in results:
-        output = results
+        output: dict[str, Any] = results
     else:
-        # Иначе оборачиваем в структуру с config
         output = {
             "config": {
                 "model": "unknown",
@@ -725,17 +822,22 @@ def save_results(results: dict[str, Any], filename: str = "benchmark_results.jso
 
 
 def print_statistics(results: dict[str, Any]) -> None:
-    # Извлекаем результаты, если они обёрнуты в config
-    actual_results = results.get("results", results)
-    total = len(actual_results)
-    tool_calls = 0
-    chain_calls = 0
-    clarifications = 0
-    text_responses = 0
-    errors = 0
-    total_prompt_tokens = 0
-    total_completion_tokens = 0
-    total_tokens_count = 0
+    """Print a summary table of benchmark outcomes and token usage.
+
+    Args:
+        results: Benchmark output dict (optionally wrapped with ``config``).
+    """
+    # Unwrap if the results dict includes a config envelope
+    actual_results: dict[str, Any] = results.get("results", results)
+    total: int = len(actual_results)
+    tool_calls: int = 0
+    chain_calls: int = 0
+    clarifications: int = 0
+    text_responses: int = 0
+    errors: int = 0
+    total_prompt_tokens: int = 0
+    total_completion_tokens: int = 0
+    total_tokens_count: int = 0
 
     for entry in actual_results.values():
         agent_response = entry["agent_response"]
@@ -752,8 +854,8 @@ def print_statistics(results: dict[str, Any]) -> None:
         if agent_response.get("internal", {}).get("errors"):
             errors += 1
 
-        # Суммируем токены
-        tokens_info = agent_response.get("internal", {}).get("tokens", {})
+        # Accumulate token usage across all queries
+        tokens_info: dict[str, int] = agent_response.get("internal", {}).get("tokens", {})
         total_prompt_tokens += tokens_info.get("prompt_tokens", 0)
         total_completion_tokens += tokens_info.get("completion_tokens", 0)
         total_tokens_count += tokens_info.get("total_tokens", 0)
@@ -782,6 +884,14 @@ def print_statistics(results: dict[str, Any]) -> None:
 
 
 def _load_dataset() -> dict[str, list[dict[str, Any]]]:
+    """Load and preprocess query datasets via :func:`process_all_queries`.
+
+    Returns:
+        Dict with ``inputs_for_llm`` and ``inputs_for_logging`` lists.
+
+    Raises:
+        RuntimeError: If the query-processing utility is unavailable.
+    """
     if process_all_queries is None:
         raise RuntimeError("json_parser.py не найден")
     inputs_for_llm, inputs_for_logging = process_all_queries(
@@ -797,7 +907,8 @@ def _dataset_requires_tool(
     entries: list[dict[str, Any]],
     keywords: tuple[str, ...],
 ) -> bool:
-    lowered = tuple(keyword.lower() for keyword in keywords)
+    """Check whether any entry's expected tool name contains one of *keywords*."""
+    lowered: tuple[str, ...] = tuple(keyword.lower() for keyword in keywords)
     for entry in entries:
         expected_tool = str(entry.get("expected_tool", "")).lower()
         if any(keyword in expected_tool for keyword in lowered):
@@ -806,6 +917,7 @@ def _dataset_requires_tool(
 
 
 def main() -> None:
+    """CLI entry point: parse arguments, load dataset, run benchmark, and save results."""
     parser = argparse.ArgumentParser(description="Run Russian Tool Calling Benchmark")
     parser.add_argument("--model", type=str, default=DEFAULT_MODEL, help="Model name")
     parser.add_argument("--output", type=str, default="benchmark_results.json", help="Output filename")
