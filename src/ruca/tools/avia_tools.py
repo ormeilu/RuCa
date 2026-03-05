@@ -226,7 +226,9 @@ class AviationTools:
         ]
 
     @staticmethod
-    def BookingService(passenger_name: str, origin: str, destination: str, date: str, seat_class: str = "economy") -> dict[str, Any]:
+    def BookingService(
+        passenger_name: str, origin: str, destination: str, date: str, seat_class: str = "economy"
+    ) -> dict[str, Any]:
         """Mock: book a flight ticket."""
         return {
             "success": True,

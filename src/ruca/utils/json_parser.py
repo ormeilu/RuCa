@@ -15,16 +15,17 @@ from typing import Any
 # Queries folder location - relative to this module's parent directory
 QUERIES_FOLDER: str = os.path.join(os.path.dirname(__file__), "..", "querries")
 
+
 # читаем все json файлы из папки
 def read_json_files(folder_path: str) -> list[dict[str, Any]]:
     """Read and parse all JSON files from a folder.
-    
+
     Loads all .json files from the specified folder and flattens lists
     found in the data into a single query list.
-    
+
     Args:
         folder_path: Path to the folder containing JSON files
-        
+
     Returns:
         List of all query objects found in the JSON files
     """
@@ -47,7 +48,7 @@ def read_json_files(folder_path: str) -> list[dict[str, Any]]:
 
 def validate_item(item: dict[str, Any]) -> bool:
     """Validate that a query item has all required fields.
-    
+
     Required fields:
     - id: Unique identifier
     - query: User's query text (non-empty)
@@ -55,10 +56,10 @@ def validate_item(item: dict[str, Any]) -> bool:
     - expected_parameters: Parameters for the tool
     - requires_clarification: Boolean indicating if clarification is needed
     - skills: List of applicable metrics/skills
-    
+
     Args:
         item: Query item to validate
-        
+
     Returns:
         True if item contains all required fields, False otherwise
     """
@@ -77,17 +78,17 @@ def validate_item(item: dict[str, Any]) -> bool:
 
 def normalize_item(item: dict[str, Any]) -> dict[str, Any]:
     """Normalize and standardize a query item for processing.
-    
+
     Performs the following normalizations:
     - Convert IDs to strings and strip whitespace
     - Lowercase and strip query text
     - Lowercase and strip tool names
     - Normalize parameter keys (lowercase) and string values (lowercase/stripped)
     - Collapse multiple whitespaces in query text
-    
+
     Args:
         item: Raw query item from JSON
-        
+
     Returns:
         Normalized query item with standardized formatting
     """
@@ -115,19 +116,18 @@ def normalize_item(item: dict[str, Any]) -> dict[str, Any]:
 
 
 def prepare_for_llm(
-    items: list[dict[str, Any]],
-    system_prompt: str
+    items: list[dict[str, Any]], system_prompt: str
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Prepare query items for LLM input and metric evaluation.
-    
+
     Separates data into two formats:
     - inputs_for_llm: Contains system prompt and user query for LLM processing
     - inputs_for_logging: Contains all data needed for metric evaluation
-    
+
     Args:
         items: List of normalized query items
         system_prompt: System prompt to include in LLM input
-        
+
     Returns:
         Tuple of (inputs_for_llm, inputs_for_logging)
     """
@@ -135,11 +135,7 @@ def prepare_for_llm(
     inputs_for_logging: list[dict[str, Any]] = []
 
     for item in items:
-        input_for_llm: dict[str, Any] = {
-            "id": item["id"],
-            "system_prompt": system_prompt,
-            "user_query": item["query"]
-        }
+        input_for_llm: dict[str, Any] = {"id": item["id"], "system_prompt": system_prompt, "user_query": item["query"]}
 
         input_log: dict[str, Any] = {
             "id": item["id"],
@@ -157,21 +153,20 @@ def prepare_for_llm(
 
 
 def process_all_queries(
-    folder_path: str = QUERIES_FOLDER,
-    system_prompt: str = ""
+    folder_path: str = QUERIES_FOLDER, system_prompt: str = ""
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Process all benchmark queries from JSON files.
-    
+
     Performs complete pipeline:
     1. Read all JSON files from folder
     2. Validate query structure
     3. Normalize query data
     4. Prepare for LLM and metric evaluation
-    
+
     Args:
         folder_path: Path to folder containing query JSON files
         system_prompt: System prompt to include for LLM processing
-        
+
     Returns:
         Tuple of (inputs_for_llm, inputs_for_logging)
     """
@@ -226,9 +221,9 @@ system_prompt: str = """
 
 def get_inputs_for_logging() -> list[dict[str, Any]]:
     """lazily load and return input data for metric evaluation.
-    
+
     This function is called on demand to avoid loading data during import.
-    
+
     Returns:
         List of input examples with expected values for metric evaluation
     """
@@ -238,9 +233,9 @@ def get_inputs_for_logging() -> list[dict[str, Any]]:
 
 def get_inputs_for_llm() -> list[dict[str, Any]]:
     """Lazily load and return input data for LLM processing.
-    
+
     This function is called on demand to avoid loading data during import.
-    
+
     Returns:
         List of input examples formatted for LLM processing
     """

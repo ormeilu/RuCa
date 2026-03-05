@@ -22,10 +22,10 @@ def load_config(config_path: str = "config.yaml") -> dict[str, Any]:
     5. In the project root
 
     If the configuration file is not found, returns a default structure with empty models.
-    
+
     Args:
         config_path: Path to the configuration file (default: "config.yaml")
-        
+
     Returns:
         Dictionary with configuration data, or {"models": {}} if file not found
     """
@@ -70,11 +70,11 @@ def load_config(config_path: str = "config.yaml") -> dict[str, Any]:
 
 def get_model_config(model_name: str, config_path: str = "config.yaml") -> dict[str, Any] | None:
     """Get configuration for a specific model by name.
-    
+
     Args:
         model_name: Name of the model as defined in the config
         config_path: Path to the configuration file
-        
+
     Returns:
         Model configuration dictionary, or None if model not found
     """
@@ -88,10 +88,10 @@ def resolve_model_params(model_config: dict[str, Any]) -> dict[str, Any]:
 
     Extracts model parameters from the config dictionary, falling back to
     environment variables for API credentials if not specified in config.
-    
+
     Args:
         model_config: Model configuration dictionary from YAML
-        
+
     Returns:
         Dictionary with resolved parameters including:
             - model_name: Name of the model
@@ -129,12 +129,12 @@ def resolve_model_params(model_config: dict[str, Any]) -> dict[str, Any]:
 
 def get_all_models(config_path: str = "config.yaml") -> dict[str, dict[str, Any]]:
     """Get configuration for all models from config.yaml.
-    
+
     Loads the configuration file and resolves parameters for all defined models.
-    
+
     Args:
         config_path: Path to the configuration file
-        
+
     Returns:
         Dictionary mapping model names to their resolved parameters
     """

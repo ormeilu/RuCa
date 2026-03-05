@@ -14,13 +14,13 @@ RESULTS_FILE: str = os.environ.get("BENCHMARK_FILE", "benchmark_results.json")
 
 def read_benchmark_results(filepath: str) -> dict[str, Any]:
     """Read benchmark results from a JSON file.
-    
+
     Handles both simple result dictionaries and structured formats
     with separate 'config' and 'results' keys.
-    
+
     Args:
         filepath: Path to the benchmark results JSON file
-        
+
     Returns:
         Dictionary of benchmark results (query_id -> result_data)
     """
@@ -36,17 +36,17 @@ def read_benchmark_results(filepath: str) -> dict[str, Any]:
 
 def extract_output(query_id: str, item: dict[str, Any]) -> dict[str, Any]:
     """Extract tool call information from model output.
-    
+
     Handles both single and multiple tool calls, extracting:
     - Tool name(s)
     - Tool parameters
-    
+
     Normalizes string values to lowercase for consistent comparison.
-    
+
     Args:
         query_id: Unique identifier for the query
         item: Result item containing agent_response data
-        
+
     Returns:
         Dictionary with id, tool name(s), and JSON-serialized arguments
     """
@@ -105,14 +105,14 @@ def extract_output(query_id: str, item: dict[str, Any]) -> dict[str, Any]:
 
 def process_benchmark_results(filepath: str | None = None) -> list[dict[str, Any]]:
     """Process benchmark results from a JSON file.
-    
+
     Reads the benchmark results file and extracts tool call information
     for each query, preparing data for metric evaluation.
-    
+
     Args:
-        filepath: Path to the benchmark results file. If None, uses BENCHMARK_FILE 
+        filepath: Path to the benchmark results file. If None, uses BENCHMARK_FILE
                  from environment variable or default value
-        
+
     Returns:
         List of processed output dictionaries with extracted tool calls
     """
@@ -132,11 +132,11 @@ def process_benchmark_results(filepath: str | None = None) -> list[dict[str, Any
 
 def get_outputs_for_logging() -> list[dict[str, Any]]:
     """Lazily load and return model output data for metric evaluation.
-    
+
     This function is called on demand to avoid loading data during import.
     Reads from the benchmark results file specified in the BENCHMARK_FILE
     environment variable.
-    
+
     Returns:
         List of model outputs formatted for metric evaluation
     """

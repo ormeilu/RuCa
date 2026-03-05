@@ -9,7 +9,7 @@ from enum import StrEnum
 
 class Metrics(StrEnum):
     """Enumeration of all benchmark evaluation metrics.
-    
+
     Each metric evaluates a different aspect of model performance:
     - DECISION: Whether tool call decision matches expectation (binary)
     - TOOL_SELECTION: F1-score on correct tool selection (set-based, order-independent)
@@ -35,7 +35,7 @@ class Metrics(StrEnum):
     @property
     def column_name(self) -> str:
         """Get the DataFrame column name for this metric (lowercase, snake_case).
-        
+
         Returns:
             Normalized metric name suitable for use as a DataFrame column
         """
