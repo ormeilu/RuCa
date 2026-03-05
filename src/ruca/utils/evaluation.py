@@ -11,18 +11,18 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-# Process command-line arguments to set environment variable BEFORE importing output_parser
-# (output_parser depends on this environment variable)
+# Local imports that do not depend on BENCHMARK_FILE
+from ruca.utils.final_score import calculate_final_score
+from ruca.utils.json_parser import get_inputs_for_logging
+from ruca.utils.metrics_enum import Metrics
+
+# Set BENCHMARK_FILE *before* importing output_parser, which reads it at import time
 parser_temp: argparse.ArgumentParser = argparse.ArgumentParser(add_help=False)
 parser_temp.add_argument("--input", type=str, default="benchmark_results.json")
 args_temp, _ = parser_temp.parse_known_args()
 os.environ["BENCHMARK_FILE"] = args_temp.input
 
-# Local imports - order matters due to environment variable dependency
-from ruca.utils.json_parser import get_inputs_for_logging
-from ruca.utils.metrics_enum import Metrics
-from ruca.utils.output_parser import get_outputs_for_logging
-from ruca.utils.final_score import calculate_final_score
+from ruca.utils.output_parser import get_outputs_for_logging  # noqa: E402
 
 console: Console = Console()
 
@@ -505,7 +505,7 @@ def ambiguity(inp: dict[str, Any], out: dict[str, Any]) -> float | None:
         if not tool_correct:
             errors.append(f"Tools mismatch (expected: {', '.join(ref_tools)}, got: {', '.join(actual_tools) if actual_tools else 'None'})")
         if not param_correct:
-            errors.append(f"Parameters mismatch")
+            errors.append("Parameters mismatch")
         
         log_error(
             inp["id"],
