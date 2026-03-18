@@ -1,16 +1,19 @@
-"""
-Набор НЕРАБОЧИХ (null) инструментов для бенчмарка.
-Каждый инструмент имеет имя с суффиксом "_T" и всегда возвращает единую "Null" ошибку/ответ.
-Используется для тестирования устойчивости LLM-агентов к мусорным / неработающим интерфейсам.
+"""Non-working (null) tools for the LLM agent benchmark.
+
+Every tool has a name with a ``_T`` suffix and always returns a uniform
+"Null" error response.  Used to test LLM-agent robustness against
+non-functional / distractor tool interfaces.
 """
 
 from typing import Any
 
 
 class NullTools:
+    """Collection of intentionally broken distractor tools."""
+
     @staticmethod
     def get_tools_metadata() -> list[dict[str, Any]]:
-        """Метаданные всех null-инструментов (идентично именам, но с суффиксом _T)."""
+        """Return OpenAI-compatible metadata for all null tools (``_T`` suffix)."""
         tool_names = [
             "cancel_order_T",
             "search_products_T",
@@ -26,14 +29,14 @@ class NullTools:
             "schedule_delivery_T",
             "update_profile_T",
             "contact_support_T",
-            # дополнительные доменные утилиты
+            # Additional domain utilities
             "calculator_T",
             "get_weather_T",
             "translate_T",
             "currency_converter_T",
             "get_time_T",
             "get_date_T",
-            # мои дополнительные "шумовые" null-инструменты
+            # Extra "noise" null tools
             "ping_T",
             "noop_T",
             "faulty_gateway_T",
@@ -45,7 +48,7 @@ class NullTools:
                 {
                     "name": name,
                     "description": f"NON-WORKING mock tool — always returns Null response ({name}).",
-                    # Параметры можно задать пустыми — это намеренно неработающие моки.
+                    # Parameters are intentionally empty — these are non-working mocks.
                     "parameters": {
                         "type": "object",
                         "properties": {},
@@ -54,13 +57,13 @@ class NullTools:
             )
         return metadata
 
-    # ========== Нерабочие исполнители (все ведут себя одинаково) ==========
+    # ========== Non-working executors (all behave identically) ==========
     @staticmethod
     def _null_response(tool_name: str, **_kwargs) -> dict[str, Any]:
-        """Единый ответ для всех нерабочих инструментов."""
+        """Uniform response returned by every non-working tool."""
         return {"success": False, "error": "null_response", "message": "Null", "tool": tool_name}
 
-    # Для удобства — явные обёртки (они просто вызывают _null_response)
+    # Convenience wrappers — each simply delegates to _null_response
     @staticmethod
     def cancel_order_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("cancel_order_T", **kwargs)
@@ -141,7 +144,7 @@ class NullTools:
     def get_date_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("get_date_T", **kwargs)
 
-    # Дополнительные шумовые null-инструменты
+    # Additional noise null tools
     @staticmethod
     def ping_T(**kwargs) -> dict[str, Any]:
         return NullTools._null_response("ping_T", **kwargs)
@@ -155,15 +158,16 @@ class NullTools:
         return NullTools._null_response("faulty_gateway_T", **kwargs)
 
 
-def register_null_tools(tool_registry):
-    """
-    Регистрирует все null-инструменты в переданном registry.
-    Использование: register_null_tools(tool_registry)
+def register_null_tools(tool_registry) -> None:
+    """Register all null tools in the given tool registry.
+
+    Args:
+        tool_registry: Registry instance exposing a ``register_tool`` method.
     """
     metas = NullTools.get_tools_metadata()
 
-    # маппинг имён в исполнители
-    executors = {
+    # Map tool names to their executor methods
+    executors: dict[str, Any] = {
         "cancel_order_T": NullTools.cancel_order_T,
         "search_products_T": NullTools.search_products_T,
         "return_order_T": NullTools.return_order_T,
@@ -191,7 +195,7 @@ def register_null_tools(tool_registry):
 
     for meta in metas:
         name = meta["name"]
-        # регистрируем, даже если в executors нет — тогда просто пропускаем
+        # Register if executor exists; skip otherwise
         if name in executors:
             tool_registry.register_tool(name, meta, executors[name])
 

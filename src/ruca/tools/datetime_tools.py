@@ -1,13 +1,15 @@
+"""Date and time tools for the LLM agent benchmark."""
+
 from datetime import datetime, timedelta
 from typing import Any
 
 
 class DateTimeTools:
-    """Упрощённый набор инструментов для работы с датой и временем"""
+    """Simplified toolkit for date and time operations."""
 
     @staticmethod
-    def get_tools_metadata():
-        """Метаданные инструментов"""
+    def get_tools_metadata() -> list[dict[str, Any]]:
+        """Return OpenAI-compatible metadata for date/time tools."""
         return [
             {
                 "name": "get_date",
@@ -35,11 +37,9 @@ class DateTimeTools:
             },
         ]
 
-    # Исполняющие методы
-
     @staticmethod
     def get_date(format: str = "iso", offset_days: int = 0) -> dict[str, Any]:
-        """Возвращает дату в указанном формате с указанным смещением"""
+        """Return the current date in the requested format with an optional day offset."""
         base_date = datetime.now() + timedelta(days=offset_days)
 
         if format == "iso":
@@ -82,7 +82,7 @@ class DateTimeTools:
 
     @staticmethod
     def get_time(format: str = "24h", offset_hours: int = 0) -> dict[str, Any]:
-        """Возвращает время в указанном формате с указанным смещением"""
+        """Return the current time in the requested format with an optional hour offset."""
         base_time = datetime.now() + timedelta(hours=offset_hours)
 
         if format == "24h":
@@ -94,7 +94,7 @@ class DateTimeTools:
         elif format == "timestamp":
             formatted_time = str(int(base_time.timestamp()))
 
-        # Определяем период дня
+        # Determine part of day
         hour = base_time.hour
         period = (
             "morning"
@@ -121,8 +121,12 @@ class DateTimeTools:
         }
 
 
-def register_datetime_tools(tool_registry):
-    """Регистрация инструментов"""
+def register_datetime_tools(tool_registry) -> None:
+    """Register date/time tools in the given tool registry.
+
+    Args:
+        tool_registry: Registry instance exposing a ``register_tool`` method.
+    """
     tools_metadata = DateTimeTools.get_tools_metadata()
     executors = {
         "get_date": DateTimeTools.get_date,

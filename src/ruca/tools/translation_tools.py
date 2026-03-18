@@ -1,10 +1,15 @@
+"""Mock translation tool for the LLM agent benchmark.
+
+Supports dictionary-based translation between EN<->RU and RU<->FR.
+"""
+
 from typing import Any
 
 
 class TranslateTools:
-    """Mock переводчик для бенчмарка LLM-агентов"""
+    """Mock translator with fixed word dictionaries."""
 
-    # ======== EN -> RU словарь ========
+    # ======== EN -> RU dictionary ========
     en_ru = {
         "hello": "привет",
         "hi": "привет",
@@ -58,10 +63,10 @@ class TranslateTools:
         "university": "университет",
     }
 
-    # ======== RU -> EN из словаря выше ========
+    # ======== RU -> EN (reversed from above) ========
     ru_en = {v: k for k, v in en_ru.items()}
 
-    # ======== RU -> FR словарь ========
+    # ======== RU -> FR dictionary ========
     ru_fr = {
         "привет": "bonjour",
         "мир": "monde",
@@ -107,11 +112,12 @@ class TranslateTools:
         "университет": "université",
     }
 
-    # FR -> RU
+    # FR -> RU (reversed)
     fr_ru = {v: k for k, v in ru_fr.items()}
 
     @staticmethod
-    def get_tools_metadata():
+    def get_tools_metadata() -> list[dict[str, Any]]:
+        """Return OpenAI-compatible metadata for the translation tool."""
         return [
             {
                 "name": "translate",
@@ -130,9 +136,10 @@ class TranslateTools:
 
     @staticmethod
     def translate(text: str, source: str, target: str) -> dict[str, Any]:
+        """Mock: translate *text* between the supported language pairs."""
         words = text.lower().split()
 
-        # Определяем словарь
+        # Select the appropriate dictionary
         if source == "en" and target == "ru":
             dictionary = TranslateTools.en_ru
         elif source == "ru" and target == "en":
@@ -149,7 +156,12 @@ class TranslateTools:
         return {"success": True, "input": text, "source": source, "target": target, "translated": " ".join(translated)}
 
 
-def register_translate_tools(tool_registry):
+def register_translate_tools(tool_registry) -> None:
+    """Register the translation tool in the given tool registry.
+
+    Args:
+        tool_registry: Registry instance exposing a ``register_tool`` method.
+    """
     meta = TranslateTools.get_tools_metadata()
     tool_registry.register_tool("translate", meta[0], TranslateTools.translate)
     print(

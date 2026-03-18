@@ -1,17 +1,18 @@
-"""
-Aviation инструменты для бенчмарка LLM агентов
-Все инструменты являются моками с предопределенными ответами
+"""Mock aviation tools for the LLM agent benchmark.
+
+All tools return predetermined responses without calling real services.
 """
 
 import random
+from typing import Any
 
 
 class AviationTools:
-    """Набор mock инструментов для aviation-бенчмарка"""
+    """Collection of mock aviation tool executors and their metadata."""
 
     @staticmethod
-    def get_tools_metadata():
-        """Метаданные всех авиа-инструментов"""
+    def get_tools_metadata() -> list[dict[str, Any]]:
+        """Return OpenAI-compatible metadata for every aviation tool."""
         return [
             {
                 "name": "BookingService",
@@ -224,10 +225,11 @@ class AviationTools:
             },
         ]
 
-    # Исполняющие методы
-
     @staticmethod
-    def BookingService(passenger_name: str, origin: str, destination: str, date: str, seat_class: str = "economy"):
+    def BookingService(
+        passenger_name: str, origin: str, destination: str, date: str, seat_class: str = "economy"
+    ) -> dict[str, Any]:
+        """Mock: book a flight ticket."""
         return {
             "success": True,
             "booking_id": f"BK{random.randint(10000, 99999)}",
@@ -238,52 +240,64 @@ class AviationTools:
         }
 
     @staticmethod
-    def FlightStatusService(date: str = None):
+    def FlightStatusService(date: str = None) -> dict[str, Any]:
+        """Mock: check a flight status."""
         statuses = ["on_time", "delayed", "boarding", "cancelled"]
         return {"success": True, "status": random.choice(statuses)}
 
     @staticmethod
-    def CheckInService(seat: str = None):
+    def CheckInService(seat: str = None) -> dict[str, Any]:
+        """Mock: perform online check-in."""
         return {"success": True, "seat": seat or "auto_assigned"}
 
     @staticmethod
-    def UpgradeService(new_class: str):
+    def UpgradeService(new_class: str) -> dict[str, Any]:
+        """Mock: upgrade the service class."""
         return {"success": True, "upgraded_to": new_class}
 
     @staticmethod
-    def PaymentService(amount: float, method: str = "card"):
+    def PaymentService(amount: float, method: str = "card") -> dict[str, Any]:
+        """Mock: process a payment."""
         return {"success": True, "paid": amount, "method": method}
 
     @staticmethod
-    def LoyaltyService(card_number: str, action: str, amount: float = 0):
+    def LoyaltyService(card_number: str, action: str, amount: float = 0) -> dict[str, Any]:
+        """Mock: earn or spend loyalty miles."""
         return {"success": True, "card": card_number, "action": action, "miles": amount}
 
     @staticmethod
-    def BaggageService(weight: float = 20.0, type: str = "checked"):
+    def BaggageService(weight: float = 20.0, type: str = "checked") -> dict[str, Any]:
+        """Mock: add or modify baggage."""
         return {"success": True, "weight": weight, "type": type}
 
     @staticmethod
-    def SeatMapService(date: str = None):
+    def SeatMapService(date: str = None) -> dict[str, Any]:
+        """Mock: retrieve a cabin seat map."""
         return {"success": True, "seatmap": "mock_seatmap_data"}
 
     @staticmethod
-    def RefundService(booking_id: str, reason: str = None):
+    def RefundService(booking_id: str, reason: str = None) -> dict[str, Any]:
+        """Mock: issue a refund."""
         return {"success": True, "booking_id": booking_id, "refund_id": f"RF{random.randint(1000, 9999)}"}
 
     @staticmethod
-    def RebookingService(booking_id: str, new_date: str = None, new_flight_number: str = None):
+    def RebookingService(booking_id: str, new_date: str = None, new_flight_number: str = None) -> dict[str, Any]:
+        """Mock: rebook onto a different flight."""
         return {"success": True, "booking_id": booking_id, "new_date": new_date, "new_flight": new_flight_number}
 
     @staticmethod
-    def AncillariesService(service: str):
+    def AncillariesService(service: str) -> dict[str, Any]:
+        """Mock: add ancillary services (meals, Fast Track, Wi-Fi)."""
         return {"success": True, "service_added": service}
 
     @staticmethod
-    def InsuranceService(insurance_type: str):
+    def InsuranceService(insurance_type: str) -> dict[str, Any]:
+        """Mock: attach travel insurance."""
         return {"success": True, "insurance": insurance_type}
 
     @staticmethod
-    def CargoService(weight: float, cargo_type: str, origin: str, destination: str):
+    def CargoService(weight: float, cargo_type: str, origin: str, destination: str) -> dict[str, Any]:
+        """Mock: book a cargo shipment."""
         return {
             "success": True,
             "cargo_id": f"CG{random.randint(1000, 9999)}",
@@ -292,15 +306,18 @@ class AviationTools:
         }
 
     @staticmethod
-    def LostAndFoundService(passenger_name: str, flight_number: str, baggage_tag: str = None):
+    def LostAndFoundService(passenger_name: str, flight_number: str, baggage_tag: str = None) -> dict[str, Any]:
+        """Mock: file a lost-baggage claim."""
         return {"success": True, "passenger": passenger_name, "flight": flight_number, "status": "investigating"}
 
     @staticmethod
-    def OpsService(flight_number: str):
+    def OpsService(flight_number: str) -> dict[str, Any]:
+        """Mock: query operations centre for a flight."""
         return {"success": True, "flight": flight_number, "ops_note": "No disruptions reported"}
 
     @staticmethod
-    def HotelService(airport: str, nights: int, passenger_name: str = None):
+    def HotelService(airport: str, nights: int, passenger_name: str = None) -> dict[str, Any]:
+        """Mock: book a hotel for a long layover."""
         return {
             "success": True,
             "hotel_booking_id": f"HT{random.randint(1000, 9999)}",
@@ -309,16 +326,22 @@ class AviationTools:
         }
 
     @staticmethod
-    def CompensationService(flight_number: str, reason: str = None, passenger_name: str = None):
+    def CompensationService(flight_number: str, reason: str = None, passenger_name: str = None) -> dict[str, Any]:
+        """Mock: request compensation for a delay or cancellation."""
         return {"success": True, "flight": flight_number, "compensation": random.choice([100, 200, 400])}
 
     @staticmethod
-    def IdentityVerificationService(passenger_name: str, document_number: str, birthdate: str = None):
+    def IdentityVerificationService(passenger_name: str, document_number: str, birthdate: str = None) -> dict[str, Any]:
+        """Mock: verify passenger identity documents."""
         return {"success": True, "passenger": passenger_name, "verified": True}
 
 
-def register_avia_tools(tool_registry):
-    """Регистрация всех авиа-инструментов"""
+def register_avia_tools(tool_registry) -> None:
+    """Register all aviation tools in the given tool registry.
+
+    Args:
+        tool_registry: Registry instance exposing a ``register_tool`` method.
+    """
     tools_metadata = AviationTools.get_tools_metadata()
 
     executors = {

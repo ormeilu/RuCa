@@ -1,99 +1,143 @@
+"""Parser for model outputs from benchmark results.
+
+This module handles reading and extracting tool calls from benchmark result files,
+preparing data for metric evaluation.
+"""
+
 import json
 import os
+from typing import Any
 
-# Получаем путь из переменной окружения или используем значение по умолчанию
-RESULTS_FILE = os.environ.get("BENCHMARK_FILE", "benchmark_results.json")
+# Get benchmark file path from environment variable or use default
+RESULTS_FILE: str = os.environ.get("BENCHMARK_FILE", "benchmark_results.json")
 
 
-def read_benchmark_results(filepath):
+def read_benchmark_results(filepath: str) -> dict[str, Any]:
+    """Read benchmark results from a JSON file.
+
+    Handles both simple result dictionaries and structured formats
+    with separate 'config' and 'results' keys.
+
+    Args:
+        filepath: Path to the benchmark results JSON file
+
+    Returns:
+        Dictionary of benchmark results (query_id -> result_data)
+    """
     with open(filepath, encoding="utf-8") as f:
-        data = json.load(f)
+        data: dict[str, Any] | list[Any] = json.load(f)
 
-    # Если data имеет структуру с config и results, извлекаем только results
+    # Handle structured format with config and results sections
     if isinstance(data, dict) and "results" in data and "config" in data:
         return data["results"]
 
-    return data
+    return data if isinstance(data, dict) else {}
 
 
-# Извлекаем нужные данные из bencchmark_results.json
-def extract_output(query_id, item):
-    agent_response = item.get("agent_response", {})
+def extract_output(query_id: str, item: dict[str, Any]) -> dict[str, Any]:
+    """Extract tool call information from model output.
 
-    # Для запросов с несколькими tool_calls
-    tool_calls_list = agent_response.get("tool_calls", [])
+    Handles both single and multiple tool calls, extracting:
+    - Tool name(s)
+    - Tool parameters
+
+    Normalizes string values to lowercase for consistent comparison.
+
+    Args:
+        query_id: Unique identifier for the query
+        item: Result item containing agent_response data
+
+    Returns:
+        Dictionary with id, tool name(s), and JSON-serialized arguments
+    """
+    agent_response: dict[str, Any] = item.get("agent_response", {})
+
+    # Handle multiple tool calls (tool_calls list)
+    tool_calls_list: list[dict[str, Any]] = agent_response.get("tool_calls", [])
 
     if tool_calls_list and isinstance(tool_calls_list, list):
-        names = []
-        all_parameters = {}
+        names: list[str] = []
+        all_parameters: dict[str, Any] = {}
 
         for tool_call in tool_calls_list:
-            name = tool_call.get("name", "").lower()
-            parameters = tool_call.get("parameters", {})
+            name: str = tool_call.get("name", "").lower()
+            parameters: dict[str, Any] = tool_call.get("parameters", {})
 
             names.append(name)
 
+            # Normalize parameter values (lowercase strings)
             for key, value in parameters.items():
                 if isinstance(value, str):
                     all_parameters[key] = value.lower()
                 else:
                     all_parameters[key] = value
 
-        name_str = ",".join(names)
-        arguments = json.dumps(all_parameters, ensure_ascii=False)
+        name_str: str = ",".join(names)
+        arguments: str = json.dumps(all_parameters, ensure_ascii=False)
 
-        output = {"id": query_id, "name": name_str, "arguments": arguments}
+        output: dict[str, Any] = {"id": query_id, "name": name_str, "arguments": arguments}
         return output
 
-    # Для запросов с одинм tool_call
-    tool_call = agent_response.get("tool_call")
+    # Handle single tool call
+    tool_call: dict[str, Any] | None = agent_response.get("tool_call")
 
     if tool_call is None or not isinstance(tool_call, dict):
-        output = {"id": query_id, "name": "", "arguments": ""}
+        output: dict[str, Any] = {"id": query_id, "name": "", "arguments": ""}
         return output
 
-    name = tool_call.get("name", "").lower()
-    parameters = tool_call.get("parameters", {})
+    name: str = tool_call.get("name", "").lower()
+    parameters: dict[str, Any] = tool_call.get("parameters", {})
 
-    parameters_lower = {}
+    # Normalize parameter values (lowercase strings)
+    parameters_lower: dict[str, Any] = {}
     for key, value in parameters.items():
         if isinstance(value, str):
             parameters_lower[key] = value.lower()
         else:
             parameters_lower[key] = value
 
-    arguments = json.dumps(parameters_lower, ensure_ascii=False)
+    arguments: str = json.dumps(parameters_lower, ensure_ascii=False)
 
-    output = {"id": query_id, "name": name, "arguments": arguments}
+    output: dict[str, Any] = {"id": query_id, "name": name, "arguments": arguments}
 
     return output
 
 
-# прогоняем все и заносим в список
-def process_benchmark_results(filepath=None):
-    """Обрабатывает результаты бенчмарка из JSON файла.
+def process_benchmark_results(filepath: str | None = None) -> list[dict[str, Any]]:
+    """Process benchmark results from a JSON file.
+
+    Reads the benchmark results file and extracts tool call information
+    for each query, preparing data for metric evaluation.
 
     Args:
-        filepath: Путь к файлу бенчмарка. Если None, использует переменную окружения BENCHMARK_FILE.
+        filepath: Path to the benchmark results file. If None, uses BENCHMARK_FILE
+                 from environment variable or default value
 
     Returns:
-        Список объектов с обработанными выводами агента.
+        List of processed output dictionaries with extracted tool calls
     """
     if filepath is None:
         filepath = os.environ.get("BENCHMARK_FILE", "benchmark_results.json")
 
-    data = read_benchmark_results(filepath)
+    data: dict[str, Any] = read_benchmark_results(filepath)
 
-    outputs_for_logging = []
+    outputs_for_logging: list[dict[str, Any]] = []
 
     for query_id, item in data.items():
-        output_data = extract_output(query_id, item)
+        output_data: dict[str, Any] = extract_output(query_id, item)
         outputs_for_logging.append(output_data)
 
     return outputs_for_logging
 
 
-# Инициализируем как функцию, чтобы избежать ошибок при импорте
-def get_outputs_for_logging():
-    """Ленивая инициализация outputs_for_logging."""
+def get_outputs_for_logging() -> list[dict[str, Any]]:
+    """Lazily load and return model output data for metric evaluation.
+
+    This function is called on demand to avoid loading data during import.
+    Reads from the benchmark results file specified in the BENCHMARK_FILE
+    environment variable.
+
+    Returns:
+        List of model outputs formatted for metric evaluation
+    """
     return process_benchmark_results()

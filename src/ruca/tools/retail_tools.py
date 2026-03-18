@@ -1,6 +1,6 @@
-"""
-E-commerce инструменты для бенчмарка LLM агентов
-Все инструменты являются моками с предопределенными ответами
+"""Mock e-commerce tools for the LLM agent benchmark.
+
+All tools return predetermined responses without calling real services.
 """
 
 import random
@@ -8,11 +8,11 @@ from typing import Any
 
 
 class EcommerceTools:
-    """Набор mock инструментов для e-commerce бенчмарка"""
+    """Collection of mock e-commerce tool executors and their metadata."""
 
     @staticmethod
-    def get_tools_metadata():
-        """Метаданные всех e-commerce инструментов"""
+    def get_tools_metadata() -> list[dict[str, Any]]:
+        """Return OpenAI-compatible metadata for every e-commerce tool."""
         return [
             {
                 "name": "cancel_order",
@@ -56,7 +56,6 @@ class EcommerceTools:
                         "items": {
                             "type": "string",
                             "description": "Название товара",
-                            # "items": {"type": "string"}
                         },
                         "address": {"type": "string", "description": "Адрес доставки"},
                     },
@@ -173,23 +172,21 @@ class EcommerceTools:
             },
         ]
 
-    # ============= MOCK ИСПОЛНИТЕЛИ =============
-
     @staticmethod
     def cancel_order(order_id: str) -> dict[str, Any]:
-        """Отменяет заказ"""
+        """Mock: cancel an order by its ID."""
         return {"success": True, "order_id": order_id, "status": "cancelled"}
 
     @staticmethod
     def search_products(query: str, max_price: float = None) -> dict[str, Any]:
-        """Ищет товары"""
+        """Mock: search for products matching *query*."""
         product = {"id": "P001", "name": f"{query} Pro", "price": 299}
 
         return {"success": True, "query": query, "count": len(product), "products": product}
 
     @staticmethod
     def return_order(order_id: str, reason: str) -> dict[str, Any]:
-        """Оформляет возврат"""
+        """Mock: initiate a return for an order."""
         return {
             "success": True,
             "order_id": order_id,
@@ -200,22 +197,16 @@ class EcommerceTools:
 
     @staticmethod
     def place_order(items: str, address: str) -> dict[str, Any]:
-        """Оформляет заказ"""
-        # order_id = f"ORD{random.randint(10000, 99999)}"
-        # total = len(items) * 150  # Простая калькуляция
-
+        """Mock: place a new order."""
         return {
             "success": True,
-            # "order_id": order_id,
-            # "items_count": len(items),
-            # "total": total,
             "address": address,
             "status": "confirmed",
         }
 
     @staticmethod
     def track_order(order_id: str) -> dict[str, Any]:
-        """Отслеживает заказ"""
+        """Mock: track the status of an order."""
         statuses = ["processing", "shipped", "in_transit", "out_for_delivery"]
 
         return {
@@ -227,27 +218,27 @@ class EcommerceTools:
 
     @staticmethod
     def update_address(address_type: str, new_address: str) -> dict[str, Any]:
-        """Обновляет адрес"""
+        """Mock: update a delivery address."""
         return {"success": True, "address_type": address_type, "updated": True}
 
     @staticmethod
     def add_to_cart(product_id: str, quantity: int) -> dict[str, Any]:
-        """Добавляет в корзину"""
+        """Mock: add a product to the cart."""
         return {"success": True, "product_id": product_id, "quantity": quantity, "cart_total": 3}
 
     @staticmethod
     def remove_from_cart(product_id: str) -> dict[str, Any]:
-        """Удаляет из корзины"""
+        """Mock: remove a product from the cart."""
         return {"success": True, "product_id": product_id, "removed": True}
 
     @staticmethod
     def update_payment_method(payment_type: str, details: str = None) -> dict[str, Any]:
-        """Обновляет метод оплаты"""
+        """Mock: update the payment method."""
         return {"success": True, "payment_type": payment_type, "updated": True}
 
     @staticmethod
     def apply_discount_code(code: str) -> dict[str, Any]:
-        """Применяет промокод"""
+        """Mock: apply a promotional discount code."""
         valid_codes = ["SAVE10", "WELCOME20", "FREESHIP"]
 
         if code.upper() in valid_codes:
@@ -257,7 +248,7 @@ class EcommerceTools:
 
     @staticmethod
     def get_order_history(limit: int = 10) -> dict[str, Any]:
-        """Получает историю заказов"""
+        """Mock: retrieve order history."""
         orders = [
             {"order_id": f"ORD{i}", "date": "2025-10-15", "total": 250, "status": "delivered"}
             for i in range(1, min(limit + 1, 11))
@@ -267,33 +258,31 @@ class EcommerceTools:
 
     @staticmethod
     def schedule_delivery(order_id: str, date: str, time_slot: str) -> dict[str, Any]:
-        """Планирует доставку"""
+        """Mock: schedule a delivery time slot."""
         return {"success": True, "order_id": order_id, "delivery_date": date, "time_slot": time_slot, "scheduled": True}
 
     @staticmethod
     def update_profile(field: str, value: str) -> dict[str, Any]:
-        """Обновляет профиль"""
+        """Mock: update a user profile field."""
         return {"success": True, "field": field, "updated": True}
 
     @staticmethod
     def contact_support(subject: str, message: str) -> dict[str, Any]:
-        """Отправляет сообщение в поддержку"""
+        """Mock: submit a support ticket."""
         ticket_id = f"TKT{random.randint(1000, 9999)}"
 
         return {"success": True, "ticket_id": ticket_id, "subject": subject, "status": "submitted"}
 
 
-def register_ecommerce_tools(tool_registry):
-    """
-    Регистрация всех e-commerce инструментов в реестре бенчмарка
+def register_ecommerce_tools(tool_registry) -> None:
+    """Register all e-commerce tools in the given tool registry.
 
     Args:
-        tool_registry: Экземпляр ToolRegistry из основного бенчмарка
+        tool_registry: Registry instance exposing a ``register_tool`` method.
     """
     tools_metadata = EcommerceTools.get_tools_metadata()
 
-    # Маппинг имен на исполнители
-    executors = {
+    executors: dict[str, Any] = {
         "cancel_order": EcommerceTools.cancel_order,
         "search_products": EcommerceTools.search_products,
         "return_order": EcommerceTools.return_order,
@@ -310,12 +299,8 @@ def register_ecommerce_tools(tool_registry):
         "contact_support": EcommerceTools.contact_support,
     }
 
-    # Регистрация каждого инструмента
     for tool_meta in tools_metadata:
         tool_name = tool_meta["name"]
         tool_registry.register_tool(tool_name, tool_meta, executors[tool_name])
 
     print(f"✅ Зарегистрировано {len(tools_metadata)} e-commerce инструментов")
-
-
-# ============= ПРИМЕР ИСПОЛЬЗОВАНИЯ =============
